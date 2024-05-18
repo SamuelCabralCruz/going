@@ -5,16 +5,16 @@ import (
 	"reflect"
 )
 
-func EmptyOf[T any]() (t T) {
+func Empty[T any]() (t T) {
 	return
 }
 
 func Kind[T any]() reflect.Kind {
-	return reflect.ValueOf(EmptyOf[T]()).Kind()
+	return reflect.ValueOf(Empty[T]()).Kind()
 }
 
 func Type[T any]() string {
-	empty := EmptyOf[T]()
+	empty := Empty[T]()
 	typeOf := reflect.TypeOf(empty)
 	if typeOf == nil {
 		t := (*T)(nil)
@@ -24,7 +24,7 @@ func Type[T any]() string {
 }
 
 func PkgPath[T any]() string {
-	empty := EmptyOf[T]()
+	empty := Empty[T]()
 	typeOf := reflect.TypeOf(empty)
 	if typeOf == nil {
 		t := (*T)(nil)
