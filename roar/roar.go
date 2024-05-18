@@ -50,7 +50,7 @@ func New[T any](message string, options ...Option) Roar[T] {
 		return agg
 	}, &parameters{})
 	return Roar[T]{
-		message: message,
+		message: fmt.Sprintf("%s: %s", phi.Type[T](), message),
 		cause:   params.causes,
 		fields:  params.fields,
 	}
