@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/SamuelCabralCruz/went/phi"
 	"github.com/samber/lo"
-	"github.com/samber/mo"
 	"strings"
 )
 
@@ -12,7 +11,7 @@ type Option func(*parameters)
 
 func WithCause(cause error) Option {
 	return func(p *parameters) {
-		p.causes = mo.Some(cause)
+		p.cause = cause
 	}
 }
 
@@ -32,13 +31,13 @@ func WithField(key string, value any) Option {
 }
 
 type parameters struct {
-	causes mo.Option[error]
+	cause  error
 	fields []field
 }
 
 type Roar[T any] struct {
 	message string
-	cause   mo.Option[error]
+	cause   error
 	fields  []field
 }
 
@@ -51,7 +50,7 @@ func New[T any](message string, options ...Option) Roar[T] {
 	}, &parameters{})
 	return Roar[T]{
 		message: fmt.Sprintf("%s: %s", phi.Type[T](), message),
-		cause:   params.causes,
+		cause:   params.cause,
 		fields:  params.fields,
 	}
 }
@@ -62,8 +61,8 @@ func (r Roar[T]) Error() string {
 		fields := lo.Map(r.fields, func(f field, _ int) string { return f.toString() })
 		parts = append(parts, fmt.Sprintf("[%s]", strings.Join(fields, ", ")))
 	}
-	if r.cause.IsPresent() {
-		parts = append(parts, fmt.Sprintf("- %s", r.cause.MustGet().Error()))
+	if r.cause != nil {
+		parts = append(parts, fmt.Sprintf("- %s", r.cause.Error()))
 	}
 	return strings.Join(parts, " ")
 }

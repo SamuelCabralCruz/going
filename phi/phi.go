@@ -9,6 +9,10 @@ func Empty[T any]() (t T) {
 	return
 }
 
+func IsZero(value any) bool {
+	return reflect.ValueOf(&value).Elem().IsZero()
+}
+
 func InterfaceToPtr[T any]() *T {
 	return (*T)(nil)
 }
@@ -38,7 +42,7 @@ func UniqueIdentifier[T any]() string {
 	return fmt.Sprintf("%s.%s[%s]", PkgPath[T](), Type[T](), Kind[T]())
 }
 
-func IsImplementing[T any](t any) bool {
-	_, ok := t.(T)
+func IsImplementing[T any](value any) bool {
+	_, ok := value.(T)
 	return ok
 }

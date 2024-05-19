@@ -53,3 +53,12 @@ func (n Nested) ToString() string {
 		return item.Coucou()
 	}))
 }
+
+type Mutate struct {
+	A string
+	B int
+}
+
+func (m *Mutate) Increment() {
+	m.B += 1
+}

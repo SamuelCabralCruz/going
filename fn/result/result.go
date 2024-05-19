@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/SamuelCabralCruz/went/fn"
 	"github.com/SamuelCabralCruz/went/fn/tuple"
+	"github.com/SamuelCabralCruz/went/roar"
+	"github.com/samber/lo"
 )
 
 func Ok[T any](value T) Result[T] {
@@ -65,17 +67,19 @@ func (r Result[T]) GetOrPanic() T {
 	return tuple.GetOrPanic(r.Get())
 }
 
+func (r Result[T]) GetOrPanicWith(err error) T {
+	if r.IsError() {
+		panic(err)
+	}
+	return r.value
+}
+
 func (r Result[T]) OrEmpty() T {
 	return r.value
 }
 
-// TODO: not sure about the contract for the following ⬇️
-
-// OrElseTry
-// Will try to recover for another method that can return an error.
-// Initially returned value and error will be dropped.
 func (r Result[T]) OrElseTry(produce fn.Producer[T]) Result[T] {
-	if r.isError {
+	if r.IsError() {
 		return FromProducer(produce)
 	}
 	return Ok(r.value)
@@ -89,21 +93,95 @@ func (r Result[T]) OrElse(value T) T {
 	return r.OrElseGet(fn.ToSupplier(value))
 }
 
-func (r Result[T]) SwitchMapTry(valueMapper fn.TryableMapper[T], errorMapper fn.TryableErrorMapper[T]) Result[T] {
-	if r.isError {
+func (r Result[T]) TryFlatMap(mapper fn.TryableMapper[Result[T]]) Result[T] {
+	if r.IsOk() {
+		maybe, err := mapper(r)
+		if err != nil {
+			return Error[T](err)
+		}
+		return maybe
+	}
+	return r
+}
+
+func (r Result[T]) TryFlatMapError(mapper fn.TryableMapper[Result[T]]) Result[T] {
+	if r.IsError() {
+		maybe, err := mapper(r)
+		if err != nil {
+			return Error[T](err)
+		}
+		return maybe
+	}
+	return r
+}
+
+func (r Result[T]) FlatMap(mapper fn.Mapper[Result[T]]) Result[T] {
+	return r.TryFlatMap(fn.ToTryableMapper(mapper))
+}
+
+func (r Result[T]) FlatMapError(mapper fn.Mapper[Result[T]]) Result[T] {
+	return r.TryFlatMapError(fn.ToTryableMapper(mapper))
+}
+
+func (r Result[T]) TryMap(mapper fn.TryableMapper[T]) Result[T] {
+	if r.IsOk() {
+		return FromTuple[T](mapper(r.value))
+	}
+	return r
+}
+
+func (r Result[T]) TryMapError(transform fn.TryableTransformer[error, T]) Result[T] {
+	if r.IsError() {
+		return FromTuple[T](transform(r.err))
+	}
+	return r
+}
+
+func (r Result[T]) Map(mapper fn.Mapper[T]) Result[T] {
+	return r.TryMap(fn.ToTryableMapper(mapper))
+}
+
+func (r Result[T]) MapError(transform fn.Transformer[error, T]) Result[T] {
+	return r.TryMapError(fn.ToTryableTransformer(transform))
+}
+
+func (r Result[T]) IfOk(consume fn.Consumer[T]) {
+	if r.IsOk() {
+		consume(r.value)
+	}
+}
+
+func (r Result[T]) IfError(consume fn.Consumer[error]) {
+	if r.IsError() {
+		consume(r.err)
+	}
+}
+
+// TODO: review this contract
+func (r Result[T]) TrySwitchMap(valueMapper fn.TryableMapper[T], errorMapper fn.TryableErrorMapper[T]) Result[T] {
+	if r.IsError() {
 		return FromTuple[T](errorMapper(r.err))
 	}
 	return FromTuple(valueMapper(r.value))
 }
 
 func (r Result[T]) SwitchMap(valueMapper fn.Mapper[T], errorMapper fn.Mapper[error]) Result[T] {
-	return r.SwitchMapTry(fn.ToTryableMapper(valueMapper), fn.ToTryableErrorMapper[T](errorMapper))
+	return r.TrySwitchMap(fn.ToTryableMapper(valueMapper), fn.ToTryableErrorMapper[T](errorMapper))
 }
 
-func (r Result[T]) Map(mapper fn.Mapper[T]) Result[T] {
-	return r.SwitchMap(mapper, fn.Identity[error])
-}
-
-func (r Result[T]) MapError(mapper fn.Mapper[error]) Result[T] {
-	return r.SwitchMap(fn.Identity[T], mapper)
+func Combine[T any](results ...Result[T]) Result[[]T] {
+	var acc []T
+	var errors []error
+	lo.ForEach(results,
+		func(result Result[T], _ int) {
+			if result.IsOk() {
+				acc = append(acc, result.GetOrPanic())
+			} else {
+				errors = append(errors, result.Error())
+			}
+		})
+	if len(errors) > 0 {
+		return Error[[]T](roar.NewAggregatedError(errors...))
+	}
+	return Ok(acc)
 }

@@ -1,18 +1,19 @@
 package it
 
 import (
-	"github.com/samber/mo"
+	"github.com/SamuelCabralCruz/went/fn"
+	"github.com/SamuelCabralCruz/went/fn/result"
 )
 
 type singleton[T any] struct {
 	token     InjectionToken[T]
 	provided  bool
-	reference mo.Result[T]
+	reference result.Result[T]
 }
 
 var _ InjectionToken[struct{}] = &singleton[struct{}]{}
 
-func RegisterSingleton[T any](provider Provider[T]) InjectionToken[T] {
+func RegisterSingleton[T any](provider fn.Producer[T]) InjectionToken[T] {
 	return &singleton[T]{
 		token: &injectable[T]{
 			provider: provider,
@@ -20,19 +21,15 @@ func RegisterSingleton[T any](provider Provider[T]) InjectionToken[T] {
 	}
 }
 
-func (s *singleton[T]) Resolve() mo.Result[T] {
+func (s *singleton[T]) Resolve() (T, error) {
 	if s.provided {
-		return s.reference
+		return s.reference.Get()
 	}
 	s.provided = true
-	s.reference = s.token.Resolve()
-	return s.reference
+	s.reference = result.FromTuple(s.token.Resolve())
+	return s.reference.Get()
 }
 
 func (s *singleton[T]) MustResolve() T {
-	value, err := s.Resolve().Get()
-	if err != nil {
-		panic(err)
-	}
-	return value
+	return s.reference.GetOrPanic()
 }

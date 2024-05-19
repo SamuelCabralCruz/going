@@ -2,41 +2,58 @@ package botox
 
 import (
 	"github.com/SamuelCabralCruz/went/botox/internal/it"
+	"github.com/SamuelCabralCruz/went/fn"
+	"github.com/SamuelCabralCruz/went/fn/optional"
+	"github.com/SamuelCabralCruz/went/fn/result"
 	"github.com/SamuelCabralCruz/went/fn/tuple"
 	"github.com/SamuelCabralCruz/went/phi"
-	"github.com/SamuelCabralCruz/went/roar"
 	"github.com/samber/lo"
-	"github.com/samber/mo"
 )
 
 var container = map[string][]any{}
 
+func RegisterProducer[T any](produce fn.Producer[T]) {
+	register(produce, it.Register[T])
+}
+
+func RegisterSupplier[T any](supply fn.Supplier[T]) {
+	RegisterProducer(fn.ToProducer(supply))
+}
+
 func RegisterInstance[T any](instance T) {
-	Register(func() mo.Result[T] { return mo.Ok(instance) })
+	RegisterSupplier(fn.ToSupplier(instance))
 }
 
-func Register[T any](provider it.Provider[T]) {
-	register(provider, it.Register[T])
+func RegisterSingletonProducer[T any](produce fn.Producer[T]) {
+	singletonProducer := func() (*T, error) {
+		value, err := produce()
+		return &value, err
+	}
+	register(singletonProducer, it.RegisterSingleton[*T])
 }
 
-func RegisterSingleton[T any](provider it.Provider[T]) {
-	register(provider, it.RegisterSingleton[T])
+func RegisterSingletonSupplier[T any](supply fn.Supplier[T]) {
+	RegisterSingletonProducer(fn.ToProducer(supply))
 }
 
-func register[T any](provider it.Provider[T], tokenGenerator func(it.Provider[T]) it.InjectionToken[T]) {
+func RegisterSingletonInstance[T any](instance T) {
+	RegisterSingletonSupplier(fn.ToSupplier(instance))
+}
+
+func register[T any](provider fn.Producer[T], tokenGenerator func(fn.Producer[T]) it.InjectionToken[T]) {
 	t := phi.UniqueIdentifier[T]()
-	tokens := mo.EmptyableToOption(container[t]).OrElse([]any{})
+	tokens := optional.OfNullable(container[t]).OrElse([]any{})
 	container[t] = append(tokens, tokenGenerator(provider))
 }
 
 func ResolveAll[T any]() (instances []T, err error) {
-	instances, err = roar.Accumulate(lo.Map(
+	instances, err = result.Combine(lo.Map(
 		container[phi.UniqueIdentifier[T]()],
-		func(token any, _ int) mo.Result[T] {
+		func(token any, _ int) result.Result[T] {
 			if r, ok := token.(it.InjectionToken[T]); ok {
-				return r.Resolve()
+				return result.FromTuple(r.Resolve())
 			}
-			return mo.Err[T](newProvidingLoopError())
+			return result.Error[T](newProvidingLoopError())
 		})...).Get()
 
 	if err != nil {

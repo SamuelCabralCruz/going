@@ -8,6 +8,12 @@ func ToSupplier[T any](value T) Supplier[T] {
 	}
 }
 
+func ToMapper[T any](supply Supplier[T]) Mapper[T] {
+	return func(_ T) T {
+		return supply()
+	}
+}
+
 func ToProducer[T any](supply Supplier[T]) Producer[T] {
 	return func() (T, error) {
 		return Safe(supply)
