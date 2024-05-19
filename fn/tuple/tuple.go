@@ -1,6 +1,8 @@
 package tuple
 
-import "github.com/SamuelCabralCruz/went/phi"
+import (
+	"github.com/SamuelCabralCruz/went/phi"
+)
 
 func Ignore[T any](value T, _ error) T {
 	return value
@@ -19,4 +21,8 @@ func FromValue[T any](value T) (T, error) {
 
 func FromError[T any](err error) (T, error) {
 	return phi.Empty[T](), err
+}
+
+func Swap[T any, U any](left T, right U) (U, T) {
+	return right, left
 }

@@ -14,6 +14,7 @@ We aim at minimizing third party dependencies.
 We also allow cross-references between the libraries.
 
 # TODO: remove mo -> create our own optional and result type
+# TODO: combine error? during chain
 # TODO: review accumulate -> maybe a way to accumulate error
 # TODO: add tests everywhere
 # TODO: makefile

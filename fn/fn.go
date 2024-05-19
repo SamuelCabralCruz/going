@@ -4,6 +4,10 @@ import (
 	"github.com/SamuelCabralCruz/went/roar"
 )
 
+func Identity[T any](value T) T {
+	return value
+}
+
 func Try[T any](produce Producer[T]) (value T, err error) {
 	rec := func() {
 		if r := recover(); r != nil {
@@ -16,5 +20,7 @@ func Try[T any](produce Producer[T]) (value T, err error) {
 }
 
 func Safe[T any](supply Supplier[T]) (value T, err error) {
-	return Try(ToProducer(supply))
+	return Try(func() (T, error) {
+		return supply(), nil
+	})
 }

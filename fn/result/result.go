@@ -69,13 +69,41 @@ func (r Result[T]) OrEmpty() T {
 	return r.value
 }
 
-func (r Result[T]) OrElseGet(supply fn.Supplier[T]) T {
+// TODO: not sure about the contract for the following ⬇️
+
+// OrElseTry
+// Will try to recover for another method that can return an error.
+// Initially returned value and error will be dropped.
+func (r Result[T]) OrElseTry(produce fn.Producer[T]) Result[T] {
 	if r.isError {
-		return supply()
+		return FromProducer(produce)
 	}
-	return r.value
+	return Ok(r.value)
+}
+
+func (r Result[T]) OrElseGet(supply fn.Supplier[T]) T {
+	return r.OrElseTry(fn.ToProducer(supply)).OrEmpty()
 }
 
 func (r Result[T]) OrElse(value T) T {
-	return r.OrElseGet(func() T { return value })
+	return r.OrElseGet(fn.ToSupplier(value))
+}
+
+func (r Result[T]) SwitchMapTry(valueMapper fn.TryableMapper[T], errorMapper fn.TryableErrorMapper[T]) Result[T] {
+	if r.isError {
+		return FromTuple[T](errorMapper(r.err))
+	}
+	return FromTuple(valueMapper(r.value))
+}
+
+func (r Result[T]) SwitchMap(valueMapper fn.Mapper[T], errorMapper fn.Mapper[error]) Result[T] {
+	return r.SwitchMapTry(fn.ToTryableMapper(valueMapper), fn.ToTryableErrorMapper[T](errorMapper))
+}
+
+func (r Result[T]) Map(mapper fn.Mapper[T]) Result[T] {
+	return r.SwitchMap(mapper, fn.Identity[error])
+}
+
+func (r Result[T]) MapError(mapper fn.Mapper[error]) Result[T] {
+	return r.SwitchMap(fn.Identity[T], mapper)
 }

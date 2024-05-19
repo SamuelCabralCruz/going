@@ -21,6 +21,15 @@ func NewAggregatedError(errs ...error) AggregatedError {
 	}
 }
 
+func Combine(err1 error, err2 error) error {
+	if err1 == nil {
+		return err2
+	}
+	// TODO: rename -> Combined error maybe
+	return NewAggregatedError(err1, err2)
+}
+
+// TODO: remove usage of mo
 func Accumulate[T any](results ...mo.Result[T]) mo.Result[[]T] {
 	var acc []T
 	var errors []error
