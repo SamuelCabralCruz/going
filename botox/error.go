@@ -2,6 +2,7 @@ package botox
 
 import (
 	"github.com/SamuelCabralCruz/went/roar"
+	"reflect"
 )
 
 type ProvidingLoopError struct {
@@ -18,7 +19,7 @@ type NoCandidateFoundError struct {
 	roar.Roar[NoCandidateFoundError]
 }
 
-func newNoCandidateFoundError(typeof string) NoCandidateFoundError {
+func newNoCandidateFoundError(typeof reflect.Type) NoCandidateFoundError {
 	return NoCandidateFoundError{
 		roar.New[NoCandidateFoundError](
 			"no provider have been registered for requested type",
@@ -30,7 +31,7 @@ type TooManyCandidatesFoundError struct {
 	roar.Roar[TooManyCandidatesFoundError]
 }
 
-func newTooManyCandidatesFoundError(typeof string, n int) TooManyCandidatesFoundError {
+func newTooManyCandidatesFoundError(typeof reflect.Type, n int) TooManyCandidatesFoundError {
 	return TooManyCandidatesFoundError{
 		roar.New[TooManyCandidatesFoundError](
 			"too many providers have been registered for requested type",

@@ -1,39 +1,20 @@
 package fn
 
 import (
-	"github.com/SamuelCabralCruz/went/phi"
-	"github.com/samber/lo"
-	"github.com/samber/mo"
+	"github.com/SamuelCabralCruz/went/roar"
 )
 
-func Accumulate[T any](results ...mo.Result[T]) mo.Result[[]T] {
-	var acc []T
-	var errors []error
-	lo.ForEach(results,
-		func(result mo.Result[T], _ int) {
-			if result.IsOk() {
-				acc = append(acc, result.MustGet())
-			} else {
-				errors = append(errors, result.Error())
-			}
-		})
-	if len(errors) > 0 {
-		return mo.Err[[]T](NewAggregatedError(errors...))
+func Try[T any](produce Producer[T]) (value T, err error) {
+	rec := func() {
+		if r := recover(); r != nil {
+			err = roar.AsError(r)
+		}
 	}
-	return mo.Ok(acc)
+	defer rec()
+	value, err = produce()
+	return
 }
 
-func ValueHasTuple[T any](value T) (T, error) {
-	return value, nil
-}
-
-func ErrorHasTuple[T any](err error) (T, error) {
-	empty := phi.Empty[T]()
-	return empty, err
-}
-
-func AsResultable[T any](f func() T) func() mo.Result[T] {
-	return func() mo.Result[T] {
-		return mo.Ok(f())
-	}
+func Safe[T any](supply Supplier[T]) (value T, err error) {
+	return Try(ToProducer(supply))
 }

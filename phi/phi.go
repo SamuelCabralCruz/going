@@ -9,32 +9,33 @@ func Empty[T any]() (t T) {
 	return
 }
 
-func Kind[T any]() reflect.Kind {
-	return reflect.ValueOf(Empty[T]()).Kind()
+func InterfaceToPtr[T any]() *T {
+	return (*T)(nil)
 }
 
-func Type[T any]() string {
+func Value[T any]() reflect.Value {
+	return reflect.ValueOf(Empty[T]())
+}
+
+func Type[T any]() reflect.Type {
 	empty := Empty[T]()
 	typeOf := reflect.TypeOf(empty)
 	if typeOf == nil {
-		t := (*T)(nil)
-		return reflect.TypeOf(t).Elem().Name()
+		return reflect.TypeOf(InterfaceToPtr[T]()).Elem()
 	}
-	return typeOf.Name()
+	return typeOf
+}
+
+func Kind[T any]() reflect.Kind {
+	return Value[T]().Kind()
 }
 
 func PkgPath[T any]() string {
-	empty := Empty[T]()
-	typeOf := reflect.TypeOf(empty)
-	if typeOf == nil {
-		t := (*T)(nil)
-		return reflect.TypeOf(t).Elem().PkgPath()
-	}
-	return typeOf.PkgPath()
+	return Type[T]().PkgPath()
 }
 
 func UniqueIdentifier[T any]() string {
-	return fmt.Sprintf("%s.%s[%s]", PkgPath[T](), Type[T](), Kind[T]().String())
+	return fmt.Sprintf("%s.%s[%s]", PkgPath[T](), Type[T](), Kind[T]())
 }
 
 func IsImplementing[T any](t any) bool {

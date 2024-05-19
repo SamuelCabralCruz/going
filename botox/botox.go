@@ -2,8 +2,9 @@ package botox
 
 import (
 	"github.com/SamuelCabralCruz/went/botox/internal/it"
-	"github.com/SamuelCabralCruz/went/fn"
+	"github.com/SamuelCabralCruz/went/fn/tuple"
 	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/went/roar"
 	"github.com/samber/lo"
 	"github.com/samber/mo"
 )
@@ -29,7 +30,7 @@ func register[T any](provider it.Provider[T], tokenGenerator func(it.Provider[T]
 }
 
 func ResolveAll[T any]() (instances []T, err error) {
-	instances, err = fn.Accumulate(lo.Map(
+	instances, err = roar.Accumulate(lo.Map(
 		container[phi.UniqueIdentifier[T]()],
 		func(token any, _ int) mo.Result[T] {
 			if r, ok := token.(it.InjectionToken[T]); ok {
@@ -39,14 +40,14 @@ func ResolveAll[T any]() (instances []T, err error) {
 		})...).Get()
 
 	if err != nil {
-		return fn.ErrorHasTuple[[]T](err)
+		return tuple.FromError[[]T](err)
 	}
 
 	if len(instances) == 0 {
-		return fn.ErrorHasTuple[[]T](newNoCandidateFoundError(phi.Type[T]()))
+		return tuple.FromError[[]T](newNoCandidateFoundError(phi.Type[T]()))
 	}
 
-	return fn.ValueHasTuple(instances)
+	return tuple.FromValue(instances)
 }
 
 func MustResolveAll[T any]() []T {
@@ -60,12 +61,12 @@ func MustResolveAll[T any]() []T {
 func Resolve[T any]() (T, error) {
 	instances, err := ResolveAll[T]()
 	if err != nil {
-		return fn.ErrorHasTuple[T](err)
+		return tuple.FromError[T](err)
 	}
 	if len(instances) > 1 {
-		return fn.ErrorHasTuple[T](newTooManyCandidatesFoundError(phi.Type[T](), len(instances)))
+		return tuple.FromError[T](newTooManyCandidatesFoundError(phi.Type[T](), len(instances)))
 	}
-	return fn.ValueHasTuple(instances[0])
+	return tuple.FromValue(instances[0])
 }
 
 func MustResolve[T any]() T {
