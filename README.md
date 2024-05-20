@@ -7,6 +7,7 @@ This project contains several libraries that can be used individually.
 
 - [botox](./botox/README.md): DI framework
 - [fn](./fn/README.md): Functional patterns utilities
+- [htntp](htntp/README.md): Standard http library helpers 
 - [phi](./phi/README.md): Reflection utilities
 - [roar](./roar/README.md): Standardized error struct
 
@@ -24,7 +25,10 @@ We also allow cross-references between the libraries.
 
 # TODO: review accumulate -> maybe a way to accumulate error
 
-# TODO: add tests everywhere
+# TODO: add tests
+- roar
+- fn
+- botox
 
 # TODO: makefile
 
@@ -35,18 +39,27 @@ graph TB
 ;
     BOTOX[botox];
     FN[fn];
+    HTNTP[htntp];
     PHI[phi];
     ROAR[roar];
     TESTING[testing];
+
+    BOTOX -.-> TESTING;
+    FN -.-> TESTING;
+    HTNTP -.-> TESTING;
+    PHI -.-> TESTING;
+    ROAR -.-> TESTING;
+
     BOTOX --> FN;
     BOTOX --> PHI;
     BOTOX --> ROAR;
-    BOTOX -.-> TESTING;
+    
     FN --> PHI;
     FN --> ROAR;
-    FN -.-> TESTING;
-    PHI -.-> TESTING;
+    
+    HTNTP --> FN;
+    
     ROAR --> PHI;
-    ROAR -.-> TESTING;
+    
     TESTING --> PHI;
 ```

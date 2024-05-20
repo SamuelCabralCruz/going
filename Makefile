@@ -1,3 +1,7 @@
+.PHONY: build
+build:
+	@go build -tags=test ./...
+
 .PHONY: test-local
 test-local:
 	@mkdir -p coverage
