@@ -43,11 +43,3 @@ func ToTryableTransformer[T any, U any](transformer Transformer[T, U]) TryableTr
 		})
 	}
 }
-
-// TODO: remove?
-//func ToTupleMapper[T any](produce Producer[T]) TupleMapper[T] {
-//	return func(_ T, err1 error) (T, error) {
-//		v2, err2 := Try(produce)
-//		return v2, roar.Combine(err1, err2)
-//	}
-//}

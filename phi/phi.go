@@ -9,16 +9,12 @@ func Empty[T any]() (t T) {
 	return
 }
 
-func IsZero(value any) bool {
-	return reflect.ValueOf(&value).Elem().IsZero()
+func Value[T any](value T) reflect.Value {
+	return reflect.ValueOf(value)
 }
 
 func InterfaceToPtr[T any]() *T {
 	return (*T)(nil)
-}
-
-func Value[T any]() reflect.Value {
-	return reflect.ValueOf(Empty[T]())
 }
 
 func Type[T any]() reflect.Type {
@@ -31,7 +27,7 @@ func Type[T any]() reflect.Type {
 }
 
 func Kind[T any]() reflect.Kind {
-	return Value[T]().Kind()
+	return Type[T]().Kind()
 }
 
 func PkgPath[T any]() string {
@@ -40,9 +36,4 @@ func PkgPath[T any]() string {
 
 func UniqueIdentifier[T any]() string {
 	return fmt.Sprintf("%s.%s[%s]", PkgPath[T](), Type[T](), Kind[T]())
-}
-
-func IsImplementing[T any](value any) bool {
-	_, ok := value.(T)
-	return ok
 }

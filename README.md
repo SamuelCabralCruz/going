@@ -19,7 +19,6 @@ We aim at minimizing third party dependencies.
 
 We also allow cross-references between the libraries.
 
-# TODO: remove mo -> create our own optional and result type
 
 # TODO: combine error? during chain
 
@@ -28,8 +27,6 @@ We also allow cross-references between the libraries.
 # TODO: add tests everywhere
 
 # TODO: makefile
-
-# TODO: testing lib
 
 # TODO: readme (how to contribute/getting started/setup local)
 
