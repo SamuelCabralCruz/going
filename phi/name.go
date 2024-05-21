@@ -26,3 +26,7 @@ func FunctionName(function any) string {
 func TypeName[T any]() string {
 	return Type[T]().Name()
 }
+
+func BaseTypeName[T any]() string {
+	return regexp.MustCompile("\\[.*]").ReplaceAllString(TypeName[T](), "")
+}

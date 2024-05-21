@@ -13,7 +13,7 @@ func DescribeFunction(function any, args ...any) bool {
 }
 
 func DescribeType[T any](args ...any) bool {
-	return ginkgo.Describe(phi.TypeName[T](), args...)
+	return ginkgo.Describe(phi.BaseTypeName[T](), args...)
 }
 
 func getPackageNameForCaller(caller int) string {

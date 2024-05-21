@@ -66,3 +66,7 @@ func (r Roar[T]) Error() string {
 	}
 	return strings.Join(parts, " ")
 }
+
+func (r Roar[T]) Unwrap() error {
+	return r.cause
+}
