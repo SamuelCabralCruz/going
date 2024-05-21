@@ -6,8 +6,8 @@ import (
 )
 
 func GetStructField[T any](value T, fieldName string) (bool, *reflect.StructField, any) {
-	if Kind[T]() == reflect.Struct {
-		valueOf := Value(value)
+	valueOf := Value(value)
+	if valueOf.Kind() == reflect.Struct {
 		for i := 0; i < valueOf.NumField(); i++ {
 			field := valueOf.Type().Field(i)
 			if field.Name == fieldName {
