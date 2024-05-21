@@ -10,7 +10,6 @@ import (
 
 func Execute() {
 	// TODO: transform as proper tests
-	// registerinstance and registersingletoninstance are basically the same...
 	reportMustResolve(botox.MustResolveAll[model1.Config])
 	reportMustResolve(botox.MustResolveAll[model1.Config])
 	reportMustResolve(botox.MustResolve[model1.Config])

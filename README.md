@@ -14,25 +14,21 @@ This project contains several libraries that can be used individually.
 We aim at minimizing third party dependencies.
 
 > At the moment, those include:
-> - samber/lo
 > - onsi/ginkgo (only for testing purposes + testing library)
 > - onsi/gomega (only for testing purposes + testing library)
+> - samber/lo
 
 We also allow cross-references between the libraries.
 
-
-# TODO: combine error? during chain
-
-# TODO: review accumulate -> maybe a way to accumulate error
-
-# TODO: add tests
+# TODO: tests
 - roar
 - fn
 - botox
 
-# TODO: makefile
-
-# TODO: readme (how to contribute/getting started/setup local)
+# TODO: roar
+- stack trace
+- combine error? during chain
+- review accumulate -> maybe a way to accumulate error
 
 ```mermaid
 graph TB
@@ -62,4 +58,10 @@ graph TB
     ROAR --> PHI;
     
     TESTING --> PHI;
+```
+
+# Getting Started
+
+```shell
+make install
 ```

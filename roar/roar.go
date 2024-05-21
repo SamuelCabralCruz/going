@@ -18,7 +18,7 @@ func WithCause(cause error) Option {
 type field lo.Entry[string, any]
 
 func (f field) toString() string {
-	return fmt.Sprintf("%s: %+v", f.Key, f.Value)
+	return fmt.Sprintf("%s=%+v", f.Key, f.Value)
 }
 
 func WithField(key string, value any) Option {
@@ -49,14 +49,14 @@ func New[T any](message string, options ...Option) Roar[T] {
 		return agg
 	}, &parameters{})
 	return Roar[T]{
-		message: fmt.Sprintf("%s: %s", phi.Type[T](), message),
+		message: message,
 		cause:   params.cause,
 		fields:  params.fields,
 	}
 }
 
 func (r Roar[T]) Error() string {
-	parts := []string{fmt.Sprintf("%s: %s", phi.Type[T](), r.message)}
+	parts := []string{fmt.Sprintf("%s: %s", phi.BaseTypeName[T](), r.message)}
 	if len(r.fields) > 0 {
 		fields := lo.Map(r.fields, func(f field, _ int) string { return f.toString() })
 		parts = append(parts, fmt.Sprintf("[%s]", strings.Join(fields, ", ")))
