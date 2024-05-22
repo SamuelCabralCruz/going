@@ -1,4 +1,4 @@
-package internal
+package fake
 
 import (
 	"github.com/SamuelCabralCruz/went/roar"

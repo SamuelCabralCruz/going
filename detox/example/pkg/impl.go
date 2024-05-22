@@ -10,6 +10,10 @@ func (i Impl) Hello(a string) (string, error) {
 	return "Hello " + a, nil
 }
 
+func (i Impl) Hello2(a string, b int) (string, error, int) {
+	return "hello 2 " + a, nil, b
+}
+
 func (i Impl) Prepare() Another {
 	return AnotherImpl{}
 }

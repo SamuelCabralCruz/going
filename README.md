@@ -27,6 +27,11 @@ We also allow cross-references between the libraries.
 - botox
 - detox
 
+# TODO: fn
+- implement pop function to remove first item from slice
+- refactor optional and result to better leverage monads...
+- simplify the mapping contract
+
 # TODO: roar
 - stack trace
 - combine error? during chain

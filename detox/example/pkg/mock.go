@@ -10,9 +10,7 @@ type AnotherMockClass struct {
 var _ Another = AnotherMockClass{}
 
 func (m AnotherMockClass) Bye(s string) {
-	// TODO: should be wrapper inside
-	detox.RegisterInvocation(m.Detox, m.Bye, s)
-	detox.InvokeFakeImplementation(m.Detox, m.Bye)(s)
+	detox.When(m.Detox, m.Bye).Resolve(s)(s)
 }
 
 type SomeMockClass struct {
@@ -22,11 +20,21 @@ type SomeMockClass struct {
 var _ Inter = SomeMockClass{}
 
 func (m SomeMockClass) Hello(s string) (string, error) {
-	detox.RegisterInvocation(m.Detox, m.Hello, s)
-	return detox.InvokeFakeImplementation(m.Detox, m.Hello)(s)
+	return detox.When(m.Detox, m.Hello).Resolve(s)(s)
+
+	//// TODO: which dsl is better?
+	//mocked := detox.When(m.Detox, m.Hello)
+	//mocked.RegisterInvocation(s)
+	//return mocked.InvokeFake(s)(s)
+
+	//detox.RegisterInvocation(m.Detox, m.Hello, s)
+	//return detox.InvokeFakeImplementation(m.Detox, m.Hello, s)(s)
+}
+
+func (m SomeMockClass) Hello2(s string, i int) (string, error, int) {
+	return detox.When(m.Detox, m.Hello2).Resolve(s, i)(s, i)
 }
 
 func (m SomeMockClass) Prepare() Another {
-	detox.RegisterInvocation(m.Detox, m.Prepare)
-	return detox.InvokeFakeImplementation(m.Detox, m.Prepare)()
+	return detox.When(m.Detox, m.Prepare).Resolve()()
 }

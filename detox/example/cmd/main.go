@@ -18,14 +18,6 @@ func main() {
 	detox.FakeImplementation(myMock.Detox, myMock.Hello, pkg.Impl{}.Hello)
 	fmt.Println(myMock.Hello("after named fake"))
 
-	// TODO: fluent api
-	//detox.When(myMock.Detox, myMock.Hello).Call(func() {})
-	// TODO: WithArgs could simply be a filter
-	// TODO: Call
-	// TODO: CallOnce
-	// TODO: CallThrough (provide real)
-	// TODO: possibly Return --> doubt about that
-
 	// react to args
 	detox.FakeImplementation(myMock.Detox, myMock.Hello, func(s string) (string, error) {
 		if s == "sam" {
@@ -84,10 +76,62 @@ func main() {
 	fmt.Println(detox.CallsCount(myMock.Detox, myMock.Hello))
 	//fmt.Println(detox.NthCall(myMock.Detox, myMock.Hello, 3)) // -> should fail
 
+	// fluent api
+	mocked := detox.When(myMock.Detox, myMock.Hello)
+	mocked.CallOnce(func(s string) (string, error) {
+		return "fluently faked 1", errors.New(s)
+	})
+	mocked.CallOnce(func(s string) (string, error) {
+		return "fluently faked 2", errors.New(s)
+	})
+	mocked.Call(func(s string) (string, error) {
+		return "fluently faked 3", errors.New(s)
+	})
+	fmt.Println(myMock.Hello("1st"))
+	fmt.Println(myMock.Hello("2nd"))
+	fmt.Println(myMock.Hello("3rd"))
+	fmt.Println(myMock.Hello("4th"))
+
+	mocked.Reset()
+
+	mocked.Call(func(s string) (string, error) {
+		return "fluently persistent unconditional", errors.New(s)
+	})
+	mocked.CallOnce(func(s string) (string, error) {
+		return "fluently ephemeral unconditional", errors.New(s)
+	})
+	// since this one is not ephemeral it can be called has many times as desired with 1st
+	// should have priority over the previous one because it is specific to this use case
+	mocked.WithArgs("1st").Call(func(s string) (string, error) {
+		return "fluently conditional persistent", errors.New(s)
+	})
+	// will have priority over the previous one because it is ephemeral
+	mocked.WithArgs("1st").CallOnce(func(s string) (string, error) {
+		return "fluently conditional ephemeral", errors.New(s)
+	})
+	mocked.WithArgs("2nd").CallOnce(func(s string) (string, error) {
+		return "fluently faked 2", errors.New(s)
+	})
+	fmt.Println(myMock.Hello("1st"))
+	fmt.Println(myMock.Hello("2nd"))
+	//fmt.Println(myMock.Hello("3rd"))
+	//fmt.Println(myMock.Hello("4th"))
+	fmt.Println(myMock.Hello("1st"))
+	fmt.Println(myMock.Hello("1st"))
+	fmt.Println(myMock.Hello("1st"))
+	fmt.Println(myMock.Hello("1st"))
+	fmt.Println(myMock.Hello("1st"))
+	fmt.Println(myMock.Hello("2nd"))
+
+	// TODO: CallThrough (provide real)
+
 	// TODO: create custom matchers
 	// TODO: HaveBeenCalled() -> called at least once
 	// TODO: HaveBeenCalledNth(int) -> called n times
 	// TODO: HaveCalls([][]any) -> any order
 	// TODO: HaveBeenCalledWith([]any) -> contains a calls with provided args
 	// TODO: HaveCallSequence([][]any) -> specific order
+
+	// TODO: caveats
+	// TODO: Mock return values
 }

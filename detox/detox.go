@@ -1,7 +1,8 @@
 package detox
 
 import (
-	"github.com/SamuelCabralCruz/went/detox/internal"
+	"github.com/SamuelCabralCruz/went/detox/internal/fake"
+	"github.com/SamuelCabralCruz/went/detox/internal/spy"
 	"github.com/SamuelCabralCruz/went/phi"
 )
 
@@ -17,26 +18,35 @@ type Detox struct {
 	fakes map[string]any
 }
 
+func (d *Detox) Name() string {
+	return d.name
+}
+
+func (d *Detox) Reset() {
+	d.fakes = map[string]any{}
+	d.spies = map[string]any{}
+}
+
 func getId[T any](orig T) string {
 	return phi.FunctionName(orig)
 }
 
-func resolveSpy[T any](mock *Detox, orig T) *internal.Spy {
+func resolveSpy[T any](mock *Detox, orig T) *spy.Spy {
 	id := getId(orig)
-	if spy, ok := mock.spies[id].(*internal.Spy); ok {
+	if spy, ok := mock.spies[id].(*spy.Spy); ok {
 		return spy
 	}
-	newSpy := internal.NewSpy()
+	newSpy := spy.NewSpy(mock.name, id)
 	mock.spies[id] = newSpy
 	return newSpy
 }
 
-func resolveFake[T any](mock *Detox, orig T) *internal.Fake[T] {
+func resolveFake[T any](mock *Detox, orig T) *fake.Fake[T] {
 	id := getId(orig)
-	if fake, ok := mock.fakes[id].(*internal.Fake[T]); ok {
+	if fake, ok := mock.fakes[id].(*fake.Fake[T]); ok {
 		return fake
 	}
-	newFake := internal.NewFake[T](mock.name, id)
+	newFake := fake.NewFake[T](mock.name, id)
 	mock.fakes[id] = newFake
 	return newFake
 }
@@ -49,9 +59,12 @@ func FakeImplementationOnce[T any](mock *Detox, orig T, impl T) {
 	resolveFake(mock, orig).RegisterImplementationOnce(impl)
 }
 
-func (d *Detox) Reset() {
-	d.fakes = map[string]any{}
-	d.spies = map[string]any{}
+func FakeConditionalImplementation[T any](mock *Detox, orig T, impl T, withArgs []any) {
+	resolveFake(mock, orig).RegisterConditionalImplementation(impl, withArgs)
+}
+
+func FakeConditionalImplementationOnce[T any](mock *Detox, orig T, impl T, withArgs []any) {
+	resolveFake(mock, orig).RegisterConditionalImplementationOnce(impl, withArgs)
 }
 
 func Reset[T any](mock *Detox, orig T) {
@@ -64,8 +77,8 @@ func RegisterInvocation[T any](mock *Detox, orig T, args ...any) {
 	resolveSpy(mock, orig).RegisterInvocation(args...)
 }
 
-func InvokeFakeImplementation[T any](mock *Detox, orig T) T {
-	return resolveFake(mock, orig).InvokeFakeImplementation()
+func InvokeFakeImplementation[T any](mock *Detox, orig T, args ...any) T {
+	return resolveFake(mock, orig).InvokeFakeImplementation(args...)
 }
 
 func Calls[T any](mock *Detox, orig T) [][]any {
@@ -73,13 +86,9 @@ func Calls[T any](mock *Detox, orig T) [][]any {
 }
 
 func CallsCount[T any](mock *Detox, orig T) int {
-	return len(Calls(mock, orig))
+	return resolveSpy(mock, orig).CallsCount()
 }
 
 func NthCall[T any](mock *Detox, orig T, index int) []any {
-	count := CallsCount(mock, orig)
-	if index >= count {
-		panic(newInvalidCallIndexError(mock.name, index, count))
-	}
-	return Calls(mock, orig)[index]
+	return resolveSpy(mock, orig).NthCall(index)
 }
