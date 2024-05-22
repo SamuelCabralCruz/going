@@ -5,7 +5,8 @@ standard library of Golang is a thing of the past.
 
 This project contains several libraries that can be used individually.
 
-- [botox](./botox/README.md): DI framework
+- [botox](./botox/README.md): DI framework using generics
+- [detox](./detox/README.md): Mock framework using generics
 - [fn](./fn/README.md): Functional patterns utilities
 - [htntp](htntp/README.md): Standard http library helpers 
 - [phi](./phi/README.md): Reflection utilities
@@ -24,6 +25,7 @@ We also allow cross-references between the libraries.
 - roar
 - fn
 - botox
+- detox
 
 # TODO: roar
 - stack trace
@@ -34,6 +36,7 @@ We also allow cross-references between the libraries.
 graph TB
 ;
     BOTOX[botox];
+    DETOX[detox];
     FN[fn];
     HTNTP[htntp];
     PHI[phi];
@@ -41,6 +44,7 @@ graph TB
     TESTING[testing];
 
     BOTOX -.-> TESTING;
+    DETOX -.-> TESTING;
     FN -.-> TESTING;
     HTNTP -.-> TESTING;
     PHI -.-> TESTING;
@@ -49,6 +53,10 @@ graph TB
     BOTOX --> FN;
     BOTOX --> PHI;
     BOTOX --> ROAR;
+    
+    DETOX --> FN;
+    DETOX --> PHI;
+    DETOX --> ROAR;
     
     FN --> PHI;
     FN --> ROAR;
@@ -61,6 +69,14 @@ graph TB
 ```
 
 # Getting Started
+
+## Usage
+
+```shell
+go get "github.com/SamuelCabralCruz/went"
+```
+
+## Contributing
 
 ```shell
 make install
