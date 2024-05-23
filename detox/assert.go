@@ -11,6 +11,11 @@ func (m *mocked[T]) Assert() Asserter {
 	}
 }
 
+type Assertable interface {
+	Name() string
+	Assert() Asserter
+}
+
 type Asserter interface {
 	HasBeenCalled() bool
 	HasBeenCalledOnce() bool

@@ -1,6 +1,7 @@
 package detox
 
 import (
+	"fmt"
 	"github.com/SamuelCabralCruz/went/detox/internal/fake"
 	"github.com/SamuelCabralCruz/went/detox/internal/spy"
 	"github.com/SamuelCabralCruz/went/phi"
@@ -21,6 +22,10 @@ type Detox struct {
 func (d *Detox) Reset() {
 	d.fakes = map[string]any{}
 	d.spies = map[string]any{}
+}
+
+func name[T any](mock *Detox, orig T) string {
+	return fmt.Sprintf("%s.%s", mock.name, getId(orig))
 }
 
 func getId[T any](orig T) string {

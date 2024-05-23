@@ -171,7 +171,7 @@ func main() {
 		internal.NewCall("1st"),
 		internal.NewCall("2nd"),
 	))
-	// TODO: HaveBeenCalled() -> called at least once
+
 	// TODO: HaveBeenCalledNth(int) -> called n times
 	// TODO: HaveCalls([][]any) -> any order
 	// TODO: HaveBeenCalledWith([]any) -> contains a calls with provided args

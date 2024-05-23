@@ -4,7 +4,7 @@ import (
 	"github.com/SamuelCabralCruz/went/phi"
 )
 
-func Ignore[T any](value T, _ error) T {
+func Ignore[T any](value T, _ any) T {
 	return value
 }
 

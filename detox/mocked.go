@@ -1,6 +1,8 @@
 package detox
 
-import "github.com/SamuelCabralCruz/went/detox/internal"
+import (
+	"github.com/SamuelCabralCruz/went/detox/internal"
+)
 
 func When[T any](mock *Detox, orig T) Mocked[T] {
 	return &mocked[T]{
@@ -10,6 +12,8 @@ func When[T any](mock *Detox, orig T) Mocked[T] {
 }
 
 type Mocked[T any] interface {
+	Name() string
+
 	ResolveForArgs(...any) T
 	Call(T)
 	CallOnce(T)
@@ -22,6 +26,10 @@ type Mocked[T any] interface {
 type mocked[T any] struct {
 	mock *Detox
 	orig T
+}
+
+func (m *mocked[T]) Name() string {
+	return name(m.mock, m.orig)
 }
 
 func (m *mocked[T]) ResolveForArgs(args ...any) T {

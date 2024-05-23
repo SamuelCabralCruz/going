@@ -14,5 +14,6 @@ func Copy[T any](values []T) []T {
 
 func Pop[T any](values []T) (T, []T, error) {
 	// TODO: complete with roar
+	// TODO: https://go.dev/play/p/Pdzc4bhMhIE
 	return values[0], values[1:], nil
 }
