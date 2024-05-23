@@ -7,3 +7,12 @@ func AsAnySlice[T any](values []T) []any {
 		return any(value)
 	})
 }
+
+func Copy[T any](values []T) []T {
+	return append([]T{}, values...)
+}
+
+func Pop[T any](values []T) (T, []T, error) {
+	// TODO: complete with roar
+	return values[0], values[1:], nil
+}
