@@ -8,6 +8,8 @@ import (
 
 type haveBeenCalledMatcher struct{}
 
+var _ types.GomegaMatcher = &haveBeenCalledMatcher{}
+
 func (m *haveBeenCalledMatcher) Match(actual any) (bool, error) {
 	if v, ok := actual.(detox.Assertable); ok {
 		return v.Assert().HasBeenCalled(), nil
@@ -17,12 +19,12 @@ func (m *haveBeenCalledMatcher) Match(actual any) (bool, error) {
 
 func (m *haveBeenCalledMatcher) FailureMessage(actual any) string {
 	mock := actual.(detox.Assertable)
-	return fmt.Sprintf("expected %s to have been called", mock.Name())
+	return fmt.Sprintf("expected %s to have been called", mock.Describe())
 }
 
 func (m *haveBeenCalledMatcher) NegatedFailureMessage(actual any) string {
 	mock := actual.(detox.Assertable)
-	return fmt.Sprintf("expected %s not to have been called", mock.Name())
+	return fmt.Sprintf("expected %s not to have been called", mock.Describe())
 }
 
 func HaveBeenCalled() types.GomegaMatcher {

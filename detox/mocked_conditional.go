@@ -1,11 +1,13 @@
 package detox
 
-import "github.com/SamuelCabralCruz/went/detox/internal"
+import (
+	"github.com/SamuelCabralCruz/went/detox/internal/common"
+)
 
-func (m *mocked[T]) WithArgs(args ...any) MockedConditionally[T] {
-	return &mockedConditionally[T]{
+func (m *mocked[T, U]) WithArgs(args ...any) MockedConditionally[U] {
+	return &mockedConditionally[T, U]{
 		m,
-		internal.NewCall(args...),
+		common.NewCall(args...),
 	}
 }
 
@@ -14,15 +16,15 @@ type MockedConditionally[T any] interface {
 	CallOnce(T)
 }
 
-type mockedConditionally[T any] struct {
-	*mocked[T]
-	forCall internal.Call
+type mockedConditionally[T any, U any] struct {
+	*mocked[T, U]
+	forCall common.Call
 }
 
-func (m *mockedConditionally[T]) Call(impl T) {
-	resolveFake(m.mock, m.orig).RegisterConditionalImplementation(impl, m.forCall)
+func (m *mockedConditionally[T, U]) Call(impl U) {
+	resolveFake(m.mock, m.method).RegisterConditionalImplementation(impl, m.forCall)
 }
 
-func (m *mockedConditionally[T]) CallOnce(impl T) {
-	resolveFake(m.mock, m.orig).RegisterConditionalImplementationOnce(impl, m.forCall)
+func (m *mockedConditionally[T, U]) CallOnce(impl U) {
+	resolveFake(m.mock, m.method).RegisterConditionalImplementationOnce(impl, m.forCall)
 }

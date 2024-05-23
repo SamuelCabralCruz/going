@@ -10,6 +10,8 @@ type beFunctionMatcher struct {
 	ref string
 }
 
+var _ types.GomegaMatcher = &beFunctionMatcher{}
+
 func (m *beFunctionMatcher) Match(actual any) (bool, error) {
 	if !phi.IsFunction(actual) {
 		return false, fmt.Errorf("actual must be a function, received `%T`", actual)

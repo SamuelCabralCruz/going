@@ -1,17 +1,21 @@
 package fake
 
 import (
+	"github.com/SamuelCabralCruz/went/detox/internal/common"
 	"github.com/SamuelCabralCruz/went/roar"
 )
 
-type MissingFakeImplementationError struct {
-	roar.Roar[MissingFakeImplementationError]
+type MissingImplementationError struct {
+	roar.Roar[MissingImplementationError]
 }
 
-func newMissingFakeImplementationError(mockName string, methodName string) MissingFakeImplementationError {
-	return MissingFakeImplementationError{
-		roar.New[MissingFakeImplementationError](
-			"no fake has been registered",
-			roar.WithField("mock", mockName),
-			roar.WithField("method", methodName))}
+func newMissingImplementationError(info common.MockedMethodInfo) MissingImplementationError {
+	return MissingImplementationError{
+		roar.New[MissingImplementationError](
+			"no implementation has been registered",
+			roar.WithField("interface", info.Interface()),
+			roar.WithField("method", info.Method()),
+			roar.WithField("reference", info.Reference()),
+		),
+	}
 }

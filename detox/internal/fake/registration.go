@@ -1,7 +1,7 @@
 package fake
 
 import (
-	"github.com/SamuelCabralCruz/went/detox/internal"
+	"github.com/SamuelCabralCruz/went/detox/internal/common"
 	"github.com/SamuelCabralCruz/went/fn/optional"
 	"github.com/samber/lo"
 )
@@ -18,10 +18,10 @@ const (
 type Registration[T any] struct {
 	implementation T
 	ephemeral      bool
-	forCall        optional.Optional[internal.Call]
+	forCall        optional.Optional[common.Call]
 }
 
-func NewRegistration[T any](implementation T, ephemeral bool, forCall optional.Optional[internal.Call]) *Registration[T] {
+func NewRegistration[T any](implementation T, ephemeral bool, forCall optional.Optional[common.Call]) *Registration[T] {
 	return &Registration[T]{
 		implementation,
 		ephemeral,
@@ -37,7 +37,7 @@ func (i *Registration[T]) IsConditional() bool {
 	return i.forCall.IsPresent()
 }
 
-func (i *Registration[T]) CanHandle(call internal.Call) bool {
+func (i *Registration[T]) CanHandle(call common.Call) bool {
 	if i.IsConditional() {
 		return i.forCall.GetOrPanic().EqualTo(call)
 	}

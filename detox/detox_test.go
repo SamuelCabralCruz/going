@@ -1,6 +1,7 @@
 package detox_test
 
 import (
+	"errors"
 	"github.com/SamuelCabralCruz/went/detox"
 	"github.com/SamuelCabralCruz/went/detox/example/pkg"
 	. "github.com/SamuelCabralCruz/went/detox/matcher"
@@ -9,12 +10,15 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = DescribeType[detox.Detox](func() {
+var _ = DescribeType[detox.Detox[any]](func() {
 	mock := pkg.NewSomeMockClass()
 	mockedHello := detox.When(mock.Detox, mock.Hello)
 
 	BeforeEach(func() {
-		mockedHello.Call(pkg.Impl{}.Hello)
+		mock.Default(pkg.Impl{})
+		mockedHello.Call(func(s string) (string, error) {
+			return "", errors.New("using mock to stub error")
+		})
 	})
 
 	AfterEach(func() {

@@ -3,11 +3,11 @@ package pkg
 import "github.com/SamuelCabralCruz/went/detox"
 
 func NewAnotherMockClass() AnotherMockClass {
-	return AnotherMockClass{detox.New[AnotherMockClass]()}
+	return AnotherMockClass{detox.New[Another]()}
 }
 
 type AnotherMockClass struct {
-	*detox.Detox
+	*detox.Detox[Another]
 }
 
 var _ Another = AnotherMockClass{}
@@ -17,11 +17,11 @@ func (m AnotherMockClass) Bye(s string) {
 }
 
 func NewSomeMockClass() SomeMockClass {
-	return SomeMockClass{detox.New[SomeMockClass]()}
+	return SomeMockClass{detox.New[Inter]()}
 }
 
 type SomeMockClass struct {
-	*detox.Detox
+	*detox.Detox[Inter]
 }
 
 var _ Inter = SomeMockClass{}
