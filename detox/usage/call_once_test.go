@@ -24,11 +24,11 @@ var _ = DescribeType[detox.Detox[any]](func() {
 		cut.Reset()
 	})
 
-	DescribeFunction(detox.Mocked[any].Call, func() {
+	DescribeFunction(detox.Mocked[any].CallOnce, func() {
 		var observed string
 
 		act := func() {
-			mocked.Call(func(s string) string {
+			mocked.CallOnce(func(s string) string {
 				return fmt.Sprintf("this return has been mocked - %s", s)
 			})
 			observed = cut.SingleArgSingleReturn("some input value")
@@ -40,14 +40,10 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			Expect(observed).To(Equal("this return has been mocked - some input value"))
 		})
 
-		It("should be persistent", func() {
+		It("should be ephemeral", func() {
 			act()
 
-			Expect(func() { cut.SingleArgSingleReturn("1st additional invocation") }).NotTo(Panic())
-			Expect(func() { cut.SingleArgSingleReturn("2nd additional invocation") }).NotTo(Panic())
-			Expect(func() { cut.SingleArgSingleReturn("3rd additional invocation") }).NotTo(Panic())
-			Expect(func() { cut.SingleArgSingleReturn("4th additional invocation") }).NotTo(Panic())
-			Expect(func() { cut.SingleArgSingleReturn("5th additional invocation") }).NotTo(Panic())
+			Expect(func() { cut.SingleArgSingleReturn("some input") }).To(Panic())
 		})
 	})
 })
