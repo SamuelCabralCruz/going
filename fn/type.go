@@ -1,5 +1,7 @@
 package fn
 
+type Callable func()
+
 // Supplier Products being shipped have already passed quality insurance
 type Supplier[T any] func() T
 

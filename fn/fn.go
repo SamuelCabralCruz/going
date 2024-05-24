@@ -24,3 +24,11 @@ func Safe[T any](supply Supplier[T]) (value T, err error) {
 		return supply(), nil
 	})
 }
+
+func Prevent(callable Callable) error {
+	_, err := Safe(func() string {
+		callable()
+		return "ok"
+	})
+	return err
+}

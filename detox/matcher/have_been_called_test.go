@@ -1,10 +1,12 @@
-package detox_test
+//go:build test
+
+package matcher_test
 
 import (
 	"errors"
 	"github.com/SamuelCabralCruz/went/detox"
 	"github.com/SamuelCabralCruz/went/detox/example/pkg"
-	. "github.com/SamuelCabralCruz/went/detox/matcher"
+	"github.com/SamuelCabralCruz/went/detox/matcher"
 	. "github.com/SamuelCabralCruz/went/testing"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -25,11 +27,11 @@ var _ = DescribeType[detox.Detox[any]](func() {
 		mock.Reset()
 	})
 
-	DescribeFunction(HaveBeenCalled, func() {
+	DescribeFunction(matcher.HaveBeenCalled, func() {
 		It("should determine whether mock has been called", func() {
 			_, _ = mock.Hello("some arg")
 
-			Expect(mockedHello).To(HaveBeenCalled())
+			Expect(mockedHello).To(matcher.HaveBeenCalled())
 		})
 	})
 })

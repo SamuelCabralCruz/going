@@ -1,6 +1,6 @@
 //go:build test
 
-package detox_test
+package usage_test
 
 import (
 	. "github.com/SamuelCabralCruz/went/testing"

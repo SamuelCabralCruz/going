@@ -6,6 +6,7 @@ import (
 	"github.com/SamuelCabralCruz/went/detox/internal/spy"
 	"github.com/SamuelCabralCruz/went/fn/optional"
 	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/samber/lo"
 )
 
 func New[T any]() *Detox[T] {
@@ -20,17 +21,24 @@ type Detox[T any] struct {
 	info        common.MockInfo
 	defaultImpl optional.Optional[T]
 	spies       map[string]any
-	fakes       map[string]any
+	fakes       map[string]DefaultRegistrable[T]
+}
+
+type DefaultRegistrable[T any] interface {
+	RegisterDefault(impl T)
 }
 
 func (d *Detox[T]) Default(impl T) {
 	d.defaultImpl = optional.Of(impl)
+	lo.ForEach(lo.Values(d.fakes), func(item DefaultRegistrable[T], _ int) {
+		item.RegisterDefault(impl)
+	})
 }
 
 func (d *Detox[T]) Reset() {
 	d.defaultImpl = optional.Empty[T]()
-	d.fakes = map[string]any{}
 	d.spies = map[string]any{}
+	d.fakes = map[string]DefaultRegistrable[T]{}
 }
 
 func getId[T any](method T) string {
@@ -51,23 +59,16 @@ func createSpy[T any, U any](mock *Detox[T], method U, id string) *spy.Spy {
 	return newSpy
 }
 
-func resolveFake[T any, U any](mock *Detox[T], method U) *fake.Fake[U] {
+func resolveFake[T any, U any](mock *Detox[T], method U) *fake.Fake[T, U] {
 	id := getId(method)
-	if f, ok := mock.fakes[id].(*fake.Fake[U]); ok {
+	if f, ok := mock.fakes[id].(*fake.Fake[T, U]); ok {
 		return f
 	}
 	return createFake(mock, method, id)
 }
 
-func createFake[T any, U any](mock *Detox[T], method U, id string) *fake.Fake[U] {
-	newFake := fake.NewFake[U](common.NewMockedMethodInfo(mock.info, method), computeFallback[T, U](mock, id))
+func createFake[T any, U any](mock *Detox[T], method U, id string) *fake.Fake[T, U] {
+	newFake := fake.NewFake[T, U](common.NewMockedMethodInfo(mock.info, method), mock.defaultImpl)
 	mock.fakes[id] = newFake
 	return newFake
-}
-
-func computeFallback[T any, U any](mock *Detox[T], id string) optional.Optional[U] {
-	return optional.Transform(mock.defaultImpl, func(real T) U {
-		candidate := phi.Value(real).MethodByName(id)
-		return candidate.Interface().(U)
-	})
 }

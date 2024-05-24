@@ -38,11 +38,11 @@ func (m *mocked[T, U]) ResolveForArgs(args ...any) U {
 }
 
 func (m *mocked[T, U]) Call(implementation U) {
-	resolveFake(m.mock, m.method).RegisterImplementation(implementation)
+	resolveFake(m.mock, m.method).Register(implementation)
 }
 
 func (m *mocked[T, U]) CallOnce(implementation U) {
-	resolveFake(m.mock, m.method).RegisterImplementationOnce(implementation)
+	resolveFake(m.mock, m.method).RegisterOnce(implementation)
 }
 
 func (m *mocked[T, U]) Reset() {

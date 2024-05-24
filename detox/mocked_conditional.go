@@ -22,9 +22,9 @@ type mockedConditionally[T any, U any] struct {
 }
 
 func (m *mockedConditionally[T, U]) Call(impl U) {
-	resolveFake(m.mock, m.method).RegisterConditionalImplementation(impl, m.forCall)
+	resolveFake(m.mock, m.method).RegisterConditional(impl, m.forCall)
 }
 
 func (m *mockedConditionally[T, U]) CallOnce(impl U) {
-	resolveFake(m.mock, m.method).RegisterConditionalImplementationOnce(impl, m.forCall)
+	resolveFake(m.mock, m.method).RegisterConditionalOnce(impl, m.forCall)
 }
