@@ -33,7 +33,10 @@ var _ = DescribeType[detox.Detox[any]](func() {
 					[]any{func() { _ = cut.NoArgSingleReturn() }},
 					[]any{func() { _, _, _ = cut.NoArgMultipleReturns() }},
 					[]any{func() { cut.SingleArgNoReturn("") }},
+					[]any{func() { _ = cut.SingleArgSingleReturn("") }},
+					[]any{func() { _, _ = cut.SingleArgMultipleReturns("") }},
 					[]any{func() { cut.MultipleArgsNoReturn(1, true, []byte("arg3")) }},
+					[]any{func() { _ = cut.MultipleArgsSingleReturn(1, true) }},
 					[]any{func() { _, _ = cut.MultipleArgsMultipleReturns(0.2, uint8(2)) }},
 				),
 			)
@@ -52,7 +55,10 @@ var _ = DescribeType[detox.Detox[any]](func() {
 					[]any{func() { _ = cut.NoArgSingleReturn() }},
 					[]any{func() { _, _, _ = cut.NoArgMultipleReturns() }},
 					[]any{func() { cut.SingleArgNoReturn("") }},
+					[]any{func() { _ = cut.SingleArgSingleReturn("") }},
+					[]any{func() { _, _ = cut.SingleArgMultipleReturns("") }},
 					[]any{func() { cut.MultipleArgsNoReturn(1, true, []byte("arg3")) }},
+					[]any{func() { _ = cut.MultipleArgsSingleReturn(1, true) }},
 					[]any{func() { _, _ = cut.MultipleArgsMultipleReturns(0.2, uint8(2)) }},
 				),
 			)
