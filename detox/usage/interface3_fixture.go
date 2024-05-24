@@ -7,7 +7,7 @@ import (
 )
 
 type Interface3 interface {
-	Method()
+	Method(string)
 }
 
 type Implementation3 struct {
@@ -16,7 +16,7 @@ type Implementation3 struct {
 
 var _ Interface3 = &Implementation3{}
 
-func (i *Implementation3) Method() {
+func (i *Implementation3) Method(_ string) {
 	i.Called = true
 }
 
@@ -30,6 +30,6 @@ type Interface3Mock struct {
 
 var _ Interface3 = Interface3Mock{}
 
-func (i Interface3Mock) Method() {
-	detox.When(i.Detox, i.Method).ResolveForArgs()()
+func (i Interface3Mock) Method(s string) {
+	detox.When(i.Detox, i.Method).ResolveForArgs(s)(s)
 }

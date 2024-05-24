@@ -11,6 +11,7 @@ This project contains several libraries that can be used individually.
 - [htntp](htntp/README.md): Standard http library helpers 
 - [phi](./phi/README.md): Reflection utilities
 - [roar](./roar/README.md): Standardized error struct
+- [testing](./testing/README.md): Test helpers for onsi/ginkgo and onsi/gomega
 
 We aim at minimizing third party dependencies.
 
@@ -20,6 +21,10 @@ We aim at minimizing third party dependencies.
 > - samber/lo
 
 We also allow cross-references between the libraries.
+
+# TODO: testing
+- create gomicron lib to simplify custom matchers creation
+- rename for gomicron (gomega) and kinggo (ginkgo)
 
 # TODO: tests
 - roar

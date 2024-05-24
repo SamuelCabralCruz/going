@@ -6,15 +6,6 @@ import (
 	"github.com/samber/lo"
 )
 
-type priority int
-
-const (
-	persistent priority = iota
-	ephemeral
-	persistentConditional
-	ephemeralConditional
-)
-
 type Registration[T any] struct {
 	implementation T
 	ephemeral      bool
@@ -44,10 +35,16 @@ func (i *Registration[T]) CanHandle(call common.Call) bool {
 	return true
 }
 
-func (i *Registration[T]) computePriority() priority {
-	conditionalCriterion := lo.If(i.IsConditional(), 1).Else(0)
-	ephemeralCriterion := lo.If(i.IsEphemeral(), 2).Else(0)
-	return priority(conditionalCriterion + ephemeralCriterion)
+func (i *Registration[T]) computePriority() int {
+	// Priorities:
+	// default implementation (-1/fallback)
+	// persistent (0)
+	// ephemeral (1)
+	// persistentConditional (2)
+	// ephemeralConditional (3)
+	ephemeralCriterion := lo.If(i.IsEphemeral(), 1).Else(0)
+	conditionalCriterion := lo.If(i.IsConditional(), 2).Else(0)
+	return conditionalCriterion + ephemeralCriterion
 }
 
 func (i *Registration[T]) HasPriorityOver(other *Registration[T]) bool {

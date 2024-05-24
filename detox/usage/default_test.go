@@ -81,7 +81,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			var defaultImpl *usage.Implementation3
 
 			BeforeEach(func() {
-				detox.When(cut.Detox, cut.Method).Call(func() {
+				detox.When(cut.Detox, cut.Method).Call(func(_ string) {
 					registeredCalled = true
 				})
 				defaultImpl = &usage.Implementation3{}
@@ -89,7 +89,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			})
 
 			It("should have priority over default implementation", func() {
-				cut.Method()
+				cut.Method("input value")
 
 				Expect(defaultImpl.Called).To(BeFalse())
 				Expect(registeredCalled).To(BeTrue())
@@ -109,7 +109,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			})
 
 			It("should override previously registered default implementation", func() {
-				cut.Method()
+				cut.Method("input value")
 
 				Expect(defaultImpl1.Called).To(BeFalse())
 				Expect(defaultImpl2.Called).To(BeTrue())

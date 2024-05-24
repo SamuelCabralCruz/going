@@ -69,18 +69,8 @@ func main() {
 	mockedPrepare.Call(func() pkg.Another { return myOtherMock })
 	mocked3Bye.Call(func(s string) { fmt.Println("it works " + s) })
 	myMock.Prepare().Bye("sam")
-
-	//fmt.Println(mockedHello.Calls())
-	//fmt.Println(mockedHello.CallsCount())
-	//fmt.Println(mockedHello.NthCall(3))
-
 	myMock.Reset()
 
-	//fmt.Println(mockedHello.Calls())
-	//fmt.Println(mockedHello.CallsCount())
-	//fmt.Println(mockedHello.NthCall(3)) // should panic
-
-	// fluent api
 	mockedHello.CallOnce(func(s string) (string, error) {
 		return "fluently faked 1", errors.New(s)
 	})
@@ -125,11 +115,6 @@ func main() {
 	fmt.Println(myMock.Hello("1st"))
 	fmt.Println(myMock.Hello("1st"))
 	fmt.Println(myMock.Hello("2nd"))
-
-	// TODO: CallThrough
-	// (provide real) (could be done using fake implementation)
-	// what if we could pass in an object to default to it...?
-	// would have the lowest priority (fallback)
 
 	// TODO: create custom matchers
 	fmt.Println(mockedHello.Assert().HasBeenCalled())
@@ -178,7 +163,4 @@ func main() {
 	// TODO: HaveCalls([][]any) -> any order
 	// TODO: HaveBeenCalledWith([]any) -> contains a calls with provided args
 	// TODO: HaveCallSequence([][]any) -> specific order
-
-	// TODO: caveats
-	// TODO: Mock return values (stub ramification)
 }
