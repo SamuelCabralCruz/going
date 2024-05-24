@@ -6,7 +6,7 @@ help:
 
 .PHONY: install
 install: ## Set up local.
-	@mise sh
+	@mise install
 	@go mod tidy
 
 ##@ Build
