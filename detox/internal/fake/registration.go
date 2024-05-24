@@ -10,8 +10,8 @@ type priority int
 
 const (
 	persistent priority = iota
-	persistentConditional
 	ephemeral
+	persistentConditional
 	ephemeralConditional
 )
 

@@ -34,7 +34,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			observed = cut.SingleArgSingleReturn("some input value")
 		}
 
-		It("should register fake implementation", func() {
+		It("should resolve fake implementation", func() {
 			act()
 
 			Expect(observed).To(Equal("this return has been mocked - some input value"))
