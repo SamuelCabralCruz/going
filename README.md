@@ -33,6 +33,7 @@ We also allow cross-references between the libraries.
 - detox
 
 # TODO: fn
+- optional ifPresent, ifAbsent, ifPresentOrElse
 - implement pop function to remove first item from slice
 - refactor optional and result to better leverage monads...
 - simplify the mapping contract

@@ -49,5 +49,19 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			Expect(func() { cut.SingleArgSingleReturn("4th additional invocation") }).NotTo(Panic())
 			Expect(func() { cut.SingleArgSingleReturn("5th additional invocation") }).NotTo(Panic())
 		})
+
+		Context("with already registered persistent implementation", func() {
+			BeforeEach(func() {
+				mocked.Call(func(_ string) string {
+					return "already registered"
+				})
+			})
+
+			It("should override the previous implementation", func() {
+				act()
+
+				Expect(observed).To(Equal("this return has been mocked - some input value"))
+			})
+		})
 	})
 })

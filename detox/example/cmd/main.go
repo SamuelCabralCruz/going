@@ -24,7 +24,7 @@ func main() {
 	mockedHello.Call(pkg.Impl{}.Hello)
 	fmt.Println(myMock.Hello("after named fake"))
 
-	// react to args
+	//react to args
 	mockedHello.Call(func(s string) (string, error) {
 		if s == "sam" {
 			return "goat", nil
@@ -32,12 +32,14 @@ func main() {
 			return "lcm", nil
 		}
 	})
+	fmt.Println(myMock.Hello("sam"))
+	fmt.Println(myMock.Hello("lcm"))
+	fmt.Println(myMock.Hello("anything else"))
 
 	mockedHello.Call(fakedNamed)
 	fakedInline := func(s string) (string, error) { return "ok", errors.New("coucou inline function " + s) }
 	mocked2Hello.Call(fakedInline)
 	fmt.Println(myMock.Hello("after named fake"))
-	fmt.Println(myMock.Hello("sam"))
 	fmt.Println(myMock2.Hello("after named fake"))
 
 	mockedHello.Call(fakedInline)
@@ -159,8 +161,9 @@ func main() {
 		common.NewCall("2nd"),
 	))
 
-	// TODO: HaveBeenCalledNth(int) -> called n times
-	// TODO: HaveCalls([][]any) -> any order
-	// TODO: HaveBeenCalledWith([]any) -> contains a calls with provided args
-	// TODO: HaveCallSequence([][]any) -> specific order
+	//TODO: HaveBeenCalledNth(int) -> called n times
+	//TODO: HaveCalls([][]any) -> any order
+	//TODO: HaveBeenCalledWith([]any) -> contains a calls with provided args
+	//TODO: HaveCallSequence([][]any) -> specific order
+
 }

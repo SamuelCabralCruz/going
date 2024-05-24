@@ -15,9 +15,11 @@ func NewFake[T any, U any](info common.MockedMethodInfo, fallback optional.Optio
 }
 
 type Fake[T any, U any] struct {
-	info          common.MockedMethodInfo
-	fallback      optional.Optional[*Registration[U]]
-	registrations []*Registration[U]
+	info                   common.MockedMethodInfo
+	fallback               optional.Optional[*Registration[U]]
+	persistent             optional.Optional[*Registration[U]]
+	persistentConditionals []*Registration[U]
+	ephemerals             []*Registration[U]
 }
 
 func (f *Fake[T, U]) RegisterDefault(impl T) {
@@ -26,23 +28,23 @@ func (f *Fake[T, U]) RegisterDefault(impl T) {
 }
 
 func (f *Fake[T, U]) Register(impl U) {
-	f.register(impl, false, optional.Empty[common.Call]())
+	f.persistent = optional.Of(NewRegistration(impl, false, optional.Empty[common.Call]()))
 }
 
 func (f *Fake[T, U]) RegisterOnce(impl U) {
-	f.register(impl, true, optional.Empty[common.Call]())
+	f.ephemerals = append(f.ephemerals, NewRegistration(impl, true, optional.Empty[common.Call]()))
 }
 
 func (f *Fake[T, U]) RegisterConditional(impl U, forCall common.Call) {
-	f.register(impl, false, optional.Of(forCall))
+	f.persistentConditionals = append(
+		lo.Filter(f.persistentConditionals, func(item *Registration[U], _ int) bool {
+			return !item.CanHandle(forCall)
+		}),
+		NewRegistration(impl, false, optional.Of(forCall)))
 }
 
 func (f *Fake[T, U]) RegisterConditionalOnce(impl U, forCall common.Call) {
-	f.register(impl, true, optional.Of(forCall))
-}
-
-func (f *Fake[T, U]) register(impl U, ephemeral bool, forCall optional.Optional[common.Call]) {
-	f.registrations = append(f.registrations, NewRegistration(impl, ephemeral, forCall))
+	f.ephemerals = append(f.ephemerals, NewRegistration(impl, true, optional.Of(forCall)))
 }
 
 func (f *Fake[T, U]) ResolveForCall(call common.Call) U {
@@ -54,14 +56,14 @@ func (f *Fake[T, U]) ResolveForCall(call common.Call) U {
 func (f *Fake[T, U]) electCandidate(call common.Call) *Registration[U] {
 	candidates := f.computeCandidates(call)
 	if len(candidates) == 0 {
-		return f.resolveFallback()
+		return f.resolveFallback(call)
 	}
 	candidate := candidates[0]
 	return candidate
 }
 
 func (f *Fake[T, U]) computeCandidates(call common.Call) []*Registration[U] {
-	candidates := lo.Filter(f.registrations, func(item *Registration[U], _ int) bool {
+	candidates := lo.Filter(f.getAllRegistrations(), func(item *Registration[U], _ int) bool {
 		return item.CanHandle(call)
 	})
 	sort.Slice(candidates, func(i, j int) bool {
@@ -70,16 +72,28 @@ func (f *Fake[T, U]) computeCandidates(call common.Call) []*Registration[U] {
 	return candidates
 }
 
-func (f *Fake[T, U]) resolveFallback() *Registration[U] {
+func (f *Fake[T, U]) getAllRegistrations() []*Registration[U] {
+	return lo.Flatten([][]*Registration[U]{
+		optional.Transform(
+			f.persistent,
+			func(r *Registration[U]) []*Registration[U] {
+				return []*Registration[U]{r}
+			}).OrElse([]*Registration[U]{}),
+		f.ephemerals,
+		f.persistentConditionals,
+	})
+}
+
+func (f *Fake[T, U]) resolveFallback(call common.Call) *Registration[U] {
 	if f.fallback.IsAbsent() {
-		panic(newMissingImplementationError(f.info))
+		panic(newMissingImplementationError(f.info, call))
 	}
 	return f.fallback.GetOrPanic()
 }
 
 func (f *Fake[T, U]) consumeEphemeralCandidate(candidate *Registration[U]) {
 	if candidate.IsEphemeral() {
-		f.registrations = lo.Filter(f.registrations, func(item *Registration[U], _ int) bool {
+		f.ephemerals = lo.Filter(f.ephemerals, func(item *Registration[U], _ int) bool {
 			return item != candidate
 		})
 	}

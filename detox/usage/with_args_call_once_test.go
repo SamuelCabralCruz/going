@@ -32,21 +32,18 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			var observed string
 
 			act := func() {
+				mocked.WithArgs(mockedArg).CallOnce(func(s string) string {
+					return fmt.Sprintf("this return has been mocked - %s", s)
+				})
 				observed = cut.SingleArgSingleReturn(providedArg)
 			}
 
 			BeforeEach(func() {
 				mockedArg = "some input value"
-				mocked.WithArgs(mockedArg).CallOnce(func(s string) string {
-					return fmt.Sprintf("this return has been mocked - %s", s)
-				})
+				providedArg = mockedArg
 			})
 
 			Context("with matching arguments invocation", func() {
-				BeforeEach(func() {
-					providedArg = mockedArg
-				})
-
 				It("should register fake implementation", func() {
 					act()
 
@@ -67,6 +64,22 @@ var _ = DescribeType[detox.Detox[any]](func() {
 
 				It("should not resolve fake implementation", func() {
 					Expect(act).To(PanicWith(BeAssignableToTypeOf(fake.MissingImplementationError{})))
+				})
+			})
+
+			Context("with already registered ephemeral conditional implementation", func() {
+				BeforeEach(func() {
+					mocked.WithArgs(mockedArg).CallOnce(func(_ string) string {
+						return "already registered"
+					})
+				})
+
+				It("should accumulate ephemeral implementations and resolve them in order", func() {
+					act()
+
+					Expect(observed).To(Equal("already registered"))
+					Expect(cut.SingleArgSingleReturn(providedArg)).To(Equal("this return has been mocked - some input value"))
+					Expect(func() { cut.SingleArgSingleReturn(providedArg) }).To(Panic())
 				})
 			})
 		})

@@ -43,7 +43,23 @@ var _ = DescribeType[detox.Detox[any]](func() {
 		It("should be ephemeral", func() {
 			act()
 
-			Expect(func() { cut.SingleArgSingleReturn("some input") }).To(Panic())
+			Expect(func() { cut.SingleArgSingleReturn("some input value") }).To(Panic())
+		})
+
+		Context("with already registered ephemeral implementation", func() {
+			BeforeEach(func() {
+				mocked.CallOnce(func(_ string) string {
+					return "already registered"
+				})
+			})
+
+			It("should accumulate ephemeral implementations and resolve them in order", func() {
+				act()
+
+				Expect(observed).To(Equal("already registered"))
+				Expect(cut.SingleArgSingleReturn("some other input value")).To(Equal("this return has been mocked - some other input value"))
+				Expect(func() { cut.SingleArgSingleReturn("some input") }).To(Panic())
+			})
 		})
 	})
 })
