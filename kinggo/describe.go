@@ -1,4 +1,4 @@
-package testing
+package kinggo
 
 import (
 	"github.com/SamuelCabralCruz/went/phi"

@@ -8,10 +8,11 @@ This project contains several libraries that can be used individually.
 - [botox](./botox/README.md): DI framework using generics
 - [detox](./detox/README.md): Mock framework using generics
 - [fn](./fn/README.md): Functional patterns utilities
+- [gomicron](./gomicron/README.md): Test helpers for onsi/gomega
 - [htntp](htntp/README.md): Standard http library helpers 
+- [kinggo](kinggo/README.md): Test helpers for onsi/ginkgo
 - [phi](./phi/README.md): Reflection utilities
 - [roar](./roar/README.md): Standardized error struct
-- [testing](./testing/README.md): Test helpers for onsi/ginkgo and onsi/gomega
 
 We aim at minimizing third party dependencies.
 
@@ -24,7 +25,6 @@ We also allow cross-references between the libraries.
 
 # TODO: testing
 - create gomicron lib to simplify custom matchers creation
-- rename for gomicron (gomega) and kinggo (ginkgo)
 
 # TODO: tests
 - roar
@@ -49,17 +49,25 @@ graph TB
     BOTOX[botox];
     DETOX[detox];
     FN[fn];
+    GOMICRON[gomicron];
     HTNTP[htntp];
+    KINGGO[kinggo];
     PHI[phi];
     ROAR[roar];
-    TESTING[testing];
 
-    BOTOX -.-> TESTING;
-    DETOX -.-> TESTING;
-    FN -.-> TESTING;
-    HTNTP -.-> TESTING;
-    PHI -.-> TESTING;
-    ROAR -.-> TESTING;
+    BOTOX -.-> KINGGO;
+    DETOX -.-> KINGGO;
+    FN -.-> KINGGO;
+    HTNTP -.-> KINGGO;
+    PHI -.-> KINGGO;
+    ROAR -.-> KINGGO;
+
+    BOTOX -.-> GOMICRON;
+    DETOX -.-> GOMICRON;
+    FN -.-> GOMICRON;
+    HTNTP -.-> GOMICRON;
+    PHI -.-> GOMICRON;
+    ROAR -.-> GOMICRON;
 
     BOTOX --> FN;
     BOTOX --> PHI;
@@ -71,12 +79,14 @@ graph TB
     
     FN --> PHI;
     FN --> ROAR;
+
+    GOMICRON --> PHI;
     
     HTNTP --> FN;
-    
+
+    KINGGO --> PHI;
+
     ROAR --> PHI;
-    
-    TESTING --> PHI;
 ```
 
 # Getting Started

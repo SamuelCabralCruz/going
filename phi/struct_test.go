@@ -3,8 +3,8 @@
 package phi_test
 
 import (
+	. "github.com/SamuelCabralCruz/went/kinggo"
 	"github.com/SamuelCabralCruz/went/phi"
-	. "github.com/SamuelCabralCruz/went/testing"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

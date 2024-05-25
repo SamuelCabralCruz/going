@@ -51,7 +51,7 @@ func main() {
 		}
 	})
 	fmt.Println(myMock.Hello("sam"))
-	fmt.Println(myMock.Hello("lcm"))
+	fmt.Println(myMock.Hello("louis-charles"))
 	fmt.Println(myMock.Hello("anything else"))
 
 	mockedHello.Call(fakedNamed)

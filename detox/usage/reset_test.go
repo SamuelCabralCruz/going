@@ -6,7 +6,7 @@ import (
 	"github.com/SamuelCabralCruz/went/detox"
 	"github.com/SamuelCabralCruz/went/detox/internal/fake"
 	"github.com/SamuelCabralCruz/went/detox/usage"
-	. "github.com/SamuelCabralCruz/went/testing"
+	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

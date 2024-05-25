@@ -3,7 +3,7 @@
 package roar_test
 
 import (
-	. "github.com/SamuelCabralCruz/went/testing"
+	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"testing"
