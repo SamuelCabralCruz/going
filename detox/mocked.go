@@ -2,11 +2,16 @@ package detox
 
 import (
 	"github.com/SamuelCabralCruz/went/detox/internal/common"
+	"github.com/SamuelCabralCruz/went/phi"
 )
 
 func When[T any, U any](mock *Detox[T], method U) Mocked[U] {
+	info := common.NewMockedMethodInfo(mock.info, method)
+	if _, err := phi.GetMatchingInterfaceMethod[T, U](method); err != nil {
+		panic(newInterfaceMethodMismatchError(info, err.Error()))
+	}
 	return &mocked[T, U]{
-		info:   common.NewMockedMethodInfo(mock.info, method),
+		info:   info,
 		mock:   mock,
 		method: method,
 	}

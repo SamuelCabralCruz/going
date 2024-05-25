@@ -13,15 +13,11 @@ func Value[T any](value T) reflect.Value {
 	return reflect.ValueOf(value)
 }
 
-func InterfaceToPtr[T any]() *T {
-	return (*T)(nil)
-}
-
 func Type[T any]() reflect.Type {
 	empty := Empty[T]()
 	typeOf := reflect.TypeOf(empty)
 	if typeOf == nil {
-		return reflect.TypeOf(InterfaceToPtr[T]()).Elem()
+		return InterfaceToType[T]()
 	}
 	return typeOf
 }

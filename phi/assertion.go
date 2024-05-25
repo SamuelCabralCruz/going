@@ -35,7 +35,7 @@ func compareBySerialization(value any, zeroValue any) bool {
 	return fmt.Sprintf("%+v", value) == fmt.Sprintf("%+v", zeroValue)
 }
 
-func IsImplementing[T any](value any) bool {
+func IsTypeOf[T any](value any) bool {
 	_, ok := value.(T)
 	return ok
 }

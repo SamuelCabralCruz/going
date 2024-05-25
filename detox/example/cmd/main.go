@@ -10,6 +10,11 @@ import (
 
 func fakedNamed(s string) (string, error) { return "ok", errors.New("coucou named function " + s) }
 
+type A struct {
+}
+
+func (_ A) Hello() {}
+
 func main() {
 	myMock := pkg.NewSomeMockClass()
 	mockedHello := detox.When(myMock.Detox, myMock.Hello)
@@ -19,6 +24,19 @@ func main() {
 	mocked2Hello := detox.When(myMock2.Detox, myMock2.Hello)
 	myOtherMock := pkg.NewAnotherMockClass()
 	mocked3Bye := detox.When(myOtherMock.Detox, myOtherMock.Bye)
+
+	// with implementation mismatch
+
+	//detox.When(myMock.Detox, myMock.Hello).Call(func(s string) (string, error) {
+	//	return "", nil
+	//})
+
+	//detox.When(myMock.Detox, A.Hello).Call(func(a A) {
+	//})
+
+	//detox.When(myMock.Detox, myOtherMock.Bye).Call(func(s string) {
+	//	fmt.Println("coucou caliss")
+	//})
 
 	// real impl
 	mockedHello.Call(pkg.Impl{}.Hello)
