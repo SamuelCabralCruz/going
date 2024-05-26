@@ -4,16 +4,16 @@ package usage_test
 
 import (
 	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/usage"
+	"github.com/SamuelCabralCruz/went/detox/usage/fixture"
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
 var _ = DescribeType[detox.Detox[any]](func() {
-	var nestedMock usage.Interface1Mock
-	var parentMock usage.Interface2Mock
-	var mockedProvider detox.Mocked[func() usage.Interface1]
+	var nestedMock fixture.Interface1Mock
+	var parentMock fixture.Interface2Mock
+	var mockedProvider detox.Mocked[func() fixture.Interface1]
 	var mockedNested detox.Mocked[func(string) string]
 	var observed string
 	var expected string
@@ -23,11 +23,11 @@ var _ = DescribeType[detox.Detox[any]](func() {
 	}
 
 	BeforeEach(func() {
-		nestedMock = usage.NewInterface1Mock()
-		parentMock = usage.NewInterface2Mock()
+		nestedMock = fixture.NewInterface1Mock()
+		parentMock = fixture.NewInterface2Mock()
 		mockedProvider = detox.When(parentMock.Detox, parentMock.ReturnAnotherInterface)
 		mockedNested = detox.When(nestedMock.Detox, nestedMock.SingleArgSingleReturn)
-		mockedProvider.Call(func() usage.Interface1 {
+		mockedProvider.Call(func() fixture.Interface1 {
 			return nestedMock
 		})
 		expected = "property mocked"

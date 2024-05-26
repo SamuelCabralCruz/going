@@ -5,7 +5,7 @@ package usage_test
 import (
 	"github.com/SamuelCabralCruz/went/detox"
 	"github.com/SamuelCabralCruz/went/detox/internal/fake"
-	"github.com/SamuelCabralCruz/went/detox/usage"
+	"github.com/SamuelCabralCruz/went/detox/usage/fixture"
 	"github.com/SamuelCabralCruz/went/fn"
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
@@ -13,10 +13,10 @@ import (
 )
 
 var _ = DescribeType[detox.Detox[any]](func() {
-	var cut usage.Interface1Mock
+	var cut fixture.Interface1Mock
 
 	BeforeEach(func() {
-		cut = usage.NewInterface1Mock()
+		cut = fixture.NewInterface1Mock()
 	})
 
 	AfterEach(func() {
@@ -44,7 +44,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 
 		Context("with default implementation", func() {
 			BeforeEach(func() {
-				cut.Default(usage.Implementation1{})
+				cut.Default(fixture.Implementation1{})
 			})
 
 			DescribeTable("should invoke default implementation", func(act func()) {
@@ -67,7 +67,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 		Context("with already existing fake", func() {
 			BeforeEach(func() {
 				_ = fn.Prevent(cut.NoArgNoReturn)
-				cut.Default(usage.Implementation1{})
+				cut.Default(fixture.Implementation1{})
 			})
 
 			It("should propagate newly registered default implementation", func() {
@@ -76,15 +76,15 @@ var _ = DescribeType[detox.Detox[any]](func() {
 		})
 
 		Context("with registered method", func() {
-			cut := usage.NewInterface3Mock()
+			cut := fixture.NewInterface3Mock()
 			var registeredCalled bool
-			var defaultImpl *usage.Implementation3
+			var defaultImpl *fixture.Implementation3
 
 			BeforeEach(func() {
 				detox.When(cut.Detox, cut.Method).Call(func(_ string) {
 					registeredCalled = true
 				})
-				defaultImpl = &usage.Implementation3{}
+				defaultImpl = &fixture.Implementation3{}
 				cut.Default(defaultImpl)
 			})
 
@@ -97,13 +97,13 @@ var _ = DescribeType[detox.Detox[any]](func() {
 		})
 
 		Context("with already registered default implementation", func() {
-			cut := usage.NewInterface3Mock()
-			var defaultImpl1 *usage.Implementation3
-			var defaultImpl2 *usage.Implementation3
+			cut := fixture.NewInterface3Mock()
+			var defaultImpl1 *fixture.Implementation3
+			var defaultImpl2 *fixture.Implementation3
 
 			BeforeEach(func() {
-				defaultImpl1 = &usage.Implementation3{}
-				defaultImpl2 = &usage.Implementation3{}
+				defaultImpl1 = &fixture.Implementation3{}
+				defaultImpl2 = &fixture.Implementation3{}
 				cut.Default(defaultImpl1)
 				cut.Default(defaultImpl2)
 			})

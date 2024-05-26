@@ -29,7 +29,3 @@ func (s *singleton[T]) Resolve() (T, error) {
 	s.reference = result.FromTuple(s.token.Resolve())
 	return s.reference.Get()
 }
-
-func (s *singleton[T]) MustResolve() T {
-	return s.reference.GetOrPanic()
-}

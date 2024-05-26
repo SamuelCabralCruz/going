@@ -23,14 +23,13 @@ We aim at minimizing third party dependencies.
 
 We also allow cross-references between the libraries.
 
-# TODO: testing
-- create gomicron lib to simplify custom matchers creation
-
 # TODO: tests
+- botox
 - roar
 - fn
-- botox
-- detox
+
+# TODO: gomicron
+- create gomicron lib to simplify custom matchers creation
 
 # TODO: fn
 - optional ifPresent, ifAbsent, ifPresentOrElse

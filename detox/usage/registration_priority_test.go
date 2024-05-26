@@ -4,16 +4,16 @@ package usage_test
 
 import (
 	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/usage"
+	"github.com/SamuelCabralCruz/went/detox/usage/fixture"
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
 var _ = DescribeType[detox.Detox[any]](func() {
-	var cut usage.Interface3Mock
+	var cut fixture.Interface3Mock
 	var mocked detox.Mocked[func(string)]
-	var defaultImplementation *usage.Implementation3
+	var defaultImplementation *fixture.Implementation3
 	var persistentCalled bool
 	var ephemeralCalled bool
 	var persistentConditionalCalled bool
@@ -25,7 +25,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 	}
 
 	BeforeEach(func() {
-		cut = usage.NewInterface3Mock()
+		cut = fixture.NewInterface3Mock()
 		mocked = detox.When(cut.Detox, cut.Method)
 		persistentCalled = false
 		ephemeralCalled = false
@@ -39,7 +39,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 	})
 
 	givenDefaultImplementation := func() {
-		defaultImplementation = &usage.Implementation3{}
+		defaultImplementation = &fixture.Implementation3{}
 		cut.Default(defaultImplementation)
 	}
 

@@ -44,6 +44,10 @@ func register[T any](provider fn.Producer[T], tokenGenerator func(fn.Producer[T]
 	t := phi.UniqueIdentifier[T]()
 	tokens := optional.OfNullable(container[t]).OrElse([]any{})
 	container[t] = append(tokens, tokenGenerator(provider))
+	// TODO: verify if needed
+	//container[t] = append(tokens, tokenGenerator(func() (T, error) {
+	//	return fn.Try(provider)
+	//}))
 }
 
 func ResolveAll[T any]() (instances []T, err error) {
@@ -53,10 +57,12 @@ func ResolveAll[T any]() (instances []T, err error) {
 			if r, ok := token.(it.InjectionToken[T]); ok {
 				return result.FromTuple(r.Resolve())
 			}
+			// TODO: is this really possible? - remove otherwise
 			return result.Error[T](newProvidingLoopError())
 		})...).Get()
 
 	if err != nil {
+		// TODO: test using panic and producer
 		return tuple.FromError[[]T](err)
 	}
 
@@ -92,4 +98,8 @@ func MustResolve[T any]() T {
 		panic(err)
 	}
 	return instance
+}
+
+func Clear() {
+	container = map[string][]any{}
 }

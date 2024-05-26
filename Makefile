@@ -30,3 +30,8 @@ test-local: ## Run tests with coverage.
 .PHONY: test-local-verbose
 test-local-verbose: ## Run tests with verbose.
 	@ginkgo -tags=test -r -v ./...
+
+.PHONY: coverage-report
+coverage-report:
+	@make test-local
+	@open coverage/coverage.html

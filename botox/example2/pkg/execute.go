@@ -3,8 +3,8 @@ package pkg
 import (
 	"fmt"
 	"github.com/SamuelCabralCruz/went/botox"
-	"github.com/SamuelCabralCruz/went/botox/internal/example/pkg/model1"
-	"github.com/SamuelCabralCruz/went/botox/internal/example/pkg/model2"
+	"github.com/SamuelCabralCruz/went/botox/example2/pkg/model1"
+	"github.com/SamuelCabralCruz/went/botox/example2/pkg/model2"
 	"github.com/SamuelCabralCruz/went/fn"
 )
 

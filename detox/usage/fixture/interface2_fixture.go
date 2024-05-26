@@ -1,6 +1,6 @@
 //go:build test
 
-package usage
+package fixture
 
 import (
 	"github.com/SamuelCabralCruz/went/detox"

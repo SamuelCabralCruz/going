@@ -4,7 +4,7 @@ package usage_test
 
 import (
 	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/usage"
+	"github.com/SamuelCabralCruz/went/detox/usage/fixture"
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -12,7 +12,7 @@ import (
 
 var _ = DescribeType[detox.Detox[any]](func() {
 	DescribeFunction(detox.When[any, any], func() {
-		var cut usage.Interface2Mock
+		var cut fixture.Interface2Mock
 		var method any
 
 		act := func() {
@@ -20,12 +20,12 @@ var _ = DescribeType[detox.Detox[any]](func() {
 		}
 
 		BeforeEach(func() {
-			cut = usage.NewInterface2Mock()
+			cut = fixture.NewInterface2Mock()
 		})
 
 		Context("with method name not belonging to mocked interface", func() {
 			BeforeEach(func() {
-				method = usage.NewInterface3Mock().Method
+				method = fixture.NewInterface3Mock().Method
 			})
 
 			It("should panic", func() {
@@ -35,7 +35,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 
 		Context("with method type not matching interface method type", func() {
 			BeforeEach(func() {
-				method = usage.NewInterface3Mock().AnotherMethod
+				method = fixture.NewInterface3Mock().AnotherMethod
 			})
 
 			It("should panic", func() {
