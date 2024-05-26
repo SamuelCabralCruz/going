@@ -2,11 +2,11 @@
 
 package usage_test
 
-// TODO: test registration of ptr singleton vs non singleton
+// TODO: test multiple implementation on interface
 
 // TODO: test mutation of singleton vs non singleton
 
-// TODO: test multiple implementation on interface
+// TODO: test registration of ptr singleton vs non singleton
 
 // TODO: test producer returning error
 
