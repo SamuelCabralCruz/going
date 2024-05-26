@@ -43,15 +43,11 @@ func RegisterSingletonInstance[T any](instance T) {
 func register[T any](provider fn.Producer[T], tokenGenerator func(fn.Producer[T]) it.InjectionToken[T]) {
 	t := phi.UniqueIdentifier[T]()
 	tokens := optional.OfNullable(container[t]).OrElse([]any{})
-	container[t] = append(tokens, tokenGenerator(provider))
-	// TODO: verify if needed
-	//container[t] = append(tokens, tokenGenerator(func() (T, error) {
-	//	return fn.Try(provider)
-	//}))
+	container[t] = append(tokens, tokenGenerator(fn.ToSafeProducer(provider)))
 }
 
-func ResolveAll[T any]() (instances []T, err error) {
-	instances, err = result.Combine(lo.Map(
+func ResolveAll[T any]() ([]T, error) {
+	instances, err := result.Combine(lo.Map(
 		container[phi.UniqueIdentifier[T]()],
 		func(token any, _ int) result.Result[T] {
 			if r, ok := token.(it.InjectionToken[T]); ok {

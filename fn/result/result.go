@@ -180,7 +180,10 @@ func Combine[T any](results ...Result[T]) Result[[]T] {
 				errors = append(errors, result.Error())
 			}
 		})
-	if len(errors) > 0 {
+	if len(errors) == 1 {
+		return Error[[]T](errors[0])
+	}
+	if len(errors) > 1 {
 		return Error[[]T](roar.NewAggregatedError(errors...))
 	}
 	return Ok(acc)

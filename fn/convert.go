@@ -20,6 +20,12 @@ func ToProducer[T any](supply Supplier[T]) Producer[T] {
 	}
 }
 
+func ToSafeProducer[T any](producer Producer[T]) Producer[T] {
+	return func() (T, error) {
+		return Try(producer)
+	}
+}
+
 func ToTryableMapper[T any](mapper Mapper[T]) TryableMapper[T] {
 	return func(value T) (T, error) {
 		return Safe(func() T {

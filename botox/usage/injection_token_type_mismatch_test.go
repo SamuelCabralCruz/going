@@ -2,13 +2,6 @@
 
 package usage_test
 
-// TODO: test producer returning error
-
-// TODO: test panic during supplier
-// TODO: test panic during supplier singleton
-// TODO: test panic during producer
-// TODO: test panic during producer singleton
-
 // TODO: impossible...
 // TODO: Remove unnecessary logic associated to this use case
 //var _ = DescribeFunction(botox.RegisterInstance[any], func() {
