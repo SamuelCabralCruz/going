@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/example"
+	"github.com/SamuelCabralCruz/went/detox/example/00_boilerplate"
 )
 
 type SomeOtherInterface interface {
