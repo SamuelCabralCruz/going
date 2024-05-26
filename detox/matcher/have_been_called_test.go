@@ -5,7 +5,7 @@ package matcher_test
 import (
 	"errors"
 	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/example/pkg"
+	"github.com/SamuelCabralCruz/went/detox/example2/pkg"
 	"github.com/SamuelCabralCruz/went/detox/matcher"
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"

@@ -39,7 +39,6 @@ var _ = DescribeType[detox.Detox[any]](func() {
 			})
 
 			It("should panic", func() {
-				act()
 				Expect(act).To(PanicWith(BeAssignableToTypeOf(detox.InterfaceMethodMismatchError{})))
 			})
 		})

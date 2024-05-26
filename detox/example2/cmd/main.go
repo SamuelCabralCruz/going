@@ -4,8 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/example/pkg"
-	"github.com/SamuelCabralCruz/went/detox/internal/common"
+	"github.com/SamuelCabralCruz/went/detox/example2/pkg"
 )
 
 func fakedNamed(s string) (string, error) { return "ok", errors.New("coucou named function " + s) }
@@ -142,41 +141,41 @@ func main() {
 	fmt.Println(mockedHello.Assert().HasBeenCalledOnce())
 	fmt.Println(mockedHello.Assert().HasBeenCalledWith("1st"))
 	fmt.Println(mockedHello.Assert().HasBeenCalledWith("4th"))
-	fmt.Println(mockedHello.Assert().HasNthCall(1, common.NewCall("2nd")))
+	fmt.Println(mockedHello.Assert().HasNthCall(1, detox.Call{"2nd"}))
 	fmt.Println(mockedHello.Assert().HasBeenCalledTimesWith(2, "2nd"))
-	fmt.Println(mockedHello.Assert().HasCalls(common.NewCall("2nd"), common.NewCall("2nd"), common.NewCall("2nd")))
-	fmt.Println(mockedHello.Assert().HasCalls(common.NewCall("2nd"), common.NewCall("2nd")))
-	fmt.Println(mockedHello.Assert().HasCalls(common.NewCall("2nd"), common.NewCall("1st"), common.NewCall("2nd")))
-	fmt.Println(mockedHello.Assert().HasOrderedCalls(common.NewCall("2nd"), common.NewCall("1st"), common.NewCall("2nd")))
+	fmt.Println(mockedHello.Assert().HasCalls(detox.Call{"2nd"}, detox.Call{"2nd"}, detox.Call{"2nd"}))
+	fmt.Println(mockedHello.Assert().HasCalls(detox.Call{"2nd"}, detox.Call{"2nd"}))
+	fmt.Println(mockedHello.Assert().HasCalls(detox.Call{"2nd"}, detox.Call{"1st"}, detox.Call{"2nd"}))
+	fmt.Println(mockedHello.Assert().HasOrderedCalls(detox.Call{"2nd"}, detox.Call{"1st"}, detox.Call{"2nd"}))
 	fmt.Println(mockedHello.Assert().HasOrderedCalls(
-		common.NewCall("1st"),
-		common.NewCall("2nd"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("2nd"),
+		detox.Call{"1st"},
+		detox.Call{"2nd"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"2nd"},
 	))
 	fmt.Println(mockedHello.Assert().HasOrderedCalls(
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("2nd"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("2nd"),
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"2nd"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"2nd"},
 	))
 	fmt.Println(mockedHello.Assert().HasCalls(
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("2nd"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("1st"),
-		common.NewCall("2nd"),
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"2nd"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"1st"},
+		detox.Call{"2nd"},
 	))
 
 	//TODO: HaveBeenCalledNth(int) -> called n times

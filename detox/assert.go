@@ -16,6 +16,8 @@ type Assertable interface {
 	Assert() Asserter
 }
 
+type Call []any
+
 type Asserter interface {
 	HasBeenCalled() bool
 	HasBeenCalledOnce() bool
@@ -23,9 +25,9 @@ type Asserter interface {
 	HasBeenCalledWith(...any) bool
 	HasBeenCalledOnceWith(...any) bool
 	HasBeenCalledTimesWith(int, ...any) bool
-	HasCalls(...common.Call) bool
-	HasNthCall(int, common.Call) bool
-	HasOrderedCalls(...common.Call) bool
+	HasCalls(...Call) bool
+	HasNthCall(int, Call) bool
+	HasOrderedCalls(...Call) bool
 }
 
 type asserter[T any, U any] struct {
@@ -75,11 +77,11 @@ func (a *asserter[T, U]) HasBeenCalledTimesWith(times int, args ...any) bool {
 }
 
 // HasCalls Assert that mock has specified calls
-func (a *asserter[T, U]) HasCalls(calls ...common.Call) bool {
+func (a *asserter[T, U]) HasCalls(calls ...Call) bool {
 	candidates := a.Calls()
 	for _, expected := range calls {
 		_, index, ok := lo.FindIndexOf(candidates, func(observed common.Call) bool {
-			return observed.EqualTo(expected)
+			return observed.EqualTo(common.NewCall(expected...))
 		})
 		if ok == false {
 			return false
@@ -90,12 +92,12 @@ func (a *asserter[T, U]) HasCalls(calls ...common.Call) bool {
 }
 
 // HasNthCall Assert that mock has specified nth call
-func (a *asserter[T, U]) HasNthCall(index int, call common.Call) bool {
-	return a.NthCall(index).EqualTo(call)
+func (a *asserter[T, U]) HasNthCall(index int, call Call) bool {
+	return a.NthCall(index).EqualTo(common.NewCall(call...))
 }
 
 // HasOrderedCalls Assert that mock has specified calls
-func (a *asserter[T, U]) HasOrderedCalls(calls ...common.Call) bool {
+func (a *asserter[T, U]) HasOrderedCalls(calls ...Call) bool {
 	if a.CallsCount() != len(calls) {
 		return false
 	}
