@@ -5,16 +5,6 @@ import (
 	"reflect"
 )
 
-type ProvidingLoopError struct {
-	roar.Roar[ProvidingLoopError]
-}
-
-func newProvidingLoopError() ProvidingLoopError {
-	return ProvidingLoopError{
-		roar.New[ProvidingLoopError]("unexpected error occurred during resolution loop"),
-	}
-}
-
 type NoCandidateFoundError struct {
 	roar.Roar[NoCandidateFoundError]
 }

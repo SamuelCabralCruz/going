@@ -50,15 +50,11 @@ func ResolveAll[T any]() ([]T, error) {
 	instances, err := result.Combine(lo.Map(
 		container[phi.UniqueIdentifier[T]()],
 		func(token any, _ int) result.Result[T] {
-			if r, ok := token.(it.InjectionToken[T]); ok {
-				return result.FromTuple(r.Resolve())
-			}
-			// TODO: is this really possible? - remove otherwise
-			return result.Error[T](newProvidingLoopError())
+			r := token.(it.InjectionToken[T])
+			return result.FromTuple(r.Resolve())
 		})...).Get()
 
 	if err != nil {
-		// TODO: test using panic and producer
 		return tuple.FromError[[]T](err)
 	}
 
