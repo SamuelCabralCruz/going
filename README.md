@@ -8,7 +8,7 @@ This project contains several libraries that can be used individually.
 - [botox](./botox/README.md): DI framework using generics
 - [detox](./detox/README.md): Mock framework using generics
 - [fn](./fn/README.md): Functional patterns utilities
-- [gomicron](./gomicron/README.md): Test helpers for onsi/gomega
+- [gomicron](./gomicron/README.md): Helpers to simplify onsi/gomega custom matcher creation.
 - [htntp](htntp/README.md): Standard http library helpers 
 - [kinggo](kinggo/README.md): Test helpers for onsi/ginkgo
 - [phi](./phi/README.md): Reflection utilities
@@ -23,13 +23,13 @@ We aim at minimizing third party dependencies.
 
 We also allow cross-references between the libraries.
 
+# TODO: gomicron
+- message builder dynamic factory using interfaces and complete since beginning
+- create gomicron lib to simplify custom matchers creation
+
 # TODO: tests
-- botox
 - roar
 - fn
-
-# TODO: gomicron
-- create gomicron lib to simplify custom matchers creation
 
 # TODO: fn
 - optional ifPresent, ifAbsent, ifPresentOrElse

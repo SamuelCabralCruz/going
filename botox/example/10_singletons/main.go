@@ -43,4 +43,25 @@ func main() {
 	// Side Note:
 	// Please observe the resolution of a pointer on `example.SomeStruct` even
 	// if the registered supplier returns an `example.SomeStruct` value.
+
+	// The quicker among you might have realized that registering a pointer on
+	// a value is equivalent to registering the singleton of the underlying value.
+
+	// In the following table, we disclose the association between the registration
+	// and the resolution depending on the Botox function used.
+
+	// | Registered         | Function                        | Resolved |
+	// | ------------------ | ------------------------------- | -------- |
+	// | T                  | botox.RegisterInstance          | T        |
+	// | func() T           | botox.RegisterSupplier          | T        |
+	// | func() (T, error)  | botox.RegisterProducer          | T        |
+	// | *T                 | botox.RegisterInstance          | *T       |
+	// | func() *T          | botox.RegisterSupplier          | *T       |
+	// | func() (*T, error) | botox.RegisterProducer          | *T       |
+	// | T                  | botox.RegisterSingletonInstance | *T       |
+	// | func() T           | botox.RegisterSingletonSupplier | *T       |
+	// | func() (T, error)  | botox.RegisterSingletonProducer | *T       |
+	// | *T                 | botox.RegisterSingletonInstance | **T      |
+	// | func() *T          | botox.RegisterSingletonSupplier | **T      |
+	// | func() (*T, error) | botox.RegisterSingletonProducer | **T      |
 }
