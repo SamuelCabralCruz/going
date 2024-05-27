@@ -2,13 +2,32 @@
 
 package example
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // Using Botox, you can leverage an injection token pattern to build an ambient
 // container containing all your instances, suppliers, and/or producers.
 
+// In short, it is a dependency injection (DI) framework using golang generics.
+
 // Before demonstrating all its capacities, let's first define some fixtures we
 // will reuse across the examples.
+
+func NewSomeStruct() SomeStruct {
+	return SomeStruct{
+		timestamp: time.Now().Nanosecond(),
+	}
+}
+
+type SomeStruct struct {
+	timestamp int
+}
+
+func (s SomeStruct) Describe() string {
+	return fmt.Sprintf("some struct - %d", s.timestamp)
+}
 
 type SomeInterface interface {
 	Method(string) string
