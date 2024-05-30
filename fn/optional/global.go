@@ -2,12 +2,13 @@ package optional
 
 import (
 	"github.com/SamuelCabralCruz/went/fn"
+	"github.com/SamuelCabralCruz/went/fn/typing"
 	"github.com/samber/lo"
 )
 
-func Transform[T any, U any](value Optional[T], transform fn.Transformer[T, U]) Optional[U] {
+func Transform[T any, U any](value Optional[T], transformer typing.Transformer[T, U]) Optional[U] {
 	if value.IsPresent() {
-		return Of(transform(value.GetOrPanic()))
+		return FromAssertion(fn.SafeTransformer(transformer, value.GetOrPanic()))
 	}
 	return Empty[U]()
 }

@@ -66,7 +66,7 @@ var _ = DescribeType[detox.Detox[any]](func() {
 
 		Context("with already existing fake", func() {
 			BeforeEach(func() {
-				_ = fn.Prevent(cut.NoArgNoReturn)
+				_ = fn.SafeCallable(cut.NoArgNoReturn)
 				cut.Default(fixture.Implementation1{})
 			})
 

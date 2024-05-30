@@ -15,7 +15,7 @@ install: ## Set up local.
 
 .PHONY: build
 build: ## Build project.
-	@go build -tags=test ./...
+	@go build -tags=test,example ./...
 
 ##@ Test
 

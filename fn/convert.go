@@ -1,51 +1,74 @@
 package fn
 
-import "github.com/SamuelCabralCruz/went/phi"
+import (
+	"github.com/SamuelCabralCruz/went/fn/tuple/assertion"
+	"github.com/SamuelCabralCruz/went/fn/tuple/validation"
+	"github.com/SamuelCabralCruz/went/fn/typing"
+	"github.com/SamuelCabralCruz/went/phi"
+)
 
-func ToSupplier[T any](value T) Supplier[T] {
+func ValueToSupplier[T any](value T) typing.Supplier[T] {
 	return func() T {
 		return value
 	}
 }
 
-func ToMapper[T any](supply Supplier[T]) Mapper[T] {
+func SupplierToProducer[T any](supplier typing.Supplier[T]) typing.Producer[T] {
+	return func() (T, error) {
+		return supplier(), nil
+	}
+}
+
+func ProducerToSupplier[T any](producer typing.Producer[T]) typing.Supplier[T] {
+	return func() T {
+		return assertion.GetOrPanic(producer())
+	}
+}
+
+func SupplierToMapper[T any](supplier typing.Supplier[T]) typing.Mapper[T] {
 	return func(_ T) T {
-		return supply()
+		return supplier()
 	}
 }
 
-func ToProducer[T any](supply Supplier[T]) Producer[T] {
-	return func() (T, error) {
-		return Safe(supply)
+func MapperToSupplier[T any](mapper typing.Mapper[T], value T) func() T {
+	return func() T {
+		return mapper(value)
 	}
 }
 
-func ToSafeProducer[T any](producer Producer[T]) Producer[T] {
-	return func() (T, error) {
-		return Try(producer)
+func MapperToTransformer[T any](mapper typing.Mapper[T]) typing.Transformer[T, T] {
+	return func(value T) T {
+		return mapper(value)
 	}
 }
 
-func ToTryableMapper[T any](mapper Mapper[T]) TryableMapper[T] {
-	return func(value T) (T, error) {
-		return Safe(func() T {
-			return mapper(value)
-		})
+func AsserterToValidator[T any](asserter typing.Asserter[T]) typing.Validator[T] {
+	return func(value any) (T, bool) {
+		asserted, err := asserter(value)
+		return asserted, err == nil
 	}
 }
 
-func ToTryableErrorMapper[T any](mapper Mapper[error]) TryableErrorMapper[T] {
-	return func(err error) (T, error) {
-		return Try(func() (T, error) {
-			return phi.Empty[T](), mapper(err)
-		})
+func ValidatorToPredicate[T any](validator typing.Validator[T]) typing.Predicate[any] {
+	return func(value any) bool {
+		_, ok := validator(value)
+		return ok
 	}
 }
 
-func ToTryableTransformer[T any, U any](transformer Transformer[T, U]) TryableTransformer[T, U] {
-	return func(value T) (U, error) {
-		return Safe(func() U {
-			return transformer(value)
-		})
+func PredicateToValidator[T any](predicate typing.Predicate[T]) typing.Validator[T] {
+	return func(value any) (T, bool) {
+		v, ok := value.(T)
+		if ok && predicate(v) {
+			return v, true
+		}
+		return phi.Empty[T](), false
+	}
+}
+
+func ValidatorToAsserter[T any](validator typing.Validator[T]) typing.Asserter[T] {
+	return func(value any) (T, error) {
+		return validation.ToAssertion(validator(value))
 	}
 }

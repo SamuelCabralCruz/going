@@ -10,7 +10,7 @@ import (
 var httpUtilDumpResponse = httputil.DumpResponse
 
 func DumpResponse(response *http.Response) (string, error) {
-	return result.Transform(result.FromTuple(httpUtilDumpResponse(response, true)), func(value []byte) string {
+	return result.Transform(result.FromAssertion(httpUtilDumpResponse(response, true)), func(value []byte) string {
 		return string(value)
 	}).Map(func(value string) string {
 		return strings.ReplaceAll(value, "\r\n", " ")

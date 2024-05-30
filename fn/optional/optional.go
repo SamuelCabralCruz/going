@@ -2,7 +2,9 @@ package optional
 
 import (
 	"github.com/SamuelCabralCruz/went/fn"
-	"github.com/SamuelCabralCruz/went/fn/tuple"
+	"github.com/SamuelCabralCruz/went/fn/tuple/assertion"
+	"github.com/SamuelCabralCruz/went/fn/tuple/validation"
+	"github.com/SamuelCabralCruz/went/fn/typing"
 	"github.com/SamuelCabralCruz/went/phi"
 )
 
@@ -10,6 +12,10 @@ func Empty[T any]() Optional[T] {
 	return Optional[T]{
 		isPresent: false,
 	}
+}
+
+func ofError[T any](_ error) Optional[T] {
+	return Empty[T]()
 }
 
 func Of[T any](value T) Optional[T] {
@@ -26,16 +32,23 @@ func OfNullable[T any](value T) Optional[T] {
 	return Of(value)
 }
 
-func FromTuple[T any](value T, _ error) Optional[T] {
+func FromAssertion[T any](value T, err error) Optional[T] {
+	if err != nil {
+		return Empty[T]()
+	}
 	return OfNullable(value)
 }
 
-func FromSupplier[T any](supply fn.Supplier[T]) Optional[T] {
-	return FromTuple(fn.Safe(supply))
+func FromValidation[T any](value T, ok bool) Optional[T] {
+	return FromAssertion(validation.ToAssertion(value, ok))
 }
 
-func FromProducer[T any](produce fn.Producer[T]) Optional[T] {
-	return FromTuple(fn.Try(produce))
+func FromSupplier[T any](supplier typing.Supplier[T]) Optional[T] {
+	return FromAssertion(fn.SafeSupplier(supplier))
+}
+
+func FromProducer[T any](producer typing.Producer[T]) Optional[T] {
+	return FromAssertion(fn.SafeProducer(producer))
 }
 
 type Optional[T any] struct {
@@ -53,13 +66,13 @@ func (o Optional[T]) IsAbsent() bool {
 
 func (o Optional[T]) Get() (T, error) {
 	if o.IsAbsent() {
-		return o.value, newNoSuchElementError()
+		return phi.Empty[T](), newNoSuchElementError()
 	}
 	return o.value, nil
 }
 
 func (o Optional[T]) GetOrPanic() T {
-	return tuple.GetOrPanic(o.Get())
+	return assertion.GetOrPanic(o.Get())
 }
 
 func (o Optional[T]) GetOrPanicWith(err error) T {
@@ -73,82 +86,77 @@ func (o Optional[T]) OrEmpty() T {
 	return o.value
 }
 
-func (o Optional[T]) OrElseTry(produce fn.Producer[T]) Optional[T] {
+func (o Optional[T]) OrElseGet(supplier typing.Supplier[T]) T {
 	if o.IsAbsent() {
-		return FromProducer(produce)
+		return FromSupplier(supplier).OrEmpty()
 	}
-	return o
-}
-
-func (o Optional[T]) OrElseGet(supply fn.Supplier[T]) T {
-	return o.OrElseTry(fn.ToProducer(supply)).OrEmpty()
+	return o.value
 }
 
 func (o Optional[T]) OrElse(value T) T {
-	return o.OrElseGet(fn.ToSupplier(value))
+	if o.IsAbsent() {
+		return value
+	}
+	return o.value
 }
 
-func (o Optional[T]) TryFlatMap(mapper fn.TryableMapper[Optional[T]]) Optional[T] {
+func (o Optional[T]) FlatMap(mapper typing.Mapper[Optional[T]]) Optional[T] {
 	if o.IsPresent() {
-		maybe, err := mapper(o)
-		if err != nil {
+		return assertion.Switch[Optional[T], Optional[T]](fn.SafeMapper(mapper, o))(fn.Identity[Optional[T]], ofError[T])
+	}
+	return o
+}
+
+func (o Optional[T]) FlatMapEmpty(supplier typing.Supplier[Optional[T]]) Optional[T] {
+	if o.IsAbsent() {
+		return assertion.Switch[Optional[T], Optional[T]](fn.SafeSupplier(supplier))(fn.Identity[Optional[T]], ofError[T])
+	}
+	return o
+}
+
+func (o Optional[T]) FlatSwitchMap(onPresent typing.Mapper[Optional[T]], onAbsent typing.Supplier[Optional[T]]) Optional[T] {
+	if o.IsPresent() {
+		return o.FlatMap(onPresent)
+	}
+	return o.FlatMapEmpty(onAbsent)
+}
+
+func (o Optional[T]) Map(mapper typing.Mapper[T]) Optional[T] {
+	if o.IsPresent() {
+		return assertion.Switch[T, Optional[T]](fn.SafeMapper(mapper, o.value))(OfNullable[T], ofError[T])
+	}
+	return o
+}
+
+func (o Optional[T]) MapEmpty(supplier typing.Supplier[T]) Optional[T] {
+	if o.IsAbsent() {
+		return assertion.Switch[T, Optional[T]](fn.SafeSupplier(supplier))(OfNullable[T], ofError[T])
+	}
+	return o
+}
+
+func (o Optional[T]) SwitchMap(onPresent typing.Mapper[T], onAbsent typing.Supplier[T]) Optional[T] {
+	if o.IsPresent() {
+		return o.Map(onPresent)
+	}
+	return o.MapEmpty(onAbsent)
+}
+
+func (o Optional[T]) IfPresent(consumer typing.Consumer[T]) {
+	if o.IsPresent() {
+		consumer(o.value)
+	}
+}
+
+func (o Optional[T]) Filter(predicate typing.Predicate[T]) Optional[T] {
+	if o.IsPresent() {
+		filterWithPredicate := func(predicated bool) Optional[T] {
+			if predicated {
+				return o
+			}
 			return Empty[T]()
 		}
-		return maybe
+		assertion.Switch[bool, Optional[T]](fn.SafePredicate(predicate, o.value))(filterWithPredicate, ofError[T])
 	}
 	return o
-}
-
-func (o Optional[T]) TryFlatMapEmpty(produce fn.Producer[Optional[T]]) Optional[T] {
-	if o.IsAbsent() {
-		maybe, err := produce()
-		if err != nil {
-			return Empty[T]()
-		}
-		return maybe
-	}
-	return o
-}
-
-func (o Optional[T]) FlatMap(mapper fn.Mapper[Optional[T]]) Optional[T] {
-	return o.TryFlatMap(fn.ToTryableMapper(mapper))
-}
-
-func (o Optional[T]) FlatMapEmpty(supply fn.Supplier[Optional[T]]) Optional[T] {
-	return o.TryFlatMapEmpty(fn.ToProducer(supply))
-}
-
-func (o Optional[T]) TryMap(mapper fn.TryableMapper[T]) Optional[T] {
-	if o.IsPresent() {
-		return FromTuple[T](mapper(o.value))
-	}
-	return o
-}
-
-func (o Optional[T]) TryMapEmpty(produce fn.Producer[T]) Optional[T] {
-	if o.IsAbsent() {
-		return FromTuple[T](produce())
-	}
-	return o
-}
-
-func (o Optional[T]) Map(mapper fn.Mapper[T]) Optional[T] {
-	return o.TryMap(fn.ToTryableMapper(mapper))
-}
-
-func (o Optional[T]) MapEmpty(supply fn.Supplier[T]) Optional[T] {
-	return o.TryMapEmpty(fn.ToProducer(supply))
-}
-
-func (o Optional[T]) IfPresent(consume fn.Consumer[T]) {
-	if o.IsPresent() {
-		consume(o.value)
-	}
-}
-
-func (o Optional[T]) Filter(predict fn.Predicate[T]) Optional[T] {
-	if o.IsPresent() && predict(o.value) {
-		return o
-	}
-	return Empty[T]()
 }

@@ -8,5 +8,5 @@ type NoSuchElementError struct {
 
 func newNoSuchElementError() NoSuchElementError {
 	return NoSuchElementError{
-		roar.New[NoSuchElementError]("access to value of empty optional has been intercepted")}
+		Roar: roar.New[NoSuchElementError]("access to a missing element has been intercepted")}
 }
