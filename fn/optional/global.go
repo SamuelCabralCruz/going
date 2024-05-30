@@ -21,3 +21,7 @@ func FilterPresent[T any](values ...Optional[T]) []T {
 		return agg
 	}, []T{})
 }
+
+func Combine[T any](opts ...Optional[T]) Optional[[]T] {
+	return OfNullable(FilterPresent[T](opts...))
+}

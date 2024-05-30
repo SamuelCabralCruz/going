@@ -32,23 +32,10 @@ func FilterError[T any](values ...Result[T]) []error {
 	}, []error{})
 }
 
-// TODO: validate contract below
 func Combine[T any](results ...Result[T]) Result[[]T] {
-	var acc []T
-	var errors []error
-	lo.ForEach(results,
-		func(result Result[T], _ int) {
-			if result.IsOk() {
-				acc = append(acc, result.GetOrPanic())
-			} else {
-				errors = append(errors, result.Error())
-			}
-		})
-	if len(errors) == 1 {
-		return Error[[]T](errors[0])
+	errors := FilterError(results...)
+	if len(errors) > 0 {
+		return Error[[]T](roar.Aggregate(errors...))
 	}
-	if len(errors) > 1 {
-		return Error[[]T](roar.NewAggregatedError(errors...))
-	}
-	return Ok(acc)
+	return Ok(FilterOk(results...))
 }
