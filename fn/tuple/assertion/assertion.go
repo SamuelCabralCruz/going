@@ -3,6 +3,7 @@ package assertion
 import (
 	"github.com/SamuelCabralCruz/went/fn/typing"
 	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/went/roar"
 )
 
 func IgnoreError[T any](value T, _ error) T {
@@ -21,9 +22,7 @@ func GetOrEmpty[T any](value T, err error) T {
 }
 
 func GetOrPanic[T any](value T, err error) T {
-	if err != nil {
-		panic(err)
-	}
+	roar.PanicIfError(err)
 	return value
 }
 

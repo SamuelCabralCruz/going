@@ -67,11 +67,7 @@ func ResolveAll[T any]() ([]T, error) {
 }
 
 func MustResolveAll[T any]() []T {
-	instances, err := ResolveAll[T]()
-	if err != nil {
-		panic(err)
-	}
-	return instances
+	return assertion.GetOrPanic(ResolveAll[T]())
 }
 
 func Resolve[T any]() (T, error) {
@@ -86,11 +82,7 @@ func Resolve[T any]() (T, error) {
 }
 
 func MustResolve[T any]() T {
-	instance, err := Resolve[T]()
-	if err != nil {
-		panic(err)
-	}
-	return instance
+	return assertion.GetOrPanic(Resolve[T]())
 }
 
 func Clear() {

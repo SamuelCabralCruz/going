@@ -1,6 +1,7 @@
 package validation
 
 import (
+	"github.com/SamuelCabralCruz/went/fn/tuple/assertion"
 	"github.com/SamuelCabralCruz/went/fn/typing"
 	"github.com/SamuelCabralCruz/went/phi"
 )
@@ -21,11 +22,7 @@ func GetOrEmpty[T any](value T, ok bool) T {
 }
 
 func GetOrPanic[T any](value T, ok bool) T {
-	_, err := ToAssertion(value, ok)
-	if err != nil {
-		panic(err)
-	}
-	return value
+	return assertion.GetOrPanic(ToAssertion(value, ok))
 }
 
 func PanicIfNotOk[T any](value T, ok bool) {

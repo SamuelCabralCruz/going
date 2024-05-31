@@ -6,3 +6,9 @@ func Aggregate(errs ...error) error {
 	}
 	return NewAggregatedError(errs...)
 }
+
+func PanicIfError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
