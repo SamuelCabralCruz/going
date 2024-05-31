@@ -2,6 +2,7 @@ package gomicron
 
 import (
 	"fmt"
+	"github.com/SamuelCabralCruz/went/gomicron/reporter"
 	"github.com/SamuelCabralCruz/went/phi"
 	"github.com/onsi/gomega/types"
 )
@@ -18,9 +19,11 @@ func BeFunction(f uintptr) types.GomegaMatcher {
 			}
 			return ref == phi.FunctionFullPath(actual), nil
 		},
-		Reporter: func(actual any, polarity Polarity) string {
-			return "some reporting message"
-		},
+		Reporter: reporter.Computed[any](
+			func(actual any) string {
+				return phi.FunctionFullPath(actual)
+			}).
+			ToBeFormatted("identical to %s", ref),
 	})
 }
 
@@ -29,8 +32,10 @@ func BeAStringOfLength(length int) types.GomegaMatcher {
 		Matcher: func(actual string) (bool, error) {
 			return len(actual) == length, nil
 		},
-		Reporter: func(actual string, polarity Polarity) string {
-			return "some reporting message"
-		},
+		Reporter: reporter.Actual[string]().
+			ToHaveFormatted(`length of "%d"`, length).
+			ButHad(func(actual string) string {
+				return fmt.Sprintf(`length of "%d"`, len(actual))
+			}),
 	})
 }
