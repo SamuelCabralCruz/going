@@ -1,4 +1,4 @@
-package reporter
+package xpctd
 
 type Reporter[T any] interface {
 	Positive() Reporter[T]
@@ -14,6 +14,8 @@ type Expected[T any] interface {
 	ToFormatted(format string, a ...any) To[T]
 	ToBe(describe func(actual T) string) To[T]
 	ToBeFormatted(format string, a ...any) To[T]
+	ToBeA(description string) To[T]
+	ToBeOfType(value any) To[T]
 	ToHave(describe func(actual T) string) To[T]
 	ToHaveFormatted(format string, a ...any) To[T]
 }
@@ -26,6 +28,8 @@ type To[T any] interface {
 	ButReceivedFormatted(format string, a ...any) But[T]
 	ButWas(describe func(actual T) string) But[T]
 	ButWasFormatted(format string, a ...any) But[T]
+	ButWasA(description string) But[T]
+	ButWasOfType() But[T]
 	ButHad(describe func(actual T) string) But[T]
 	ButHadFormatted(format string, a ...any) But[T]
 }

@@ -1,4 +1,4 @@
-package reporter
+package xpctd
 
 import "github.com/samber/lo"
 

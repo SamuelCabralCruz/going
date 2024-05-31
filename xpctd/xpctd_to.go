@@ -1,6 +1,8 @@
-package reporter
+package xpctd
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func (r reporter[T]) To(describe func(actual T) string) To[T] {
 	r.to = describe
@@ -23,6 +25,14 @@ func (r reporter[T]) ToBeFormatted(format string, a ...any) To[T] {
 	return r.ToBe(func(actual T) string {
 		return fmt.Sprintf(format, a...)
 	})
+}
+
+func (r reporter[T]) ToBeA(description string) To[T] {
+	return r.ToBeFormatted("a %s", description)
+}
+
+func (r reporter[T]) ToBeOfType(value any) To[T] {
+	return r.ToBeFormatted(`of type "%T"`, value)
 }
 
 func (r reporter[T]) ToHave(describe func(actual T) string) To[T] {

@@ -1,35 +1,30 @@
 package matcher
 
 import (
-	"fmt"
+	"github.com/SamuelCabralCruz/went/fn/result"
+	"github.com/SamuelCabralCruz/went/fn/tuple/assertion"
+	"github.com/SamuelCabralCruz/went/gomicron"
 	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/went/trust"
+	"github.com/SamuelCabralCruz/went/xpctd"
 	"github.com/onsi/gomega/types"
 )
 
-type beFunctionMatcher struct {
-	ref string
-}
-
-var _ types.GomegaMatcher = &beFunctionMatcher{}
-
-func (m *beFunctionMatcher) Match(actual any) (bool, error) {
-	if !phi.IsFunction(actual) {
-		return false, fmt.Errorf("actual must be a function, received `%T`", actual)
-	}
-	return m.ref == phi.FunctionFullPath(actual), nil
-}
-
-func (m *beFunctionMatcher) FailureMessage(actual any) string {
-	return fmt.Sprintf("expected %s to be identical to %s", phi.FunctionFullPath(actual), m.ref)
-}
-
-func (m *beFunctionMatcher) NegatedFailureMessage(actual any) string {
-	return fmt.Sprintf("expected %s to be different of %s", phi.FunctionFullPath(actual), m.ref)
-}
-
 func BeFunction(f any) types.GomegaMatcher {
-	if !phi.IsFunction(f) {
-		panic(fmt.Errorf("input parameter must be a function, received `%T`", f))
-	}
-	return &beFunctionMatcher{ref: phi.FunctionFullPath(f)}
+	assertion.PanicIfError(trust.AssertIsFunction(f))
+	ref := phi.FunctionFullPath(f)
+	return gomicron.ToGomegaMatcher(gomicron.MatcherDefinition[any]{
+		Matcher: func(actual any) (bool, error) {
+			return result.Transform(result.FromAssertion(
+				trust.AssertIsFunction(actual)),
+				func(_ any) bool {
+					return ref == phi.FunctionFullPath(actual)
+				}).Get()
+		},
+		Reporter: xpctd.Computed[any](
+			func(actual any) string {
+				return phi.FunctionFullPath(actual)
+			}).
+			ToBeFormatted("identical to %s", ref),
+	})
 }

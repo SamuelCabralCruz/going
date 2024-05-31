@@ -1,4 +1,4 @@
-package reporter
+package xpctd
 
 import (
 	"fmt"
@@ -57,7 +57,7 @@ func (r reporter[T]) Report(actual T) string {
 }
 
 func (r reporter[T]) Error(actual T) error {
-	return fmt.Errorf(r.Report(actual))
+	return newExpectationError(r.Report(actual))
 }
 
 func (r reporter[T]) Validation(actual T) (bool, error) {

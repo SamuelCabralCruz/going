@@ -1,4 +1,4 @@
-package reporter
+package xpctd
 
 import "fmt"
 
@@ -34,6 +34,16 @@ func (r reporter[T]) ButWas(describe func(actual T) string) But[T] {
 func (r reporter[T]) ButWasFormatted(format string, a ...any) But[T] {
 	return r.ButWas(func(actual T) string {
 		return fmt.Sprintf(format, a...)
+	})
+}
+
+func (r reporter[T]) ButWasA(description string) But[T] {
+	return r.ButWasFormatted("a %s", description)
+}
+
+func (r reporter[T]) ButWasOfType() But[T] {
+	return r.ButWas(func(actual T) string {
+		return fmt.Sprintf(`of type "%T"`, actual)
 	})
 }
 

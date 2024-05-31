@@ -1,7 +1,7 @@
 package gomicron
 
 import (
-	"github.com/SamuelCabralCruz/went/gomicron/reporter/construct"
+	"github.com/SamuelCabralCruz/went/xpctd/construct"
 	"github.com/onsi/gomega/types"
 )
 

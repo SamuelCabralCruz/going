@@ -1,6 +1,6 @@
 //go:build test
 
-package gomicron_test
+package usage_test
 
 import (
 	. "github.com/SamuelCabralCruz/went/kinggo"

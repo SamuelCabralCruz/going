@@ -45,7 +45,7 @@ var _ = DescribeFunction(phi.FunctionName, func() {
 		Expect(observed).To(Equal(expected))
 	},
 		CreateTableEntries([]string{"input", "expected"},
-			[]any{func() {}, "func7.3"},
+			[]any{func() {}, "func2.3"},
 			[]any{phi.AnonymousFunction, "func1"},
 			[]any{phi.CustomFunction, "CustomFunction"},
 			[]any{phi.GenericFunction[any], "GenericFunction"},

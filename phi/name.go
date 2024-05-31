@@ -19,8 +19,7 @@ func FunctionName(function any) string {
 	} else {
 		functionNameSubPathIndex = strings.LastIndex(functionFullPath, ".") + 1
 	}
-	return strings.TrimRight(functionFullPath[functionNameSubPathIndex:], "-fm")
-
+	return strings.TrimSuffix(functionFullPath[functionNameSubPathIndex:], "-fm")
 }
 
 func TypeName[T any]() string {

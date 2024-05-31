@@ -26,10 +26,7 @@ func Of[T any](value T) Optional[T] {
 }
 
 func OfNullable[T any](value T) Optional[T] {
-	if phi.IsZero(value) {
-		return Empty[T]()
-	}
-	return Of(value)
+	return validation.Switch[T, Optional[T]](value, phi.IsNotZero(value))(Of[T], Empty[T])
 }
 
 func FromAssertion[T any](value T, err error) Optional[T] {

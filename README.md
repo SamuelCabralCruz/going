@@ -14,6 +14,8 @@ This project contains several libraries that can be used individually.
 - [phi](./phi/README.md): Reflection utilities
 - [roar](./roar/README.md): Standardized error struct
 - [scallop](./scallop/README.md): Slice utilities
+- [trust](./trust/README.md): Generic validators and asserters
+- [xpctd](./xpctd/README.md): Standardized expectation message builder
 
 We aim at minimizing third party dependencies.
 
@@ -25,10 +27,6 @@ We aim at minimizing third party dependencies.
 We also allow cross-references between the libraries.
 Also, all libraries (apart from `kinggo` and `gomicron` themselves) should/could 
 depend on `kinggo` and `gomicron` to build their tests.
-
-# TODO: gomicron
-- message builder dynamic factory using interfaces and complete since beginning
-- create gomicron lib to simplify custom matchers creation
 
 # TODO: detox
 - create gomega matchers
@@ -71,6 +69,8 @@ graph TB
     PHI[phi];
     ROAR[roar];
     SCALLOP[scallop];
+    TRUST[trust];
+    XPCTD[xpctd];
 
 %%    BOTOX -.-> KINGGO;
 %%    DETOX -.-> KINGGO;
@@ -79,6 +79,8 @@ graph TB
 %%    PHI -.-> KINGGO;
 %%    ROAR -.-> KINGGO;
 %%    SCALLOP -.-> KINGGO;
+%%    TRUST -.-> KINGGO;
+%%    XPCTD -.-> KINGGO;
 
 %%    BOTOX -.-> GOMICRON;
 %%    DETOX -.-> GOMICRON;
@@ -87,6 +89,8 @@ graph TB
 %%    PHI -.-> GOMICRON;
 %%    ROAR -.-> GOMICRON;
 %%    SCALLOP -.-> GOMICRON;
+%%    TRUST -.-> GOMICRON;
+%%    XPCTD -.-> GOMICRON;
 
     BOTOX --> FN;
     BOTOX --> PHI;
@@ -100,7 +104,10 @@ graph TB
     FN --> PHI;
     FN --> ROAR;
 
+    GOMICRON --> FN;
     GOMICRON --> PHI;
+    GOMICRON --> TRUST;
+    GOMICRON --> XPCTD;
     
     HTNTP --> FN;
 
@@ -110,6 +117,13 @@ graph TB
 
     SCALLOP --> PHI;
     SCALLOP --> ROAR;
+    
+    TRUST --> FN;
+    TRUST --> PHI;
+    TRUST --> XPCTD;
+    
+    XPCTD --> PHI;
+    XPCTD --> ROAR;
 ```
 
 # Getting Started

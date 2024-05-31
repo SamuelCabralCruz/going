@@ -47,10 +47,11 @@ var _ = DescribeFunction(phi.IsZero, func() {
 
 var _ = DescribeFunction(phi.IsTypeOf[any], func() {
 	var input any
-	var observed bool
+	var observedValue any
+	var observedOk bool
 
 	act := func() {
-		observed = phi.IsTypeOf[phi.Iam](input)
+		observedValue, observedOk = phi.IsTypeOf[phi.Iam](input)
 	}
 
 	DescribeTable("should detect which value implement the specific interface", func(tableInput any, expected bool) {
@@ -58,7 +59,12 @@ var _ = DescribeFunction(phi.IsTypeOf[any], func() {
 
 		act()
 
-		Expect(observed).To(Equal(expected))
+		if observedOk {
+			Expect(observedValue).To(Equal(input))
+		} else {
+			Expect(observedValue).To(BeZero())
+		}
+		Expect(observedOk).To(Equal(expected))
 	}, CreateTableEntries([]string{"input", "expected"},
 		[]any{phi.IamImplementing{}, true},
 		[]any{phi.IamNotImplementing{}, false},

@@ -46,10 +46,16 @@ func FromReversed[T any](ok bool, value T) (T, bool) {
 }
 
 func ToAssertion[T any](value T, ok bool) (T, error) {
-	if !ok {
-		return phi.Empty[T](), newInvalidValueError(value)
+	return ToAssertionWithError[T](value, ok)(newInvalidValueError(value))
+}
+
+func ToAssertionWithError[T any](value T, ok bool) func(error) (T, error) {
+	return func(err error) (T, error) {
+		if !ok {
+			return phi.Empty[T](), err
+		}
+		return value, nil
 	}
-	return value, nil
 }
 
 func Switch[T any, U any](value T, ok bool) func(mapper typing.Transformer[T, U], supplier typing.Supplier[U]) U {
