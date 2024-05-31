@@ -2,7 +2,7 @@ package spy
 
 import (
 	"github.com/SamuelCabralCruz/went/detox/internal/common"
-	"github.com/SamuelCabralCruz/went/fn"
+	"github.com/SamuelCabralCruz/went/scallop"
 )
 
 func NewSpy(info common.MockedMethodInfo) *Spy {
@@ -21,7 +21,7 @@ func (s *Spy) RegisterCall(call common.Call) {
 }
 
 func (s *Spy) Calls() []common.Call {
-	return fn.Copy(s.calls)
+	return scallop.Copy(s.calls)
 }
 
 func (s *Spy) CallsCount() int {

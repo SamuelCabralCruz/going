@@ -148,6 +148,17 @@ func (o Optional[T]) IfPresent(consumer typing.Consumer[T]) {
 	}
 }
 
+func (o Optional[T]) IfAbsent(callable typing.Callable) {
+	if o.IsAbsent() {
+		callable()
+	}
+}
+
+func (o Optional[T]) Switch(onPresent typing.Consumer[T], onAbsent typing.Callable) {
+	o.IfPresent(onPresent)
+	o.IfAbsent(onAbsent)
+}
+
 func (o Optional[T]) Filter(predicate typing.Predicate[T]) Optional[T] {
 	if o.IsPresent() {
 		filterWithPredicate := func(predicated bool) Optional[T] {

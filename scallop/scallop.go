@@ -1,6 +1,9 @@
-package fn
+package scallop
 
-import "github.com/samber/lo"
+import (
+	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/samber/lo"
+)
 
 func AsAnySlice[T any](values []T) []any {
 	return lo.Map(values, func(value T, _ int) any {
@@ -13,7 +16,8 @@ func Copy[T any](values []T) []T {
 }
 
 func Pop[T any](values []T) (T, []T, error) {
-	// TODO: complete with roar
-	// TODO: https://go.dev/play/p/Pdzc4bhMhIE
+	if len(values) == 0 {
+		return phi.Empty[T](), phi.Empty[[]T](), newIndexOutOfBoundsError(0, 0)
+	}
 	return values[0], values[1:], nil
 }

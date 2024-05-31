@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/SamuelCabralCruz/went/fn"
+	"github.com/SamuelCabralCruz/went/scallop"
 	"reflect"
 )
 
@@ -16,7 +16,7 @@ func NewCall(args ...any) Call {
 }
 
 func (c Call) Args() []any {
-	return fn.Copy(c.args)
+	return scallop.Copy(c.args)
 }
 
 func (c Call) EqualTo(other Call) bool {

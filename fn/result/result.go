@@ -147,6 +147,11 @@ func (r Result[T]) IfError(consume typing.Consumer[error]) {
 	}
 }
 
+func (r Result[T]) Switch(onOk typing.Consumer[T], onError typing.Consumer[error]) {
+	r.IfOk(onOk)
+	r.IfError(onError)
+}
+
 func (r Result[T]) Filter(predicate typing.Predicate[T]) Result[T] {
 	if r.IsOk() {
 		filterWithPredicate := func(predicated bool) Result[T] {
