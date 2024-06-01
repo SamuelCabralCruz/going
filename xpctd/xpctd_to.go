@@ -31,8 +31,8 @@ func (r reporter[T]) ToBeA(description string) To[T] {
 	return r.ToBeFormatted("a %s", description)
 }
 
-func (r reporter[T]) ToBeOfType(value any) To[T] {
-	return r.ToBeFormatted(`of type "%T"`, value)
+func (r reporter[T]) ToBeOfType(typeName string) To[T] {
+	return r.ToBeFormatted(`of type "%s"`, typeName)
 }
 
 func (r reporter[T]) ToHave(describe func(actual T) string) To[T] {

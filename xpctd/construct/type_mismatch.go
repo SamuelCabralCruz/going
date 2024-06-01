@@ -7,6 +7,6 @@ import (
 
 func TypeMismatchReporter[T any]() reporter2.Reporter[any] {
 	return reporter2.Actual[any]().
-		ToBeOfType(phi.Empty[T]()).
+		ToBeOfType(phi.BaseTypeName[T]()).
 		ButWasOfType()
 }

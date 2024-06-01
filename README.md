@@ -33,29 +33,24 @@ depend on `kinggo` and `gomicron` to build their tests.
 
 # TODO: fn
 - tests
-- documentation
 
 # TODO: phi
-- review assertion vs validation
-- tests interface
+- tests interface.go
 
 # TODO: roar
 - review accumulate -> maybe a way to accumulate error
 - stack trace
 - tests
 
-# TODO: scallop
-- consider knife as package name
-
-# TODO: thong (NEW PACKAGE)
-- consider rope as package name
-- indent text
-
 # TODO: botox
 - allow for local container
 - reset a specific dependency
 - new container
 - allow for deep copy (example: resolve child singleton should not resolve parent container)
+
+# TODO: thong (NEW PACKAGE)
+- consider rope as package name
+- indent text
 
 ```mermaid
 graph TB

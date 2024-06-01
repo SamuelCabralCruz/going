@@ -9,26 +9,99 @@ import (
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega/types"
 )
 
-var _ = DescribeType[detox.Detox[any]](func() {
+var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
+	var cut types.GomegaMatcher
+	var actual any
 	mock := fixture.NewInterface1Mock()
 	mocked := detox.When(mock.Detox, mock.NoArgNoReturn)
 
 	BeforeEach(func() {
 		mock.Default(fixture.Implementation1{})
 		mocked.Call(func() {})
+		actual = mocked
+		cut = matcher.HaveBeenCalled()
 	})
 
 	AfterEach(func() {
 		mock.Reset()
 	})
 
-	DescribeFunction(matcher.HaveBeenCalled, func() {
-		It("should determine whether mock has been called", func() {
-			mock.NoArgNoReturn()
+	DescribeFunction(types.GomegaMatcher.Match, func() {
+		var observedOk bool
+		var observedError error
 
-			Expect(mocked).To(matcher.HaveBeenCalled())
+		act := func() {
+			observedOk, observedError = cut.Match(actual)
+		}
+
+		Context("with invalid actual", func() {
+			BeforeEach(func() {
+				actual = 1234
+			})
+
+			It("should return error", func() {
+				act()
+
+				Expect(observedOk).To(BeFalse())
+				Expect(observedError).NotTo(BeNil())
+				Expect(observedError.Error()).To(ContainSubstring("Expected \"1234\" to be of type \"Assertable\", but was of type \"int\""))
+			})
+		})
+
+		Context("with valid actual", func() {
+			Context("with non matching actual", func() {
+				It("should return false", func() {
+					act()
+
+					Expect(observedOk).To(BeFalse())
+					Expect(observedError).To(BeNil())
+				})
+			})
+
+			Context("with matching actual", func() {
+				BeforeEach(func() {
+					mock.NoArgNoReturn()
+				})
+
+				It("should return true", func() {
+					act()
+
+					Expect(observedOk).To(BeTrue())
+					Expect(observedError).To(BeNil())
+				})
+			})
+		})
+	})
+
+	DescribeFunction(types.GomegaMatcher.FailureMessage, func() {
+		var observed string
+
+		act := func() {
+			observed = cut.FailureMessage(actual)
+		}
+
+		It("should return failure message properly formatted", func() {
+			act()
+
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_test\\.go \\[18\\]\\) to have been called at least once"))
+		})
+	})
+
+	DescribeFunction(types.GomegaMatcher.NegatedFailureMessage, func() {
+		var observed string
+
+		act := func() {
+			observed = cut.NegatedFailureMessage(actual)
+		}
+
+		It("should return failure message properly formatted", func() {
+			act()
+
+			Expect(observed).To(MatchRegexp(
+				"Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_test\\.go \\[18\\]\\) not to have been called at least once"))
 		})
 	})
 })

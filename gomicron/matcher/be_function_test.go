@@ -36,7 +36,7 @@ var _ = DescribeFunction(matcher.BeFunction, func() {
 			})
 		})
 
-		Context("with function as input", func() {
+		Context("with valid input", func() {
 			BeforeEach(func() {
 				input = validInput
 			})
@@ -60,7 +60,7 @@ var _ = DescribeFunction(matcher.BeFunction, func() {
 			observedOk, observedError = cut.Match(actual)
 		}
 
-		Context("with non function as actual", func() {
+		Context("with invalid actual", func() {
 			BeforeEach(func() {
 				actual = invalidActual
 			})
@@ -74,7 +74,7 @@ var _ = DescribeFunction(matcher.BeFunction, func() {
 			})
 		})
 
-		Context("with function as actual", func() {
+		Context("with valid actual", func() {
 			Context("with non matching actual", func() {
 				BeforeEach(func() {
 					actual = nonMatchingActual
@@ -118,7 +118,7 @@ var _ = DescribeFunction(matcher.BeFunction, func() {
 			act()
 
 			Expect(observed).To(MatchRegexp(
-				"Expected .*/matcher_test.init.func2 to be identical to .*/matcher_test.init.func1"))
+				"Expected .*/matcher_test\\.init\\.func2 to be identical to .*/matcher_test\\.init\\.func1"))
 		})
 	})
 
@@ -137,7 +137,7 @@ var _ = DescribeFunction(matcher.BeFunction, func() {
 			act()
 
 			Expect(observed).To(MatchRegexp(
-				"Expected .*/matcher_test.init.func2 not to be identical to .*/matcher_test.init.func1"))
+				"Expected .*/matcher_test\\.init\\.func2 not to be identical to .*/matcher_test\\.init\\.func1"))
 		})
 	})
 })

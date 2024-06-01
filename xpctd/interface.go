@@ -15,7 +15,7 @@ type Expected[T any] interface {
 	ToBe(describe func(actual T) string) To[T]
 	ToBeFormatted(format string, a ...any) To[T]
 	ToBeA(description string) To[T]
-	ToBeOfType(value any) To[T]
+	ToBeOfType(typeName string) To[T]
 	ToHave(describe func(actual T) string) To[T]
 	ToHaveFormatted(format string, a ...any) To[T]
 }

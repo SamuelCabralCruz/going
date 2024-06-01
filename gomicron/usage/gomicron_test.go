@@ -33,7 +33,7 @@ var _ = DescribeFunction(gomicron.ToGomegaMatcher[any], func() {
 			observedOk, observedError = cut.Match(actual)
 		}
 
-		Context("with actual of undesired type", func() {
+		Context("with invalid actual", func() {
 			BeforeEach(func() {
 				actual = invalidActual
 			})
@@ -46,7 +46,7 @@ var _ = DescribeFunction(gomicron.ToGomegaMatcher[any], func() {
 			})
 		})
 
-		Context("with actual of desired type", func() {
+		Context("with valid actual", func() {
 			Context("with non matching actual", func() {
 				BeforeEach(func() {
 					actual = nonMatchingActual
