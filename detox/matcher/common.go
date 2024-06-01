@@ -8,16 +8,22 @@ import (
 	"strings"
 )
 
-func describeCalls(actual detox.Assertable) []string {
-	return lo.Map(actual.Calls(), describeCall)
+func describeCalls(calls []common.Call) []string {
+	return lo.Map(calls, describeCall)
 }
 
 func describeCall(call common.Call, index int) string {
-	return fmt.Sprintf("[%d]: %s", index, describeArgs(call.Args()...))
+	return fmt.Sprintf("[%d]: %s", index, describeArgs(call.Args()))
 }
 
-func describeArgs(args ...any) string {
+func describeArgs(args []any) string {
 	return fmt.Sprintf("[%s]", strings.Join(lo.Map(args, func(arg any, _ int) string {
 		return fmt.Sprintf("<%T> %+v", arg, arg)
 	}), ", "))
+}
+
+func toCommonCalls(calls []detox.Call) []common.Call {
+	return lo.Map(calls, func(call detox.Call, _ int) common.Call {
+		return common.NewCall(call...)
+	})
 }

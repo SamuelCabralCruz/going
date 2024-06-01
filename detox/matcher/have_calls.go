@@ -9,16 +9,16 @@ import (
 	"strings"
 )
 
-func HaveBeenCalledWith(args ...any) types.GomegaMatcher {
+func HaveCalls(calls ...detox.Call) types.GomegaMatcher {
 	return gomicron.ToGomegaMatcher(gomicron.MatcherDefinition[detox.Assertable]{
 		Matcher: func(actual detox.Assertable) (bool, error) {
-			return actual.Assert().HasBeenCalledWith(args...), nil
+			return actual.Assert().HasCalls(calls...), nil
 		},
 		Reporter: xpctd.Computed[detox.Assertable](
 			func(actual detox.Assertable) string {
 				return actual.Describe()
 			}).
-			ToHaveFormatted("been called at least once with following args:\n\t\t%s\n", describeArgs(args)).
+			ToHaveFormatted("following calls:\n\t\t%s\n", strings.Join(describeCalls(toCommonCalls(calls)), "\n\t\t")).
 			ButReceived(func(actual detox.Assertable) string {
 				return fmt.Sprintf("calls were:\n\t\t%s", strings.Join(describeCalls(actual.Calls()), "\n\t\t"))
 			}),

@@ -18,9 +18,9 @@ func HaveBeenCalledTimesWith(times int, args ...any) types.GomegaMatcher {
 			func(actual detox.Assertable) string {
 				return actual.Describe()
 			}).
-			ToHaveFormatted("been called %d times with following args:\n\t\t%s\n", times, describeArgs(args...)).
+			ToHaveFormatted("been called %d times with following args:\n\t\t%s\n", times, describeArgs(args)).
 			ButReceived(func(actual detox.Assertable) string {
-				return fmt.Sprintf("calls were:\n\t\t%s", strings.Join(describeCalls(actual), "\n\t\t"))
+				return fmt.Sprintf("calls were:\n\t\t%s", strings.Join(describeCalls(actual.Calls()), "\n\t\t"))
 			}),
 	})
 }

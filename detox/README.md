@@ -6,9 +6,6 @@
 - No actual stubs due to golang's type system limitations
 
 [//]: # (TODO: matchers)
-- HasBeenCalledWith(...any) bool
-- HasBeenCalledOnceWith(...any) bool
-- HasBeenCalledTimesWith(int, ...any) bool
 - HasCalls(...Call) bool
 - HasNthCall(int, Call) bool
 - HasOrderedCalls(...Call) bool
