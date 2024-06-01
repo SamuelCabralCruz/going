@@ -21,7 +21,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledOnceWith, func() {
 		mock.Reset()
 	})
 
-	Context("with mock having desired call arguments", func() {
+	Context("with mock having desired calls", func() {
 		BeforeEach(func() {
 			mock.MultipleArgsNoReturn(1, true, []byte{'a', 'b', 'c'})
 			mock.MultipleArgsNoReturn(2, false, []byte{'b', 'a', 'c'})
@@ -33,7 +33,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledOnceWith, func() {
 		})
 	})
 
-	Context("with mock not having desired call arguments", func() {
+	Context("with mock not having desired calls", func() {
 		BeforeEach(func() {
 			mock.MultipleArgsNoReturn(1, true, []byte{'a', 'b', 'c'})
 			mock.MultipleArgsNoReturn(2, false, []byte{'b', 'a', 'c'})

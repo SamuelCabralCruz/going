@@ -31,6 +31,12 @@ depend on `kinggo` and `gomicron` to build their tests.
 # TODO: detox
 - create gomega matchers
 
+# TODO: trust
+- tests
+
+# TODO: xpctd
+- tests
+
 # TODO: thong (NEW PACKAGE)
 - consider rope as package name
 - indent text

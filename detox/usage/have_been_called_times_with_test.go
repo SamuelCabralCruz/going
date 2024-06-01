@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
+var _ = DescribeFunction(matcher.HaveBeenCalledTimesWith, func() {
 	mock := fixture.NewInterface1Mock()
 	mocked := detox.When(mock.Detox, mock.MultipleArgsNoReturn)
 
@@ -23,13 +23,15 @@ var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
 
 	Context("with mock having desired calls", func() {
 		BeforeEach(func() {
+			mock.MultipleArgsNoReturn(2, false, []byte{'b', 'a', 'c'})
 			mock.MultipleArgsNoReturn(1, true, []byte{'a', 'b', 'c'})
 			mock.MultipleArgsNoReturn(2, false, []byte{'b', 'a', 'c'})
 			mock.MultipleArgsNoReturn(3, true, []byte{'c', 'b', 'a'})
+			mock.MultipleArgsNoReturn(2, false, []byte{'b', 'a', 'c'})
 		})
 
 		It("should match", func() {
-			Expect(mocked).To(matcher.HaveBeenCalledWith(2, false, []byte{'b', 'a', 'c'}))
+			Expect(mocked).To(matcher.HaveBeenCalledTimesWith(3, 2, false, []byte{'b', 'a', 'c'}))
 		})
 	})
 
@@ -41,7 +43,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
 		})
 
 		It("should not match", func() {
-			Expect(mocked).NotTo(matcher.HaveBeenCalledWith(1, false, []byte{'c', 'b', 'a'}))
+			Expect(mocked).NotTo(matcher.HaveBeenCalledTimesWith(3, 1, false, []byte{'c', 'b', 'a'}))
 		})
 	})
 })
