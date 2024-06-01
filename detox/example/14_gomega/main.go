@@ -47,5 +47,6 @@ func main() {
 			[]any{"some text 3", true, []byte("ok-c")},
 			[]any{"some text 1", true, []byte("ok-a")},
 		))
+		Expect(mocked).To(HaveNthCall(2, []any{"some text 3", true, []byte("ok-c")}))
 	})
 }

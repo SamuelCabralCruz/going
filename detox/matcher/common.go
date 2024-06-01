@@ -24,6 +24,10 @@ func describeArgs(args []any) string {
 
 func toCommonCalls(calls []detox.Call) []common.Call {
 	return lo.Map(calls, func(call detox.Call, _ int) common.Call {
-		return common.NewCall(call...)
+		return toCommonCall(call)
 	})
+}
+
+func toCommonCall(call detox.Call) common.Call {
+	return common.NewCall(call...)
 }
