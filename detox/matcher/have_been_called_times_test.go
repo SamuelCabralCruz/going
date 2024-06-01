@@ -21,7 +21,6 @@ var _ = DescribeFunction(matcher.HaveBeenCalledTimes, func() {
 
 	BeforeEach(func() {
 		mock.Default(fixture.Implementation1{})
-		mocked.Call(func() {})
 		actual = mocked
 		input = 3
 		cut = matcher.HaveBeenCalledTimes(input)
@@ -95,7 +94,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledTimes, func() {
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp("Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_times_test\\.go \\[19\\]\\) to have been called 3 times"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_times_test\\.go \\[19\\]\\) to have been called 3 times, but was called 0 times"))
 		})
 	})
 
@@ -110,7 +109,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledTimes, func() {
 			act()
 
 			Expect(observed).To(MatchRegexp(
-				"Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_times_test\\.go \\[19\\]\\) not to have been called 3 times"))
+				"Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_times_test\\.go \\[19\\]\\) not to have been called 3 times, but was called 0 times"))
 		})
 	})
 })

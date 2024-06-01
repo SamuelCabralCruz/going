@@ -1,6 +1,7 @@
 package matcher
 
 import (
+	"fmt"
 	"github.com/SamuelCabralCruz/went/detox"
 	"github.com/SamuelCabralCruz/went/gomicron"
 	"github.com/SamuelCabralCruz/went/xpctd"
@@ -16,6 +17,9 @@ func HaveBeenCalledTimes(times int) types.GomegaMatcher {
 			func(actual detox.Assertable) string {
 				return actual.Describe()
 			}).
-			ToHaveFormatted("been called %d times", times),
+			ToHaveFormatted("been called %d times", times).
+			ButWas(func(actual detox.Assertable) string {
+				return fmt.Sprintf("called %d times", len(actual.Calls()))
+			}),
 	})
 }

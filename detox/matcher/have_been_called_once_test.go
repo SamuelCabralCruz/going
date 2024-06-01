@@ -20,7 +20,6 @@ var _ = DescribeFunction(matcher.HaveBeenCalledOnce, func() {
 
 	BeforeEach(func() {
 		mock.Default(fixture.Implementation1{})
-		mocked.Call(func() {})
 		actual = mocked
 		cut = matcher.HaveBeenCalledOnce()
 	})
@@ -86,7 +85,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledOnce, func() {
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp("Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_once_test\\.go \\[18\\]\\) to have been called once"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_once_test\\.go \\[18\\]\\) to have been called once, but was called 0 times"))
 		})
 	})
 
@@ -101,7 +100,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledOnce, func() {
 			act()
 
 			Expect(observed).To(MatchRegexp(
-				"Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_once_test\\.go \\[18\\]\\) not to have been called once"))
+				"Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_once_test\\.go \\[18\\]\\) not to have been called once, but was called 0 times"))
 		})
 	})
 })

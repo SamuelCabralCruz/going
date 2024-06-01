@@ -31,15 +31,12 @@ depend on `kinggo` and `gomicron` to build their tests.
 # TODO: detox
 - create gomega matchers
 
+# TODO: thong (NEW PACKAGE)
+- consider rope as package name
+- indent text
+- use it into detox matchers
+
 # TODO: fn
-- tests
-
-# TODO: phi
-- tests interface.go
-
-# TODO: roar
-- review accumulate -> maybe a way to accumulate error
-- stack trace
 - tests
 
 # TODO: botox
@@ -48,9 +45,13 @@ depend on `kinggo` and `gomicron` to build their tests.
 - new container
 - allow for deep copy (example: resolve child singleton should not resolve parent container)
 
-# TODO: thong (NEW PACKAGE)
-- consider rope as package name
-- indent text
+# TODO: phi
+- tests interface.go
+
+# TODO: roar
+- review accumulate -> maybe a way to accumulate error
+- stack trace
+- tests
 
 ```mermaid
 graph TB

@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
+var _ = DescribeFunction(matcher.HaveBeenCalledOnce, func() {
 	mock := fixture.NewInterface1Mock()
 	mocked := detox.When(mock.Detox, mock.NoArgNoReturn)
 
@@ -21,19 +21,30 @@ var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
 		mock.Reset()
 	})
 
-	Context("with called mock", func() {
+	Context("with called once mock", func() {
 		BeforeEach(func() {
 			mock.NoArgNoReturn()
 		})
 
 		It("should match", func() {
-			Expect(mocked).To(matcher.HaveBeenCalled())
+			Expect(mocked).To(matcher.HaveBeenCalledOnce())
 		})
 	})
 
 	Context("with non called mock", func() {
 		It("should not match", func() {
-			Expect(mocked).NotTo(matcher.HaveBeenCalled())
+			Expect(mocked).NotTo(matcher.HaveBeenCalledOnce())
+		})
+	})
+
+	Context("with mock called more than once", func() {
+		BeforeEach(func() {
+			mock.NoArgNoReturn()
+			mock.NoArgNoReturn()
+		})
+
+		It("should not match", func() {
+			Expect(mocked).NotTo(matcher.HaveBeenCalledOnce())
 		})
 	})
 })

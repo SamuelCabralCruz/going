@@ -13,6 +13,7 @@ func (m *mocked[T, U]) Assert() Asserter {
 
 type Assertable interface {
 	Describe() string
+	Calls() []common.Call
 	Assert() Asserter
 }
 

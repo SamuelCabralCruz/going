@@ -12,16 +12,19 @@ import (
 	"github.com/onsi/gomega/types"
 )
 
-var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
+var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
 	var cut types.GomegaMatcher
+	var inputs []any
 	var actual any
+	expectedArg := "some input arg"
 	mock := fixture.NewInterface1Mock()
-	mocked := detox.When(mock.Detox, mock.NoArgNoReturn)
+	mocked := detox.When(mock.Detox, mock.SingleArgNoReturn)
 
 	BeforeEach(func() {
 		mock.Default(fixture.Implementation1{})
 		actual = mocked
-		cut = matcher.HaveBeenCalled()
+		inputs = []any{expectedArg}
+		cut = matcher.HaveBeenCalledWith(inputs...)
 	})
 
 	AfterEach(func() {
@@ -52,6 +55,11 @@ var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
 
 		Context("with valid actual", func() {
 			Context("with non matching actual", func() {
+				BeforeEach(func() {
+					mock.SingleArgNoReturn("first")
+					mock.SingleArgNoReturn("second")
+				})
+
 				It("should return false", func() {
 					act()
 
@@ -62,7 +70,9 @@ var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
 
 			Context("with matching actual", func() {
 				BeforeEach(func() {
-					mock.NoArgNoReturn()
+					mock.SingleArgNoReturn("first")
+					mock.SingleArgNoReturn(expectedArg)
+					mock.SingleArgNoReturn("second")
 				})
 
 				It("should return true", func() {
@@ -82,10 +92,15 @@ var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
 			observed = cut.FailureMessage(actual)
 		}
 
+		BeforeEach(func() {
+			mock.SingleArgNoReturn("first")
+			mock.SingleArgNoReturn("second")
+		})
+
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp("Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_test\\.go \\[18\\]\\) to have been called at least once, but was not called"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_been_called_with_test\\.go \\[20\\]\\) to have been called at least once with following args:\\n\\t\\[<string> some input arg\\]\\n, but received calls were:\\n\\t\\[0\\]: \\[<string> first\\]\\n\\t\\[1\\]: \\[<string> second\\]"))
 		})
 	})
 
@@ -96,11 +111,15 @@ var _ = DescribeFunction(matcher.HaveBeenCalled, func() {
 			observed = cut.NegatedFailureMessage(actual)
 		}
 
+		BeforeEach(func() {
+			mock.SingleArgNoReturn("first")
+			mock.SingleArgNoReturn("second")
+		})
+
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp(
-				"Expected Interface1\\.NoArgNoReturn \\(.*/matcher/have_been_called_test\\.go \\[18\\]\\) not to have been called at least once, but was not called"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_been_called_with_test\\.go \\[20\\]\\) not to have been called at least once with following args:\\n\\t\\[<string> some input arg\\]\\n, but received calls were:\\n\\t\\[0\\]: \\[<string> first\\]\\n\\t\\[1\\]: \\[<string> second\\]"))
 		})
 	})
 })
