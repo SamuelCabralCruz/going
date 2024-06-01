@@ -12,7 +12,7 @@ import (
 	"github.com/onsi/gomega/types"
 )
 
-var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
+var _ = DescribeFunction(matcher.HaveBeenCalledOnceWith, func() {
 	var cut types.GomegaMatcher
 	var inputs []any
 	var actual any
@@ -24,7 +24,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
 		mock.Default(fixture.Implementation1{})
 		actual = mocked
 		inputs = []any{expectedArg}
-		cut = matcher.HaveBeenCalledWith(inputs...)
+		cut = matcher.HaveBeenCalledOnceWith(inputs...)
 	})
 
 	AfterEach(func() {
@@ -100,7 +100,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_been_called_with_test\\.go \\[20\\]\\) to have been called at least once with following args:\\n\\t\\t\\[<string> some input arg\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_been_called_once_with_test\\.go \\[20\\]\\) to have been called once with following args:\\n\\t\\t\\[<string> some input arg\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
 		})
 	})
 
@@ -119,7 +119,7 @@ var _ = DescribeFunction(matcher.HaveBeenCalledWith, func() {
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_been_called_with_test\\.go \\[20\\]\\) not to have been called at least once with following args:\\n\\t\\t\\[<string> some input arg\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_been_called_once_with_test\\.go \\[20\\]\\) not to have been called once with following args:\\n\\t\\t\\[<string> some input arg\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
 		})
 	})
 })

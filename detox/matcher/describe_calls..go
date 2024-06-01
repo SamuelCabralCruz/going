@@ -9,9 +9,11 @@ import (
 )
 
 func describeCalls(actual detox.Assertable) []string {
-	return lo.Map(actual.Calls(), func(call common.Call, index int) string {
-		return fmt.Sprintf("[%d]: %s", index, describeArgs(call.Args()...))
-	})
+	return lo.Map(actual.Calls(), describeCall)
+}
+
+func describeCall(call common.Call, index int) string {
+	return fmt.Sprintf("[%d]: %s", index, describeArgs(call.Args()...))
 }
 
 func describeArgs(args ...any) string {
