@@ -46,4 +46,10 @@ var _ = DescribeFunction(matcher.HaveNthCall, func() {
 			Expect(mocked).NotTo(matcher.HaveNthCall(1, []any{5, false, []byte{'d', 'e', 'f'}}))
 		})
 	})
+
+	Context("with expected index out of bounds", func() {
+		It("should not match", func() {
+			Expect(mocked).To(matcher.HaveNthCall(10, []any{}))
+		})
+	})
 })

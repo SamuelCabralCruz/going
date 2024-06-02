@@ -27,10 +27,6 @@ func (i MockInfo) Reference() string {
 	return i.fileReference
 }
 
-func (i MockInfo) Describe() string {
-	return fmt.Sprintf("%s (%s)", i.interfaceName, i.fileReference)
-}
-
 func NewMockedMethodInfo[T any](mockInfo MockInfo, method T) MockedMethodInfo {
 	return MockedMethodInfo{
 		MockInfo:   mockInfo,

@@ -94,7 +94,11 @@ func (a *asserter[T, U]) HasCalls(calls ...Call) bool {
 
 // HasNthCall Assert that mock has specified nth call
 func (a *asserter[T, U]) HasNthCall(index int, call Call) bool {
-	return a.NthCall(index).EqualTo(common.NewCall(call...))
+	nthCall, err := a.NthCall(index)
+	if err != nil {
+		return false
+	}
+	return nthCall.EqualTo(common.NewCall(call...))
 }
 
 // HasOrderedCalls Assert that mock has exactly specified calls in specified order

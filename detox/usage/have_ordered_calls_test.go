@@ -90,8 +90,9 @@ var _ = DescribeFunction(matcher.HaveOrderedCalls, func() {
 
 		It("should not match", func() {
 			Expect(mocked).NotTo(matcher.HaveOrderedCalls(
-				[]any{5, false, []byte{'d', 'e', 'f'}},
-				[]any{2, false, []byte{'b', 'a', 'c'}},
+				[]any{1, true, []byte{'a', 'z', 'c'}},
+				[]any{2, false, []byte{'b', 'z', 'c'}},
+				[]any{3, true, []byte{'c', 'z', 'a'}},
 			))
 		})
 	})

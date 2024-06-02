@@ -28,10 +28,10 @@ func (s *Spy) CallsCount() int {
 	return len(s.Calls())
 }
 
-func (s *Spy) NthCall(index int) common.Call {
+func (s *Spy) NthCall(index int) (common.Call, error) {
 	count := s.CallsCount()
 	if index >= count {
-		panic(newInvalidCallIndexError(s.info, index, count))
+		return common.Call{}, newInvalidCallIndexError(s.info, index, count)
 	}
-	return s.Calls()[index]
+	return s.Calls()[index], nil
 }

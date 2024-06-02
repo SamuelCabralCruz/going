@@ -9,6 +9,9 @@ import (
 )
 
 func describeCalls(calls []common.Call) []string {
+	if len(calls) == 0 {
+		return []string{"None"}
+	}
 	return lo.Map(calls, describeCall)
 }
 

@@ -64,6 +64,6 @@ func (m *mocked[T, U]) CallsCount() int {
 	return resolveSpy(m.mock, m.method).CallsCount()
 }
 
-func (m *mocked[T, U]) NthCall(index int) common.Call {
+func (m *mocked[T, U]) NthCall(index int) (common.Call, error) {
 	return resolveSpy(m.mock, m.method).NthCall(index)
 }
