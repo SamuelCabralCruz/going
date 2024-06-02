@@ -28,12 +28,6 @@ We also allow cross-references between the libraries.
 Also, all libraries (apart from `kinggo` and `gomicron` themselves) should/could 
 depend on `kinggo` and `gomicron` to build their tests.
 
-# TODO: detox
-- create gomega matchers
-
-# TODO: trust
-- tests
-
 # TODO: xpctd
 - tests
 

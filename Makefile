@@ -32,6 +32,5 @@ test-local-verbose: ## Run tests with verbose.
 	@ginkgo -tags=test -r -v ./...
 
 .PHONY: coverage-report
-coverage-report:
-	@make test-local
+coverage-report: test-local ## Run tests with coverage and open report
 	@open coverage/coverage.html
