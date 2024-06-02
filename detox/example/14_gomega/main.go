@@ -48,5 +48,14 @@ func main() {
 			[]any{"some text 1", true, []byte("ok-a")},
 		))
 		Expect(mocked).To(HaveNthCall(2, []any{"some text 3", true, []byte("ok-c")}))
+		Expect(mocked).To(HaveOrderedCalls(
+			[]any{"some text 1", true, []byte("ok-a")},
+			[]any{"some text 2", false, []byte("ok-b")},
+			[]any{"some text 3", true, []byte("ok-c")},
+		))
 	})
+
+	// Side Note:
+	// One limitation of Detox's gomega matchers can't accept other gomega matchers
+	// to match call arguments.
 }

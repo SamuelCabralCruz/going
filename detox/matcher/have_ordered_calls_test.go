@@ -12,7 +12,7 @@ import (
 	"github.com/onsi/gomega/types"
 )
 
-var _ = DescribeFunction(matcher.HaveCalls, func() {
+var _ = DescribeFunction(matcher.HaveOrderedCalls, func() {
 	var cut types.GomegaMatcher
 	var actual any
 	mock := fixture.NewInterface1Mock()
@@ -21,7 +21,7 @@ var _ = DescribeFunction(matcher.HaveCalls, func() {
 	BeforeEach(func() {
 		mock.Default(fixture.Implementation1{})
 		actual = mocked
-		cut = matcher.HaveCalls([]any{"second"}, []any{"first"}, []any{"third"})
+		cut = matcher.HaveOrderedCalls([]any{"first"}, []any{"second"}, []any{"third"})
 	})
 
 	AfterEach(func() {
@@ -97,7 +97,7 @@ var _ = DescribeFunction(matcher.HaveCalls, func() {
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_calls_test\\.go \\[18\\]\\) to have following calls in any order:\\n\\t\\t\\[0\\]: \\[<string> second\\]\\n\\t\\t\\[1\\]: \\[<string> first\\]\\n\\t\\t\\[2\\]: \\[<string> third\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_ordered_calls_test\\.go \\[18\\]\\) to have following calls:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]\\n\\t\\t\\[2\\]: \\[<string> third\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
 		})
 	})
 
@@ -116,7 +116,7 @@ var _ = DescribeFunction(matcher.HaveCalls, func() {
 		It("should return failure message properly formatted", func() {
 			act()
 
-			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_calls_test\\.go \\[18\\]\\) not to have following calls in any order:\\n\\t\\t\\[0\\]: \\[<string> second\\]\\n\\t\\t\\[1\\]: \\[<string> first\\]\\n\\t\\t\\[2\\]: \\[<string> third\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
+			Expect(observed).To(MatchRegexp("Expected Interface1\\.SingleArgNoReturn \\(.*/matcher/have_ordered_calls_test\\.go \\[18\\]\\) not to have following calls:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]\\n\\t\\t\\[2\\]: \\[<string> third\\]\\n, but received calls were:\\n\\t\\t\\[0\\]: \\[<string> first\\]\\n\\t\\t\\[1\\]: \\[<string> second\\]"))
 		})
 	})
 })

@@ -11,7 +11,7 @@ import (
 // Detox has been designed on the principle that we should only use mock when
 // there is a contract/interface in place.
 
-// Side note:
+// Side Note:
 // We consider the creation of an interface for the sole purpose of
 // mocking a class as a smell which might indicate flaws in your design.
 
