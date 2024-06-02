@@ -14,6 +14,7 @@ This project contains several libraries that can be used individually.
 - [phi](./phi/README.md): Reflection utilities
 - [roar](./roar/README.md): Standardized error struct
 - [scallop](./scallop/README.md): Slice utilities
+- [thong](./thong/README.md): String utilities
 - [trust](./trust/README.md): Generic validators and asserters
 - [xpctd](./xpctd/README.md): Standardized expectation message builder
 
@@ -30,11 +31,6 @@ depend on `kinggo` and `gomicron` to build their tests.
 
 # TODO: xpctd
 - tests
-
-# TODO: thong (NEW PACKAGE)
-- consider rope as package name
-- indent text
-- use it into detox matchers
 
 # TODO: fn
 - tests
@@ -65,6 +61,7 @@ graph TB
     PHI[phi];
     ROAR[roar];
     SCALLOP[scallop];
+    THONG[thong];
     TRUST[trust];
     XPCTD[xpctd];
 
@@ -75,6 +72,7 @@ graph TB
 %%    PHI -.-> KINGGO;
 %%    ROAR -.-> KINGGO;
 %%    SCALLOP -.-> KINGGO;
+%%    THONG -.-> KINGGO;
 %%    TRUST -.-> KINGGO;
 %%    XPCTD -.-> KINGGO;
 
@@ -85,6 +83,7 @@ graph TB
 %%    PHI -.-> GOMICRON;
 %%    ROAR -.-> GOMICRON;
 %%    SCALLOP -.-> GOMICRON;
+%%    THONG -.-> GOMICRON;
 %%    TRUST -.-> GOMICRON;
 %%    XPCTD -.-> GOMICRON;
 
@@ -96,6 +95,7 @@ graph TB
     DETOX --> PHI;
     DETOX --> ROAR;
     DETOX --> SCALLOP;
+    DETOX --> THONG;
     
     FN --> PHI;
     FN --> ROAR;

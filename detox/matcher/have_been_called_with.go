@@ -6,7 +6,6 @@ import (
 	"github.com/SamuelCabralCruz/went/gomicron"
 	"github.com/SamuelCabralCruz/went/xpctd"
 	"github.com/onsi/gomega/types"
-	"strings"
 )
 
 func HaveBeenCalledWith(args ...any) types.GomegaMatcher {
@@ -20,7 +19,7 @@ func HaveBeenCalledWith(args ...any) types.GomegaMatcher {
 			}).
 			ToHaveFormatted("been called at least once with following args:\n\t\t%s\n", describeArgs(args)).
 			ButReceived(func(actual detox.Assertable) string {
-				return fmt.Sprintf("calls were:\n\t\t%s", strings.Join(describeCalls(actual.Calls()), "\n\t\t"))
+				return fmt.Sprintf("calls were:\n%s", describeCalls(actual.Calls()))
 			}),
 	})
 }

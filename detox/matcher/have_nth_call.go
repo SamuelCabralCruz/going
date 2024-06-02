@@ -6,7 +6,6 @@ import (
 	"github.com/SamuelCabralCruz/went/gomicron"
 	"github.com/SamuelCabralCruz/went/xpctd"
 	"github.com/onsi/gomega/types"
-	"strings"
 )
 
 func HaveNthCall(index int, call detox.Call) types.GomegaMatcher {
@@ -20,7 +19,7 @@ func HaveNthCall(index int, call detox.Call) types.GomegaMatcher {
 			}).
 			ToHaveFormatted("following call:\n\t\t%s\n", describeCall(toCommonCall(call), index)).
 			ButReceived(func(actual detox.Assertable) string {
-				return fmt.Sprintf("calls were:\n\t\t%s", strings.Join(describeCalls(actual.Calls()), "\n\t\t"))
+				return fmt.Sprintf("calls were:\n%s", describeCalls(actual.Calls()))
 			}),
 	})
 }

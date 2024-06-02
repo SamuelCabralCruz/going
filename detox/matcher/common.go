@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"github.com/SamuelCabralCruz/went/detox"
 	"github.com/SamuelCabralCruz/went/detox/internal/common"
+	"github.com/SamuelCabralCruz/went/thong"
 	"github.com/samber/lo"
 	"strings"
 )
 
-func describeCalls(calls []common.Call) []string {
+func describeCalls(calls []common.Call) string {
 	if len(calls) == 0 {
-		return []string{"None"}
+		return "None"
 	}
-	return lo.Map(calls, describeCall)
+	return thong.IndentParts("\t\t", lo.Map(calls, describeCall))
 }
 
 func describeCall(call common.Call, index int) string {

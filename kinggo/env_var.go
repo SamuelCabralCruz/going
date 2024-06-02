@@ -9,11 +9,11 @@ import (
 
 func SetUpEnvironmentVariable(key string, value string) {
 	if err := os.Setenv(key, value); err != nil {
-		panic(fmt.Errorf("could not set environment variable `%s` with value `%s`", key, value))
+		panic(fmt.Errorf(`could not set environment variable "%s" with value "%s"`, key, value))
 	}
 	ginkgo.DeferCleanup(func() {
 		if err := os.Unsetenv(key); err != nil {
-			panic(fmt.Errorf("could not unset environment variable `%s`", key))
+			panic(fmt.Errorf(`could not unset environment variable "%s"`, key))
 		}
 	})
 }

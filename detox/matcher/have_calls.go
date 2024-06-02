@@ -6,7 +6,6 @@ import (
 	"github.com/SamuelCabralCruz/went/gomicron"
 	"github.com/SamuelCabralCruz/went/xpctd"
 	"github.com/onsi/gomega/types"
-	"strings"
 )
 
 func HaveCalls(calls ...detox.Call) types.GomegaMatcher {
@@ -18,9 +17,9 @@ func HaveCalls(calls ...detox.Call) types.GomegaMatcher {
 			func(actual detox.Assertable) string {
 				return actual.Describe()
 			}).
-			ToHaveFormatted("following calls in any order:\n\t\t%s\n", strings.Join(describeCalls(toCommonCalls(calls)), "\n\t\t")).
+			ToHaveFormatted("following calls in any order:\n%s\n", describeCalls(toCommonCalls(calls))).
 			ButReceived(func(actual detox.Assertable) string {
-				return fmt.Sprintf("calls were:\n\t\t%s", strings.Join(describeCalls(actual.Calls()), "\n\t\t"))
+				return fmt.Sprintf("calls were:\n%s", describeCalls(actual.Calls()))
 			}),
 	})
 }
