@@ -11,13 +11,16 @@ func IsTypeOf[T any](value any) (T, bool) {
 }
 
 func IsZero(value any) bool {
+	if value == nil {
+		return true
+	}
 	if IsMap(value) {
 		return compareBySerialization(value, map[any]any{})
 	}
 	if IsSlice(value) {
 		return compareBySerialization(value, []any{})
 	}
-	return value == nil || reflect.DeepEqual(value, reflect.Zero(reflect.TypeOf(value)).Interface())
+	return reflect.DeepEqual(value, reflect.Zero(reflect.TypeOf(value)).Interface())
 }
 
 func IsNotZero(value any) bool {

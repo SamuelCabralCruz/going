@@ -32,7 +32,6 @@ depend on `kinggo` and `gomicron` to build their tests.
 # TODO: rename went to going
 
 # TODO: fn
-- of optional -> nullable by default
 - tests
 
 # TODO: xpctd

@@ -24,6 +24,7 @@ var _ = DescribeFunction(phi.IsZero, func() {
 
 		Expect(observed).To(Equal(expected))
 	}, CreateTableEntries([]string{"input", "expected"},
+		[]any{nil, true},
 		[]any{func() {}, false},
 		[]any{func() { _ = "" }, false},
 		[]any{map[string]any{}, true},

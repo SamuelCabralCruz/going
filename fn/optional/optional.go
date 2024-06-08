@@ -98,24 +98,7 @@ func (o Optional[T]) OrElse(value T) T {
 }
 
 func (o Optional[T]) FlatMap(mapper typing.Mapper[Optional[T]]) Optional[T] {
-	if o.IsPresent() {
-		return assertion.Switch[Optional[T], Optional[T]](fn.SafeMapper(mapper, o))(fn.Identity[Optional[T]], ofError[T])
-	}
-	return o
-}
-
-func (o Optional[T]) FlatMapEmpty(supplier typing.Supplier[Optional[T]]) Optional[T] {
-	if o.IsAbsent() {
-		return assertion.Switch[Optional[T], Optional[T]](fn.SafeSupplier(supplier))(fn.Identity[Optional[T]], ofError[T])
-	}
-	return o
-}
-
-func (o Optional[T]) FlatSwitchMap(onPresent typing.Mapper[Optional[T]], onAbsent typing.Supplier[Optional[T]]) Optional[T] {
-	if o.IsPresent() {
-		return o.FlatMap(onPresent)
-	}
-	return o.FlatMapEmpty(onAbsent)
+	return assertion.Switch[Optional[T], Optional[T]](fn.SafeMapper(mapper, o))(fn.Identity[Optional[T]], ofError[T])
 }
 
 func (o Optional[T]) Map(mapper typing.Mapper[T]) Optional[T] {
@@ -164,7 +147,7 @@ func (o Optional[T]) Filter(predicate typing.Predicate[T]) Optional[T] {
 			}
 			return Empty[T]()
 		}
-		assertion.Switch[bool, Optional[T]](fn.SafePredicate(predicate, o.value))(filterWithPredicate, ofError[T])
+		return assertion.Switch[bool, Optional[T]](fn.SafePredicate(predicate, o.value))(filterWithPredicate, ofError[T])
 	}
 	return o
 }

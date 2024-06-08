@@ -94,24 +94,7 @@ func (r Result[T]) OrElse(value T) T {
 }
 
 func (r Result[T]) FlatMap(mapper typing.Mapper[Result[T]]) Result[T] {
-	if r.IsOk() {
-		return assertion.Switch[Result[T], Result[T]](fn.SafeMapper(mapper, r))(fn.Identity[Result[T]], Error[T])
-	}
-	return r
-}
-
-func (r Result[T]) FlatMapError(transformer typing.Mapper[Result[T]]) Result[T] {
-	if r.IsError() {
-		return assertion.Switch[Result[T], Result[T]](fn.SafeMapper(transformer, r))(fn.Identity[Result[T]], Error[T])
-	}
-	return r
-}
-
-func (r Result[T]) FlatSwitchMap(onValue typing.Mapper[Result[T]], onError typing.Mapper[Result[T]]) Result[T] {
-	if r.IsOk() {
-		return r.FlatMap(onValue)
-	}
-	return r.FlatMapError(onError)
+	return assertion.Switch[Result[T], Result[T]](fn.SafeMapper(mapper, r))(fn.Identity[Result[T]], Error[T])
 }
 
 func (r Result[T]) Map(mapper typing.Mapper[T]) Result[T] {
