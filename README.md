@@ -29,10 +29,13 @@ We also allow cross-references between the libraries.
 Also, all libraries (apart from `kinggo` and `gomicron` themselves) should/could 
 depend on `kinggo` and `gomicron` to build their tests.
 
-# TODO: xpctd
-- tests
+# TODO: rename went to going
 
 # TODO: fn
+- of optional -> nullable by default
+- tests
+
+# TODO: xpctd
 - tests
 
 # TODO: botox
@@ -40,9 +43,6 @@ depend on `kinggo` and `gomicron` to build their tests.
 - reset a specific dependency
 - new container
 - allow for deep copy (example: resolve child singleton should not resolve parent container)
-
-# TODO: phi
-- tests interface.go
 
 # TODO: roar
 - review accumulate -> maybe a way to accumulate error

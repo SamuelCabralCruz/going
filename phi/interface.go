@@ -5,12 +5,12 @@ import (
 	"reflect"
 )
 
-func InterfaceToType[T any]() reflect.Type {
-	return reflect.TypeOf(InterfaceToPtr[T]()).Elem()
-}
-
 func InterfaceToPtr[T any]() *T {
 	return (*T)(nil)
+}
+
+func InterfaceToType[T any]() reflect.Type {
+	return reflect.TypeOf(InterfaceToPtr[T]()).Elem()
 }
 
 func GetInterfaceMethodByName[T any](methodName string) (reflect.Method, bool) {

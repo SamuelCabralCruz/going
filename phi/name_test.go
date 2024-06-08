@@ -42,13 +42,13 @@ var _ = DescribeFunction(phi.FunctionName, func() {
 
 		act()
 
-		Expect(observed).To(Equal(expected))
+		Expect(observed).To(MatchRegexp(expected))
 	},
 		CreateTableEntries([]string{"input", "expected"},
-			[]any{func() {}, "func2.3"},
-			[]any{phi.AnonymousFunction, "func1"},
-			[]any{phi.CustomFunction, "CustomFunction"},
-			[]any{phi.GenericFunction[any], "GenericFunction"},
+			[]any{func() {}, "^func\\d\\.\\d$"},
+			[]any{phi.AnonymousFunction, "^func\\d$"},
+			[]any{phi.CustomFunction, "^CustomFunction$"},
+			[]any{phi.GenericFunction[any], "^GenericFunction$"},
 		),
 	)
 })

@@ -2,6 +2,31 @@
 
 package phi
 
+type SomeInterface interface {
+	A()
+	B(string)
+	C() string
+}
+
+type SomeImplementation struct {
+}
+
+func (s SomeImplementation) A() {}
+
+func (s SomeImplementation) B(_ string) {}
+
+func (s SomeImplementation) C() string { return "" }
+
+var _ SomeInterface = SomeImplementation{}
+
+type AnotherImplementation struct{}
+
+func (a AnotherImplementation) A(_ string) {}
+
+func (a AnotherImplementation) B(_ string) {}
+
+func (a AnotherImplementation) D(_ int) string { return "" }
+
 type Embedded struct{}
 
 type nonExportedEmbedded struct{}
@@ -35,6 +60,6 @@ func (_ IamNotImplementing) Speak() string {
 
 func CustomFunction() {}
 
-func GenericFunction[T any]() {}
+func GenericFunction[_ any]() {}
 
 var AnonymousFunction = func() {}
