@@ -21,6 +21,12 @@ var _ = DescribeFunction(matcher.HaveCalls, func() {
 		mock.Reset()
 	})
 
+	Context("with mock having no registered calls", func() {
+		It("should match", func() {
+			Expect(mocked).To(matcher.HaveCalls())
+		})
+	})
+
 	Context("with mock having desired calls", func() {
 		BeforeEach(func() {
 			mock.MultipleArgsNoReturn(2, false, []byte{'b', 'a', 'c'})
