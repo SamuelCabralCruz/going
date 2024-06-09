@@ -143,7 +143,7 @@ func (r Result[T]) Filter(predicate typing.Predicate[T]) Result[T] {
 			}
 			return Error[T](newFilteredValueError(r.value))
 		}
-		assertion.Switch[bool, Result[T]](fn.SafePredicate(predicate, r.value))(filterWithPredicate, Error[T])
+		return assertion.Switch[bool, Result[T]](fn.SafePredicate(predicate, r.value))(filterWithPredicate, Error[T])
 	}
 	return r
 }

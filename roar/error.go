@@ -7,6 +7,7 @@ import (
 
 type AggregatedError struct {
 	Roar[AggregatedError]
+	errs []error
 }
 
 func NewAggregatedError(errs ...error) AggregatedError {
@@ -16,5 +17,10 @@ func NewAggregatedError(errs ...error) AggregatedError {
 			lo.Map(errs, func(err error, index int) Option {
 				return WithField(fmt.Sprintf("[%d]", index), err.Error())
 			})...),
+		errs,
 	}
+}
+
+func (a AggregatedError) Errors() []error {
+	return a.errs
 }

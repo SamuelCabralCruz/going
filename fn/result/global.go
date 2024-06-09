@@ -33,9 +33,8 @@ func FilterError[T any](values ...Result[T]) []error {
 }
 
 func Combine[T any](results ...Result[T]) Result[[]T] {
+	value := FilterOk(results...)
 	errors := FilterError(results...)
-	if len(errors) > 0 {
-		return Error[[]T](roar.Aggregate(errors...))
-	}
-	return Ok(FilterOk(results...))
+	err := lo.Ternary(len(errors) > 0, roar.Aggregate(errors...), nil)
+	return Result[[]T]{value, err}
 }
