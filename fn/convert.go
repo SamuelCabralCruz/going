@@ -46,7 +46,10 @@ func MapperToTransformer[T any](mapper typing.Mapper[T]) typing.Transformer[T, T
 func AsserterToValidator[T any](asserter typing.Asserter[T]) typing.Validator[T] {
 	return func(value any) (T, bool) {
 		asserted, err := asserter(value)
-		return asserted, err == nil
+		if err == nil {
+			return asserted, true
+		}
+		return phi.Empty[T](), false
 	}
 }
 
