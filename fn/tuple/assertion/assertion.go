@@ -38,10 +38,6 @@ func FromError[T any](err error) (T, error) {
 	return phi.Empty[T](), err
 }
 
-func Reverse[T any](value T, err error) (error, T) {
-	return err, value
-}
-
 func FromReversed[T any](err error, value T) (T, error) {
 	return value, err
 }
@@ -57,10 +53,10 @@ func Switch[T any, U any](
 	value T,
 	err error,
 ) func(typing.Transformer[T, U], typing.Transformer[error, U]) U {
-	return func(onValue typing.Transformer[T, U], onError typing.Transformer[error, U]) U {
+	return func(onOk typing.Transformer[T, U], onError typing.Transformer[error, U]) U {
 		if err != nil {
 			return onError(err)
 		}
-		return onValue(value)
+		return onOk(value)
 	}
 }

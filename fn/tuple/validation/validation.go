@@ -37,10 +37,6 @@ func NotOk[T any]() (T, bool) {
 	return phi.Empty[T](), false
 }
 
-func Reverse[T any](value T, ok bool) (bool, T) {
-	return ok, value
-}
-
 func FromReversed[T any](ok bool, value T) (T, bool) {
 	return value, ok
 }
@@ -58,11 +54,11 @@ func ToAssertionWithError[T any](value T, ok bool) func(error) (T, error) {
 	}
 }
 
-func Switch[T any, U any](value T, ok bool) func(mapper typing.Transformer[T, U], supplier typing.Supplier[U]) U {
-	return func(transformer typing.Transformer[T, U], supplier typing.Supplier[U]) U {
+func Switch[T any, U any](value T, ok bool) func(typing.Transformer[T, U], typing.Supplier[U]) U {
+	return func(onOk typing.Transformer[T, U], onNotOk typing.Supplier[U]) U {
 		if !ok {
-			return supplier()
+			return onNotOk()
 		}
-		return transformer(value)
+		return onOk(value)
 	}
 }
