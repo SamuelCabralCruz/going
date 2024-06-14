@@ -21,7 +21,7 @@ var _ = DescribeFunction(botox.MustResolve[any], func() {
 	}
 
 	AfterEach(func() {
-		botox.Clear()
+		botox.Reset()
 	})
 
 	Context("with twin types registrations", func() {

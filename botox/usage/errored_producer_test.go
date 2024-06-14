@@ -17,7 +17,7 @@ var _ = DescribeFunction(botox.MustResolve[any], func() {
 	}
 
 	AfterEach(func() {
-		botox.Clear()
+		botox.Reset()
 	})
 
 	Context("with producer returning error registration", func() {

@@ -18,7 +18,7 @@ var _ = DescribeFunction(botox.MustResolve[any], func() {
 	})
 
 	AfterEach(func() {
-		botox.Clear()
+		botox.Reset()
 	})
 
 	assert := func(act func(), shouldNotPanic bool) {

@@ -4,6 +4,7 @@ package usage_test
 
 import (
 	"github.com/SamuelCabralCruz/went/botox"
+	"github.com/SamuelCabralCruz/went/botox/container"
 	"github.com/SamuelCabralCruz/went/botox/usage/fixture"
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
@@ -27,7 +28,7 @@ var _ = DescribeFunction(botox.MustResolveAll[any], func() {
 	})
 
 	AfterEach(func() {
-		botox.Clear()
+		botox.Reset()
 	})
 
 	Context("with implementations registered on their own type", func() {
@@ -38,7 +39,7 @@ var _ = DescribeFunction(botox.MustResolveAll[any], func() {
 		})
 
 		It("should not resolve any implementation", func() {
-			Expect(act).To(PanicWith(BeAssignableToTypeOf(botox.NoCandidateFoundError{})))
+			Expect(act).To(PanicWith(BeAssignableToTypeOf(container.NoCandidateFoundError{})))
 		})
 	})
 

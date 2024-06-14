@@ -20,3 +20,9 @@ func Register[T any](provider typing.Producer[T]) InjectionToken[T] {
 func (it *injectable[T]) Resolve() (T, error) {
 	return fn.SafeProducer(it.provider)
 }
+
+func (it *injectable[T]) Clone() InjectionToken[T] {
+	return &injectable[T]{
+		provider: it.provider,
+	}
+}

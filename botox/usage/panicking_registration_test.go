@@ -19,7 +19,7 @@ var _ = DescribeFunction(botox.Resolve[any], func() {
 	})
 
 	AfterEach(func() {
-		botox.Clear()
+		botox.Reset()
 	})
 
 	Context("with non singleton registration", func() {

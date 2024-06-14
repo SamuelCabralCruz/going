@@ -29,3 +29,11 @@ func (s *singleton[T]) Resolve() (T, error) {
 	s.reference = result.FromAssertion(s.token.Resolve())
 	return s.reference.Get()
 }
+
+func (s *singleton[T]) Clone() InjectionToken[T] {
+	return &singleton[T]{
+		token:     s.token.Clone(),
+		provided:  s.provided,
+		reference: s.reference,
+	}
+}

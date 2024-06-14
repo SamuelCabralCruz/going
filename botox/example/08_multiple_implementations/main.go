@@ -25,7 +25,7 @@ func main() {
 	fmt.Println(err.Error())
 
 	// vs
-	botox.Clear()
+	botox.Reset()
 
 	// REGISTRATION
 	botox.RegisterInstance[example.SomeInterface](example.SomeImplementation1{})
@@ -37,9 +37,11 @@ func main() {
 	fmt.Println(fmt.Sprintf("error is %T", err))
 
 	// Side Note:
-	// Smart cookies 🍪 might have observed the use of `botox.Clear`.
+	// Smart cookies 🍪 might have observed the use of `botox.Reset`.
 	// Although we don't see an actual need for this feature in production code,
 	// we implemented it for testing purposes.
 	// Feel free to use it... 🕊️
 	// However, keep in mind that it resets the entire container...
+	// Given you would like to unregister all tokens for a given type, you can have
+	// a look at `botox.Unregister`. 🧹
 }

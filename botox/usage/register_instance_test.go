@@ -4,6 +4,7 @@ package usage_test
 
 import (
 	"github.com/SamuelCabralCruz/went/botox"
+	"github.com/SamuelCabralCruz/went/botox/container"
 	"github.com/SamuelCabralCruz/went/botox/usage/fixture"
 	. "github.com/SamuelCabralCruz/went/kinggo"
 	. "github.com/onsi/ginkgo/v2"
@@ -28,7 +29,7 @@ var _ = DescribeFunction(botox.RegisterInstance[any], func() {
 	})
 
 	AfterEach(func() {
-		botox.Clear()
+		botox.Reset()
 	})
 
 	DescribeFunction(botox.MustResolve[any], func() {
@@ -40,7 +41,7 @@ var _ = DescribeFunction(botox.RegisterInstance[any], func() {
 
 		Context("without registration", func() {
 			It("should panic", func() {
-				Expect(resolve).To(PanicWith(BeAssignableToTypeOf(botox.NoCandidateFoundError{})))
+				Expect(resolve).To(PanicWith(BeAssignableToTypeOf(container.NoCandidateFoundError{})))
 			})
 		})
 
@@ -62,7 +63,7 @@ var _ = DescribeFunction(botox.RegisterInstance[any], func() {
 			})
 
 			It("should panic", func() {
-				Expect(resolve).To(PanicWith(BeAssignableToTypeOf(botox.TooManyCandidatesFoundError{})))
+				Expect(resolve).To(PanicWith(BeAssignableToTypeOf(container.TooManyCandidatesFoundError{})))
 			})
 		})
 	})
@@ -80,7 +81,7 @@ var _ = DescribeFunction(botox.RegisterInstance[any], func() {
 				resolve()
 
 				Expect(observedInstance).To(BeZero())
-				Expect(observedError).To(BeAssignableToTypeOf(botox.NoCandidateFoundError{}))
+				Expect(observedError).To(BeAssignableToTypeOf(container.NoCandidateFoundError{}))
 			})
 		})
 
@@ -109,7 +110,7 @@ var _ = DescribeFunction(botox.RegisterInstance[any], func() {
 				resolve()
 
 				Expect(observedInstance).To(BeZero())
-				Expect(observedError).To(BeAssignableToTypeOf(botox.TooManyCandidatesFoundError{}))
+				Expect(observedError).To(BeAssignableToTypeOf(container.TooManyCandidatesFoundError{}))
 			})
 		})
 	})
@@ -123,7 +124,7 @@ var _ = DescribeFunction(botox.RegisterInstance[any], func() {
 
 		Context("without registration", func() {
 			It("should panic", func() {
-				Expect(resolve).To(PanicWith(BeAssignableToTypeOf(botox.NoCandidateFoundError{})))
+				Expect(resolve).To(PanicWith(BeAssignableToTypeOf(container.NoCandidateFoundError{})))
 			})
 		})
 
@@ -172,7 +173,7 @@ var _ = DescribeFunction(botox.RegisterInstance[any], func() {
 				resolve()
 
 				Expect(observedInstances).To(HaveLen(0))
-				Expect(observedError).To(BeAssignableToTypeOf(botox.NoCandidateFoundError{}))
+				Expect(observedError).To(BeAssignableToTypeOf(container.NoCandidateFoundError{}))
 			})
 		})
 

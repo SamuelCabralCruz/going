@@ -31,12 +31,6 @@ depend on `kinggo` and `gomicron` to build their tests.
 
 # TODO: rename went to going
 
-# TODO: botox
-- allow for local container
-- reset a specific dependency
-- new container
-- allow for deep copy (example: resolve child singleton should not resolve parent container)
-
 # TODO: todo lib
 - task runner logic
 
@@ -44,6 +38,9 @@ depend on `kinggo` and `gomicron` to build their tests.
 - review accumulate -> maybe a way to accumulate error
 - stack trace
 - tests
+
+# TODO: keven lib
+- map utilities (kv -> keve -> keven)
 
 ```mermaid
 graph TB

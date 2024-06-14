@@ -24,7 +24,7 @@ var _ = DescribeFunction(it.RegisterSingleton[any], func() {
 	})
 
 	AfterEach(func() {
-		botox.Clear()
+		botox.Reset()
 	})
 
 	Context("with already provided instance", func() {
