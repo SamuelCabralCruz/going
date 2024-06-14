@@ -31,9 +31,6 @@ depend on `kinggo` and `gomicron` to build their tests.
 
 # TODO: rename went to going
 
-# TODO: xpctd
-- tests
-
 # TODO: botox
 - allow for local container
 - reset a specific dependency

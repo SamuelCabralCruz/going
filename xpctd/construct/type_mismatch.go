@@ -2,11 +2,11 @@ package construct
 
 import (
 	"github.com/SamuelCabralCruz/went/phi"
-	reporter2 "github.com/SamuelCabralCruz/went/xpctd"
+	"github.com/SamuelCabralCruz/went/xpctd"
 )
 
-func TypeMismatchReporter[T any]() reporter2.Reporter[any] {
-	return reporter2.Actual[any]().
+func TypeMismatchReporter[T any]() xpctd.Reporter[any] {
+	return xpctd.Actual[any]().
 		ToBeOfType(phi.BaseTypeName[T]()).
 		ButWasOfType()
 }

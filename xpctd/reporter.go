@@ -4,6 +4,10 @@ import (
 	"fmt"
 )
 
+func New[T any]() Reporter[T] {
+	return newReporter[T]()
+}
+
 func newReporter[T any]() reporter[T] {
 	return reporter[T]{
 		polarity: positive,
@@ -58,8 +62,4 @@ func (r reporter[T]) Report(actual T) string {
 
 func (r reporter[T]) Error(actual T) error {
 	return newExpectationError(r.Report(actual))
-}
-
-func (r reporter[T]) Validation(actual T) (bool, error) {
-	return false, r.Error(actual)
 }

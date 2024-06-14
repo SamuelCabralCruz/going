@@ -5,11 +5,11 @@ type Reporter[T any] interface {
 	Negative() Reporter[T]
 	Report(T) string
 	Error(T) error
-	Validation(T) (bool, error)
 }
 
 type Expected[T any] interface {
 	Reporter[T]
+	To[T]
 	To(describe func(actual T) string) To[T]
 	ToFormatted(format string, a ...any) To[T]
 	ToBe(describe func(actual T) string) To[T]

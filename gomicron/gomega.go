@@ -19,7 +19,7 @@ func (m customGomegaMatcher[T]) Match(actual any) (bool, error) {
 	if v, ok := actual.(T); ok {
 		return m.definition.Matcher(v)
 	}
-	return construct.TypeMismatchReporter[T]().Validation(actual)
+	return false, construct.TypeMismatchReporter[T]().Error(actual)
 }
 
 func (m customGomegaMatcher[T]) FailureMessage(actual any) string {
