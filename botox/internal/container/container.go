@@ -1,10 +1,10 @@
 package container
 
 import (
-	"github.com/SamuelCabralCruz/went/botox/internal/it"
-	"github.com/SamuelCabralCruz/went/fn/optional"
-	"github.com/SamuelCabralCruz/went/fn/result"
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/botox/internal/it"
+	"github.com/SamuelCabralCruz/going/fn/optional"
+	"github.com/SamuelCabralCruz/going/fn/result"
+	"github.com/SamuelCabralCruz/going/phi"
 	"github.com/samber/lo"
 	"reflect"
 )

@@ -1,9 +1,9 @@
 package matcher
 
 import (
-	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/gomicron"
-	"github.com/SamuelCabralCruz/went/xpctd"
+	"github.com/SamuelCabralCruz/going/detox"
+	"github.com/SamuelCabralCruz/going/gomicron"
+	"github.com/SamuelCabralCruz/going/xpctd"
 	"github.com/onsi/gomega/types"
 )
 

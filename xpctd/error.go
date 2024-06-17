@@ -1,7 +1,7 @@
 package xpctd
 
 import (
-	"github.com/SamuelCabralCruz/went/roar"
+	"github.com/SamuelCabralCruz/going/roar"
 )
 
 type ExpectationError struct {

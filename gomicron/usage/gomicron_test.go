@@ -3,10 +3,10 @@
 package usage_test
 
 import (
-	"github.com/SamuelCabralCruz/went/gomicron"
-	"github.com/SamuelCabralCruz/went/gomicron/usage/fixture"
-	. "github.com/SamuelCabralCruz/went/kinggo"
-	"github.com/SamuelCabralCruz/went/xpctd"
+	"github.com/SamuelCabralCruz/going/gomicron"
+	"github.com/SamuelCabralCruz/going/gomicron/usage/fixture"
+	. "github.com/SamuelCabralCruz/going/kinggo"
+	"github.com/SamuelCabralCruz/going/xpctd"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/types"

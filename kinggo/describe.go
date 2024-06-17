@@ -1,7 +1,7 @@
 package kinggo
 
 import (
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/phi"
 	"github.com/onsi/ginkgo/v2"
 )
 

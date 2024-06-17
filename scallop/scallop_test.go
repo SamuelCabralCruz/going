@@ -2,8 +2,8 @@ package scallop_test
 
 import (
 	"fmt"
-	. "github.com/SamuelCabralCruz/went/kinggo"
-	"github.com/SamuelCabralCruz/went/scallop"
+	. "github.com/SamuelCabralCruz/going/kinggo"
+	"github.com/SamuelCabralCruz/going/scallop"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

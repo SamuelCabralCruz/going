@@ -1,6 +1,6 @@
 package optional
 
-import "github.com/SamuelCabralCruz/went/roar"
+import "github.com/SamuelCabralCruz/going/roar"
 
 type NoSuchElementError struct {
 	roar.Roar[NoSuchElementError]

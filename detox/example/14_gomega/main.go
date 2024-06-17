@@ -3,9 +3,9 @@
 package main
 
 import (
-	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/example/00_boilerplate"
-	. "github.com/SamuelCabralCruz/went/detox/matcher"
+	"github.com/SamuelCabralCruz/going/detox"
+	"github.com/SamuelCabralCruz/going/detox/example/00_boilerplate"
+	. "github.com/SamuelCabralCruz/going/detox/matcher"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

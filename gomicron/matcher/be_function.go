@@ -1,12 +1,12 @@
 package matcher
 
 import (
-	"github.com/SamuelCabralCruz/went/fn/result"
-	"github.com/SamuelCabralCruz/went/fn/tuple/assertion"
-	"github.com/SamuelCabralCruz/went/gomicron"
-	"github.com/SamuelCabralCruz/went/phi"
-	"github.com/SamuelCabralCruz/went/trust"
-	"github.com/SamuelCabralCruz/went/xpctd"
+	"github.com/SamuelCabralCruz/going/fn/result"
+	"github.com/SamuelCabralCruz/going/fn/tuple/assertion"
+	"github.com/SamuelCabralCruz/going/gomicron"
+	"github.com/SamuelCabralCruz/going/phi"
+	"github.com/SamuelCabralCruz/going/trust"
+	"github.com/SamuelCabralCruz/going/xpctd"
 	"github.com/onsi/gomega/types"
 )
 

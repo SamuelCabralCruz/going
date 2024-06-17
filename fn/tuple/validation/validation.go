@@ -1,9 +1,9 @@
 package validation
 
 import (
-	"github.com/SamuelCabralCruz/went/fn/tuple/assertion"
-	"github.com/SamuelCabralCruz/went/fn/typing"
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/fn/tuple/assertion"
+	"github.com/SamuelCabralCruz/going/fn/typing"
+	"github.com/SamuelCabralCruz/going/phi"
 )
 
 func IgnoreOk[T any](value T, _ bool) T {

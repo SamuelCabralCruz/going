@@ -1,10 +1,10 @@
 package usage_test
 
 import (
-	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/matcher"
-	"github.com/SamuelCabralCruz/went/detox/usage/fixture"
-	. "github.com/SamuelCabralCruz/went/kinggo"
+	"github.com/SamuelCabralCruz/going/detox"
+	"github.com/SamuelCabralCruz/going/detox/matcher"
+	"github.com/SamuelCabralCruz/going/detox/usage/fixture"
+	. "github.com/SamuelCabralCruz/going/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

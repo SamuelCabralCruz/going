@@ -3,8 +3,8 @@
 package tuple_test
 
 import (
-	"github.com/SamuelCabralCruz/went/fn/tuple"
-	. "github.com/SamuelCabralCruz/went/kinggo"
+	"github.com/SamuelCabralCruz/going/fn/tuple"
+	. "github.com/SamuelCabralCruz/going/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

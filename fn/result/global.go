@@ -1,9 +1,9 @@
 package result
 
 import (
-	"github.com/SamuelCabralCruz/went/fn"
-	"github.com/SamuelCabralCruz/went/fn/typing"
-	"github.com/SamuelCabralCruz/went/roar"
+	"github.com/SamuelCabralCruz/going/fn"
+	"github.com/SamuelCabralCruz/going/fn/typing"
+	"github.com/SamuelCabralCruz/going/roar"
 	"github.com/samber/lo"
 )
 

@@ -4,7 +4,7 @@ package htntp
 
 import (
 	"errors"
-	. "github.com/SamuelCabralCruz/went/kinggo"
+	. "github.com/SamuelCabralCruz/going/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"net/http"

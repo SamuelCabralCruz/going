@@ -1,8 +1,8 @@
 package fake
 
 import (
-	"github.com/SamuelCabralCruz/went/detox/internal/common"
-	"github.com/SamuelCabralCruz/went/fn/optional"
+	"github.com/SamuelCabralCruz/going/detox/internal/common"
+	"github.com/SamuelCabralCruz/going/fn/optional"
 	"github.com/samber/lo"
 )
 

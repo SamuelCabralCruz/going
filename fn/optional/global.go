@@ -1,8 +1,8 @@
 package optional
 
 import (
-	"github.com/SamuelCabralCruz/went/fn"
-	"github.com/SamuelCabralCruz/went/fn/typing"
+	"github.com/SamuelCabralCruz/going/fn"
+	"github.com/SamuelCabralCruz/going/fn/typing"
 	"github.com/samber/lo"
 )
 

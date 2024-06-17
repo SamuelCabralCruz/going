@@ -1,7 +1,7 @@
 package scallop
 
 import (
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/phi"
 	"github.com/samber/lo"
 )
 

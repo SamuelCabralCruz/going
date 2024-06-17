@@ -1,8 +1,8 @@
 package detox
 
 import (
-	"github.com/SamuelCabralCruz/went/detox/internal/common"
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/detox/internal/common"
+	"github.com/SamuelCabralCruz/going/phi"
 )
 
 func When[T any, U any](mock *Detox[T], method U) Mocked[U] {

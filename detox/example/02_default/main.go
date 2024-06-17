@@ -2,7 +2,7 @@
 
 package main
 
-import "github.com/SamuelCabralCruz/went/detox/example/00_boilerplate"
+import "github.com/SamuelCabralCruz/going/detox/example/00_boilerplate"
 
 func main() {
 	// To avoid your tests to panic or to partially mock the implementation, you

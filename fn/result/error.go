@@ -1,6 +1,6 @@
 package result
 
-import "github.com/SamuelCabralCruz/went/roar"
+import "github.com/SamuelCabralCruz/going/roar"
 
 type FilteredValueError struct {
 	roar.Roar[FilteredValueError]

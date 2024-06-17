@@ -1,8 +1,8 @@
 package botox
 
 import (
-	"github.com/SamuelCabralCruz/went/botox/container"
-	"github.com/SamuelCabralCruz/went/fn/typing"
+	"github.com/SamuelCabralCruz/going/botox/container"
+	"github.com/SamuelCabralCruz/going/fn/typing"
 )
 
 var globalContainer = container.New()

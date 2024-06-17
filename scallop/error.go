@@ -2,7 +2,7 @@ package scallop
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/roar"
+	"github.com/SamuelCabralCruz/going/roar"
 )
 
 type IndexOutOfBoundsError struct {

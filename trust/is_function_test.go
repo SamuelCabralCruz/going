@@ -4,9 +4,9 @@ package trust_test
 
 import (
 	"fmt"
-	. "github.com/SamuelCabralCruz/went/gomicron/matcher"
-	. "github.com/SamuelCabralCruz/went/kinggo"
-	"github.com/SamuelCabralCruz/went/trust"
+	. "github.com/SamuelCabralCruz/going/gomicron/matcher"
+	. "github.com/SamuelCabralCruz/going/kinggo"
+	"github.com/SamuelCabralCruz/going/trust"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

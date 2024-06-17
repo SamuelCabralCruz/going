@@ -1,7 +1,7 @@
 package container
 
 import (
-	"github.com/SamuelCabralCruz/went/roar"
+	"github.com/SamuelCabralCruz/going/roar"
 	"reflect"
 )
 

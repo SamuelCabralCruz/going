@@ -1,8 +1,8 @@
 package construct
 
 import (
-	"github.com/SamuelCabralCruz/went/phi"
-	"github.com/SamuelCabralCruz/went/xpctd"
+	"github.com/SamuelCabralCruz/going/phi"
+	"github.com/SamuelCabralCruz/going/xpctd"
 )
 
 func TypeMismatchReporter[T any]() xpctd.Reporter[any] {

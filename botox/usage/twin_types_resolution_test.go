@@ -3,10 +3,10 @@
 package usage_test
 
 import (
-	"github.com/SamuelCabralCruz/went/botox"
-	"github.com/SamuelCabralCruz/went/botox/usage/fixture/pkg1"
-	"github.com/SamuelCabralCruz/went/botox/usage/fixture/pkg2"
-	. "github.com/SamuelCabralCruz/went/kinggo"
+	"github.com/SamuelCabralCruz/going/botox"
+	"github.com/SamuelCabralCruz/going/botox/usage/fixture/pkg1"
+	"github.com/SamuelCabralCruz/going/botox/usage/fixture/pkg2"
+	. "github.com/SamuelCabralCruz/going/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

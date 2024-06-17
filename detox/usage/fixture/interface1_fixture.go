@@ -4,7 +4,7 @@ package fixture
 
 import (
 	"errors"
-	"github.com/SamuelCabralCruz/went/detox"
+	"github.com/SamuelCabralCruz/going/detox"
 )
 
 type SomeStruct struct {

@@ -4,7 +4,7 @@ package fixture
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/botox"
+	"github.com/SamuelCabralCruz/going/botox"
 	"strings"
 )
 

@@ -1,7 +1,7 @@
 package htntp
 
 import (
-	"github.com/SamuelCabralCruz/went/fn/result"
+	"github.com/SamuelCabralCruz/going/fn/result"
 	"net/http"
 	"net/http/httputil"
 	"strings"

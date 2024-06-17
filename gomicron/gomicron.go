@@ -1,7 +1,7 @@
 package gomicron
 
 import (
-	"github.com/SamuelCabralCruz/went/xpctd"
+	"github.com/SamuelCabralCruz/going/xpctd"
 )
 
 type Matcher[T any] func(T) (bool, error)

@@ -2,7 +2,7 @@ package roar
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/phi"
 	"github.com/samber/lo"
 	"strings"
 )

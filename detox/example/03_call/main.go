@@ -4,8 +4,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/example/00_boilerplate"
+	"github.com/SamuelCabralCruz/going/detox"
+	"github.com/SamuelCabralCruz/going/detox/example/00_boilerplate"
 )
 
 func main() {

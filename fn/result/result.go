@@ -2,10 +2,10 @@ package result
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/fn"
-	"github.com/SamuelCabralCruz/went/fn/tuple/assertion"
-	"github.com/SamuelCabralCruz/went/fn/tuple/validation"
-	"github.com/SamuelCabralCruz/went/fn/typing"
+	"github.com/SamuelCabralCruz/going/fn"
+	"github.com/SamuelCabralCruz/going/fn/tuple/assertion"
+	"github.com/SamuelCabralCruz/going/fn/tuple/validation"
+	"github.com/SamuelCabralCruz/going/fn/typing"
 )
 
 func Ok[T any](value T) Result[T] {

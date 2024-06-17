@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/botox"
-	"github.com/SamuelCabralCruz/went/botox/example/00_boilerplate"
+	"github.com/SamuelCabralCruz/going/botox"
+	"github.com/SamuelCabralCruz/going/botox/example/00_boilerplate"
 )
 
 func main() {

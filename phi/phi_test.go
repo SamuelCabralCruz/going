@@ -3,8 +3,8 @@
 package phi_test
 
 import (
-	. "github.com/SamuelCabralCruz/went/kinggo"
-	"github.com/SamuelCabralCruz/went/phi"
+	. "github.com/SamuelCabralCruz/going/kinggo"
+	"github.com/SamuelCabralCruz/going/phi"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -16,7 +16,7 @@ var _ = DescribeFunction(phi.UniqueIdentifier[any], func() {
 		Expect(observed).To(Equal(expected))
 	},
 		CreateTableEntries([]string{"act", "expected"},
-			[]any{phi.UniqueIdentifier[phi.CustomStruct], "github.com/SamuelCabralCruz/went/phi.phi.CustomStruct[struct]"},
+			[]any{phi.UniqueIdentifier[phi.CustomStruct], "github.com/SamuelCabralCruz/going/phi.phi.CustomStruct[struct]"},
 			[]any{phi.UniqueIdentifier[phi.AnonymousStruct], ".struct { field string }[struct]"},
 			[]any{phi.UniqueIdentifier[string], ".string[string]"},
 			[]any{phi.UniqueIdentifier[bool], ".bool[bool]"},
@@ -24,7 +24,7 @@ var _ = DescribeFunction(phi.UniqueIdentifier[any], func() {
 			[]any{phi.UniqueIdentifier[float64], ".float64[float64]"},
 			[]any{phi.UniqueIdentifier[float32], ".float32[float32]"},
 			[]any{phi.UniqueIdentifier[error], ".error[interface]"},
-			[]any{phi.UniqueIdentifier[phi.Iam], "github.com/SamuelCabralCruz/went/phi.phi.Iam[interface]"},
+			[]any{phi.UniqueIdentifier[phi.Iam], "github.com/SamuelCabralCruz/going/phi.phi.Iam[interface]"},
 		),
 	)
 })

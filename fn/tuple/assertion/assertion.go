@@ -1,9 +1,9 @@
 package assertion
 
 import (
-	"github.com/SamuelCabralCruz/went/fn/typing"
-	"github.com/SamuelCabralCruz/went/phi"
-	"github.com/SamuelCabralCruz/went/roar"
+	"github.com/SamuelCabralCruz/going/fn/typing"
+	"github.com/SamuelCabralCruz/going/phi"
+	"github.com/SamuelCabralCruz/going/roar"
 )
 
 func IgnoreError[T any](value T, _ error) T {

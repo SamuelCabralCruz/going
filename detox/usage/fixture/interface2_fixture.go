@@ -3,7 +3,7 @@
 package fixture
 
 import (
-	"github.com/SamuelCabralCruz/went/detox"
+	"github.com/SamuelCabralCruz/going/detox"
 )
 
 type Interface2 interface {

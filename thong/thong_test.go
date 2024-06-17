@@ -3,8 +3,8 @@
 package thong_test
 
 import (
-	. "github.com/SamuelCabralCruz/went/kinggo"
-	"github.com/SamuelCabralCruz/went/thong"
+	. "github.com/SamuelCabralCruz/going/kinggo"
+	"github.com/SamuelCabralCruz/going/thong"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

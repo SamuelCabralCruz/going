@@ -1,6 +1,6 @@
 package validation
 
-import "github.com/SamuelCabralCruz/went/roar"
+import "github.com/SamuelCabralCruz/going/roar"
 
 type InvalidValueError struct {
 	roar.Roar[InvalidValueError]

@@ -1,8 +1,8 @@
 package fake
 
 import (
-	"github.com/SamuelCabralCruz/went/detox/internal/common"
-	"github.com/SamuelCabralCruz/went/roar"
+	"github.com/SamuelCabralCruz/going/detox/internal/common"
+	"github.com/SamuelCabralCruz/going/roar"
 )
 
 type MissingImplementationError struct {

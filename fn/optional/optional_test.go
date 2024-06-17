@@ -5,9 +5,9 @@ package optional_test
 import (
 	"errors"
 	"fmt"
-	"github.com/SamuelCabralCruz/went/fn/optional"
-	"github.com/SamuelCabralCruz/went/fn/typing"
-	. "github.com/SamuelCabralCruz/went/kinggo"
+	"github.com/SamuelCabralCruz/going/fn/optional"
+	"github.com/SamuelCabralCruz/going/fn/typing"
+	. "github.com/SamuelCabralCruz/going/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"strings"

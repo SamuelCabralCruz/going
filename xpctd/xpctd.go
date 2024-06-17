@@ -2,7 +2,7 @@ package xpctd
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/phi"
 )
 
 func Computed[T any](describe func(actual T) string) Expected[T] {

@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/SamuelCabralCruz/went/scallop"
+	"github.com/SamuelCabralCruz/going/scallop"
 	"reflect"
 )
 

@@ -1,7 +1,7 @@
 package detox
 
 import (
-	"github.com/SamuelCabralCruz/went/detox/internal/common"
+	"github.com/SamuelCabralCruz/going/detox/internal/common"
 )
 
 func (m *mocked[T, U]) WithArgs(args ...any) MockedConditionally[U] {

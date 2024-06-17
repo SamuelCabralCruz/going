@@ -1,4 +1,4 @@
-module github.com/SamuelCabralCruz/went
+module github.com/SamuelCabralCruz/going
 
 go 1.22
 

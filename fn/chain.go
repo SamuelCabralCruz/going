@@ -1,7 +1,7 @@
 package fn
 
 import (
-	"github.com/SamuelCabralCruz/went/fn/typing"
+	"github.com/SamuelCabralCruz/going/fn/typing"
 	"github.com/samber/lo"
 )
 

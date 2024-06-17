@@ -1,7 +1,8 @@
-# went
+# going
 
-**went** (past tense of the verb **go**) refers to the idea that using the
-standard library of Golang is a thing of the past.
+**going** (referring to the "Perfect Continuous Future" tense of the verb **go**)
+aims to provide much-needed language utilities to enable faster development
+and design of Go applications on top of the Golang's standard library.
 
 This project contains several libraries that can be used individually.
 
@@ -28,8 +29,6 @@ We aim at minimizing third party dependencies.
 We also allow cross-references between the libraries.
 Also, all libraries (apart from `kinggo` and `gomicron` themselves) should/could 
 depend on `kinggo` and `gomicron` to build their tests.
-
-# TODO: rename went to going
 
 # TODO: todo lib
 - task runner logic
@@ -120,7 +119,7 @@ graph TB
 ## Usage
 
 ```shell
-go get "github.com/SamuelCabralCruz/went"
+go get "github.com/SamuelCabralCruz/going"
 ```
 
 ## Contributing

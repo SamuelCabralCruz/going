@@ -5,7 +5,7 @@ package example
 import (
 	"errors"
 	"fmt"
-	"github.com/SamuelCabralCruz/went/detox"
+	"github.com/SamuelCabralCruz/going/detox"
 )
 
 // Detox has been designed on the principle that we should only use mock when

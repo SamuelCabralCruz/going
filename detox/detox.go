@@ -1,11 +1,11 @@
 package detox
 
 import (
-	"github.com/SamuelCabralCruz/went/detox/internal/common"
-	"github.com/SamuelCabralCruz/went/detox/internal/fake"
-	"github.com/SamuelCabralCruz/went/detox/internal/spy"
-	"github.com/SamuelCabralCruz/went/fn/optional"
-	"github.com/SamuelCabralCruz/went/phi"
+	"github.com/SamuelCabralCruz/going/detox/internal/common"
+	"github.com/SamuelCabralCruz/going/detox/internal/fake"
+	"github.com/SamuelCabralCruz/going/detox/internal/spy"
+	"github.com/SamuelCabralCruz/going/fn/optional"
+	"github.com/SamuelCabralCruz/going/phi"
 	"github.com/samber/lo"
 )
 

@@ -2,9 +2,9 @@ package matcher
 
 import (
 	"fmt"
-	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/internal/common"
-	"github.com/SamuelCabralCruz/went/thong"
+	"github.com/SamuelCabralCruz/going/detox"
+	"github.com/SamuelCabralCruz/going/detox/internal/common"
+	"github.com/SamuelCabralCruz/going/thong"
 	"github.com/samber/lo"
 	"strings"
 )

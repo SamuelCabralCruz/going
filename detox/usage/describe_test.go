@@ -3,9 +3,9 @@
 package usage_test
 
 import (
-	"github.com/SamuelCabralCruz/went/detox"
-	"github.com/SamuelCabralCruz/went/detox/usage/fixture"
-	. "github.com/SamuelCabralCruz/went/kinggo"
+	"github.com/SamuelCabralCruz/going/detox"
+	"github.com/SamuelCabralCruz/going/detox/usage/fixture"
+	. "github.com/SamuelCabralCruz/going/kinggo"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -36,9 +36,9 @@ var _ = DescribeType[detox.Detox[any]](func() {
 
 			Expect(observed1).NotTo(Equal(observed2))
 			Expect(observed1).NotTo(Equal(observed3))
-			Expect(observed1).To(MatchRegexp("^Interface1\\.SingleArgSingleReturn \\(.*/went/detox/usage/describe_test\\.go \\[20\\]\\)$"))
-			Expect(observed2).To(MatchRegexp("^Interface1\\.NoArgNoReturn \\(.*/went/detox/usage/describe_test\\.go \\[20\\]\\)$"))
-			Expect(observed3).To(MatchRegexp("^Interface1\\.SingleArgNoReturn \\(.*/went/detox/usage/describe_test\\.go \\[20\\]\\)$"))
+			Expect(observed1).To(MatchRegexp("^Interface1\\.SingleArgSingleReturn \\(.*/going/detox/usage/describe_test\\.go \\[20\\]\\)$"))
+			Expect(observed2).To(MatchRegexp("^Interface1\\.NoArgNoReturn \\(.*/going/detox/usage/describe_test\\.go \\[20\\]\\)$"))
+			Expect(observed3).To(MatchRegexp("^Interface1\\.SingleArgNoReturn \\(.*/going/detox/usage/describe_test\\.go \\[20\\]\\)$"))
 		})
 	})
 })
