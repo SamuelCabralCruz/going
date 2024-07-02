@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# mise description="Build the project"
+# mise alias="b"
+# mise depends=["install"]
+
+go build -tags=text,example ./...

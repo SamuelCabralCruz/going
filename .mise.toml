@@ -1,6 +1,6 @@
-[env]
-GOPROXY = 'direct'
-
 [tools]
 go = "1.22"
 ginkgo = "2"
+
+[env]
+GOPROXY = 'direct'
