@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# mise description="Install the project"
+# mise alias="i"
+
+mise install
+mise sh
+go mod tidy

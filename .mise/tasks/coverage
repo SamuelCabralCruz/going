@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# mise description="Produce coverage report"
+# mise alias="c"
+# mise depends=["test"]
+
+open coverage/coverage.html

@@ -125,5 +125,5 @@ go get "github.com/SamuelCabralCruz/going"
 ## Contributing
 
 ```shell
-make install
+mise tasks
 ```
